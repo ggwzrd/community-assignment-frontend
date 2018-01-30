@@ -6,11 +6,11 @@ import ProfilePage from './containers/users/ProfilePage'
 export default class Routes extends Component {
   render() {
     return (
-      <div>
+      <main className="mainContainer">
         <Route exact path="/" component={PostsOverview} />
         <Route exact path="/posts" component={PostsOverview} />
-        <Route exact path="/users/me" component={ProfilePage} />
-      </div>
+        <Route exact path="/users/:userId" component={ProfilePage} />
+      </main>
     )
   }
 }
