@@ -8,6 +8,7 @@ import {
 
 export const FETCHED_POSTS = 'FETCHED_POSTS'
 export const FETCHED_ONE_POST = 'FETCHED_ONE_POST'
+export const FETCHED_USER_POSTS = 'FETCHED_USER_POSTS'
 
 const api = new API()
 
@@ -17,6 +18,7 @@ export const fetchPosts = () => {
 
     api.get('/posts')
       .then((result) => {
+        console.log(result);
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
 
@@ -56,5 +58,29 @@ export const fetchOnePost = (postId) => {
           payload: error.message
         })
       })
+  }
+}
+
+export const fetchUserPosts = (userId) => {
+  return dispatch => {
+    dispatch({ type: APP_LOADING })
+
+    api.get(`/users/${userId}/posts`)
+    .then((result) => {
+      dispatch({ type: APP_DONE_LOADING })
+      dispatch({ type: LOAD_SUCCESS })
+
+      dispatch({
+        type: FETCHED_USER_POSTS,
+        payload: result.body
+      })
+    })
+    .catch((error) => {
+      dispatch({ type: APP_DONE_LOADING })
+      dispatch({
+        type: LOAD_ERROR,
+        payload: error.message
+      })
+    })
   }
 }
