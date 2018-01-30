@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { fetchPosts } from '../actions/posts/fetch'
+import { postShape } from './PostPage'
 // import PostItem from './PostItem'
 // import Tag from './Tag'
 // import './styles/PostsOverview.css'
-import fetchPosts from '../actions/posts/fetch'
 
 class PostsOverview extends PureComponent {
-  // static propTypes = {
-  //   posts: PropTypes.arrayOf(postShape).isRequired,
+  static propTypes = {
+    posts: PropTypes.arrayOf(postShape).isRequired,
   //   tags: PropTypes.arrayOf(tagShape).isRequired
-  // }
-  //
+  }
+
   componentWillMount() {
     this.props.fetchPosts()
   }
