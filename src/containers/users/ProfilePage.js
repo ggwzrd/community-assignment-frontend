@@ -1,28 +1,29 @@
 //renders ProfileInfo, Button, PostItems
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Paper from 'material-ui/Paper'
 
-import fetchUser from '../actions/users/fetch'
+
+// import { fetchUserPosts } from '../actions/posts/fetch'
+import { fetchUserPosts } from '../../actions/posts/fetch'
 
 class ProfilePage extends PureComponent {
   componentWillMount() {
-    this.props.fetchUser()
+    this.props.fetchUserPosts()
   }
 
   render() {
-    // console.log(this.props.posts);
     return (
-      <div className="posts-container">
-
-        Hello User
-
-      </div>
+      <Paper>
+        User profile page
+      </Paper>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  currentUser: state.currentUser,
+  posts: state.posts
 })
 
-export default connect(mapStateToProps, { fetchUser })(ProfilePage)
+export default connect(mapStateToProps, { fetchUserPosts })(ProfilePage)

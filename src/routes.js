@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PostsOverview from './containers/PostsOverview'
-import ProfilePage from './containers/PostsOverview'
+import ProfilePage from './containers/users/ProfilePage'
 
 export default class Routes extends Component {
   render() {
