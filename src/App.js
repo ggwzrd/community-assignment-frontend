@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Navbar from './components/ui/Navbar'
 import Routes from './routes'
-import { MuiThemeProvider } from 'material-ui/styles';
+import { MuiThemeProvider } from 'material-ui/styles'
 import theme from './styles/theme'
 
 class App extends Component {
@@ -14,7 +14,6 @@ class App extends Component {
           <Routes />
         </div>
       </MuiThemeProvider>
-
     )
   }
 }
