@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchOnePost } from '../actions/posts/fetch'
-import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
@@ -39,7 +38,7 @@ class PostPage extends PureComponent {
             Trust Count: {trusts && trusts.length}
             Report Count: {reports && reports.length}
           </Typography>
-          <img src={ images } alt="Post's image"/>
+          <img src={images} alt="Something"/>
           <Typography component="p">
             {content}
             {link}
