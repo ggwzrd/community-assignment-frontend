@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-// import PostItem from './PostItem'
+import PostItem from './PostItem'
 // import Tag from './Tag'
-// import './styles/PostsOverview.css'
+import './styles/PostsOverview.css'
 import fetchPosts from '../actions/posts/fetch'
 
 class PostsOverview extends PureComponent {
@@ -11,20 +11,27 @@ class PostsOverview extends PureComponent {
   //   posts: PropTypes.arrayOf(postShape).isRequired,
   //   tags: PropTypes.arrayOf(tagShape).isRequired
   // }
-  //
+
   componentWillMount() {
     this.props.fetchPosts()
   }
 
   render() {
-    // console.log(this.props.posts);
+    console.log(this.props.posts)
     return (
-      <div className="posts-container">
-
-        {this.props.posts.map(post => {
-          return <p>{post.content}</p>
-        })}
-
+      <div className="container">
+        <div className="tags-container">
+          <p>Tags here</p>
+          <p>Tags here</p>
+          <p>Tags here</p>
+          <p>Tags here</p>
+          <p>Tags here</p>
+          <p>Tags here</p>
+          <p>Tags here</p>
+        </div>
+        <div className="posts-container">
+          {this.props.posts.map(post => <PostItem content={post.content} images={post.images} />)}
+        </div>
       </div>
     )
   }
