@@ -6,12 +6,12 @@ export default (state = [], { type, payload } = {}) => {
       return payload
 
     case FETCHED_ONE_POST :
-      const postIds = state.map(p => p._id)
-      if (postIds.indexOf(payload._id) < 0) {
+      const postIds = state.map(p => p.id)
+      if (postIds.indexOf(payload.id) < 0) {
       return [{ ...payload }].concat(state)
       }
       return state.map((post) => {
-      if (post._id === payload._id) {
+      if (post.id === payload.id) {
         return { ...payload }
       }
       return post

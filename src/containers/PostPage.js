@@ -9,7 +9,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 
 export const postShape = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   images: PropTypes.string.isRequired,
@@ -29,8 +29,9 @@ class PostPage extends PureComponent {
   }
 
   render() {
-    const { _id, content, link, is_spam, trusts, reports, images } = this.props
-    if (!_id) return null
+    console.log(this.props)
+    const { id, content, link, is_spam, trusts, reports, images } = this.props
+    if (!id) return null
 
     return (
       <div className="post-page">
@@ -39,7 +40,7 @@ class PostPage extends PureComponent {
       //trustCount & reportCount
         <Paper className="post-details" elevation={4}>
           <Typography type="headline" component="h3">
-            {_id}
+            {id}
             {is_spam}
             Trust Count: {trusts.length}
             Report Count: {reports.length}
@@ -63,11 +64,12 @@ class PostPage extends PureComponent {
 
 const mapStateToProps = ({ posts }, { match }) => {
   const post = posts.reduce((prev, next) => {
-    if (next._id === match.params.postId) {
+    if (next.id === match.params.postId) {
       return next
     }
     return prev
   }, {})
+  console.log(post)
 
   return {
     ...post
