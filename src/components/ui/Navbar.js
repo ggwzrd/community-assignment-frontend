@@ -36,9 +36,9 @@ class Navbar extends PureComponent {
     const { signedIn } = this.props
 
     return (
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Toolbar>
-          <Typography type="title" color="inherit">
+          <Typography type="title">
             {TITLE}
           </Typography>
           {signedIn ?
