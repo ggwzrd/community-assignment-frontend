@@ -30,7 +30,12 @@ class PostsOverview extends PureComponent {
           <p>Tags here</p>
         </div>
         <div className="posts-container">
-          {this.props.posts.map(post => <PostItem content={post.content} images={post.images} />)}
+          {this.props.posts.map(post =>
+            <PostItem
+              content={post.content}
+              images={post.images}
+              trusts={post.trusts}
+              reports={post.reports} />)}
         </div>
       </div>
     )
