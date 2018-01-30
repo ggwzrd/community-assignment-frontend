@@ -1,4 +1,3 @@
-//renders AuthorItem (author details...), Post, TrustButton, ReportButton, TrustNumber and ReportNumber
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -28,21 +27,16 @@ class PostPage extends PureComponent {
   }
 
   render() {
-    console.log(this.props)
-    const { id, content, link, is_spam, trusts, reports, images } = this.props
-    if (!id) return null
+    const { id, content, link, is_spam, trusts, reports, images } = this.props.post
 
     return (
-      //authorItem (name, trustiness, silenced if true)
-      //post (content, link, image, is_spam)
-      //trustCount & reportCount
       <div className="post-page">
         <Paper className="post-details" elevation={4}>
           <Typography type="headline" component="h3">
-            {id}
+            Post# {id} 
             {is_spam}
-            Trust Count: {trusts.length}
-            Report Count: {reports.length}
+            Trust Count: {trusts && trusts.length}
+            Report Count: {reports && reports.length}
           </Typography>
           <img src={images} alt="Something"/>
           <Typography component="p">
@@ -61,18 +55,8 @@ class PostPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ posts }, { match }) => {
-  const post = posts.reduce((prev, next) => {
-    if (next.id === match.params.postId) {
-      return next
-    }
-    return prev
-  }, {})
-  console.log(post)
-
-  return {
-    ...post
-  }
-}
+const mapStateToProps = state => ({
+  post: state.posts
+})
 
 export default connect(mapStateToProps, { fetchOnePost })(PostPage)
