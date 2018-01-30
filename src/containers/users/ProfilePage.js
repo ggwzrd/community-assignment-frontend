@@ -2,7 +2,7 @@
 import React, { PureComponent, Fragment} from 'react'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
-import PostItem from '../PostItem'
+import PostItem from '../../components/PostItem'
 
 
 
