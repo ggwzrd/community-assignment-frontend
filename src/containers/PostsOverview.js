@@ -33,6 +33,7 @@ class PostsOverview extends PureComponent {
         <div className="posts-container">
           {this.props.posts.map(post =>
             <PostItem
+              id={post.id}
               content={post.content}
               images={post.images}
               trusts={post.trusts}

@@ -17,7 +17,6 @@ export default () => {
 
     api.get('/posts')
       .then((result) => {
-        console.log(result);
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
 

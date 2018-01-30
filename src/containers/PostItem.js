@@ -10,10 +10,9 @@ class PostItem extends PureComponent {
   // }
 
   render() {
-    const { _id, content, images, trusts, reports } = this.props
+    const { id, content, images, trusts, reports } = this.props
 
     return (
-      <Link to={ `/posts/${_id}` }>
         <div className="post-item">
           <div className="post-info">
             <p>Trusts: {trusts.length}</p>
@@ -23,8 +22,10 @@ class PostItem extends PureComponent {
           <div className="post-img">
             <img src={images} alt='' />
           </div>
+          <Link to={ `/posts/${id}` }>
+            <div className="read-more-box"><p className="read-more">Read more</p></div>
+          </Link>
         </div>
-      </Link>
     )
   }
 }
