@@ -22,28 +22,28 @@ const chipDark                   = '#000046'
 const avatarDark                 = '#000046'
 
 const theme = createMuiTheme({
-    palette: {
-      primary: {
-        light: primaryLight,
-        main: primaryMain,
-        dark: primaryDark,
-        contrastText: primaryContrastText,
-      },
-      secondary: {
-        light: secondaryLight,
-        main: secondaryMain,
-        dark: secondaryDark,
-        contrastText: secondaryContrastText,
-      },
-      background: {
-        paperDark: paperDark,
-        defaultDark: defaultDark,
-        appBarDark: appBarDark,
-        contentFrameDark: contentFrameDark,
-        chipDark: chipDark,
-        avatarDark: avatarDark
-      }
-    }
-  })
+   palette: {
+     primary: {
+       light: primaryLight,
+       main: primaryMain,
+       dark: primaryDark,
+       contrastText: primaryContrastText,
+     },
+     secondary: {
+       light: secondaryLight,
+       main: secondaryMain,
+       dark: secondaryDark,
+       contrastText: secondaryContrastText,
+     },
+     background: {
+       paperDark: paperDark,
+       defaultDark: defaultDark,
+       appBarDark: appBarDark,
+       contentFrameDark: contentFrameDark,
+       chipDark: chipDark,
+       avatarDark: avatarDark
+     }
+   }
+ })
 
 export default theme

@@ -42,7 +42,7 @@ class Navbar extends PureComponent {
             {TITLE}
           </Typography>
           {signedIn ?
-              <Button raised className="menuButton" onClick={this.signOut.bind(this)}>Sign out</Button>  :
+              <Button raised color="primary" className="menuButton" onClick={this.signOut.bind(this)}>Sign out</Button>  :
               <Button raised className="menuButton" onClick={this.signUp}>Sign up</Button>
             }
 
