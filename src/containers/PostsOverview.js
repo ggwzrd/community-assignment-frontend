@@ -18,7 +18,7 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
-    console.log(this.props.posts)
+    console.log(this.props)
     return (
       <div className="container">
         <div className="tags-container">
