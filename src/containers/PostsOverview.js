@@ -5,7 +5,7 @@ import PostItem from './PostItem'
 
 // import Tag from './Tag'
 import './styles/PostsOverview.css'
-import fetchPosts from '../actions/posts/fetch'
+import {fetchPosts} from '../actions/posts/fetch'
 
 class PostsOverview extends PureComponent {
   // static propTypes = {

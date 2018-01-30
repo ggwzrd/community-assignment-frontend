@@ -1,4 +1,3 @@
-//renders AuthorItem (author details...), Post, TrustButton, ReportButton, TrustNumber and ReportNumber
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -9,7 +8,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 
 export const postShape = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   images: PropTypes.string.isRequired,
@@ -29,22 +28,18 @@ class PostPage extends PureComponent {
   }
 
   render() {
-    const { _id, content, link, is_spam, trusts, reports, images } = this.props
-    if (!_id) return null
+    const { id, content, link, is_spam, trusts, reports, images } = this.props.post
 
     return (
       <div className="post-page">
-      //authorItem (name, trustiness, silenced if true)
-      //post (content, link, image, is_spam)
-      //trustCount & reportCount
         <Paper className="post-details" elevation={4}>
           <Typography type="headline" component="h3">
-            {_id}
+            Post# {id} 
             {is_spam}
-            Trust Count: {trusts.length}
-            Report Count: {reports.length}
+            Trust Count: {trusts && trusts.length}
+            Report Count: {reports && reports.length}
           </Typography>
-          <img src={images} alt="Post's image"/>
+          <img src={ images } alt="Post's image"/>
           <Typography component="p">
             {content}
             {link}
@@ -61,17 +56,8 @@ class PostPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ posts }, { match }) => {
-  const post = posts.reduce((prev, next) => {
-    if (next._id === match.params.postId) {
-      return next
-    }
-    return prev
-  }, {})
-
-  return {
-    ...post
-  }
-}
+const mapStateToProps = state => ({
+  post: state.posts
+})
 
 export default connect(mapStateToProps, { fetchOnePost })(PostPage)
