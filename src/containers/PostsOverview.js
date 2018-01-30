@@ -17,10 +17,13 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
+    // console.log(this.props.posts);
     return (
       <div className="posts-container">
 
-        {this.props.posts[0].content}
+        {this.props.posts.map(post => {
+          return <p>{post.content}</p>
+        })}
 
       </div>
     )

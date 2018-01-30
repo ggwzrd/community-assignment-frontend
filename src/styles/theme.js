@@ -1,30 +1,49 @@
-// import getMuiTheme from 'material-ui/styles/getMuiTheme'
-// import { createMuiTheme } from 'material-ui/styles';
-//
-// // Colors
-// export const darkBlue     = '#01062A'
-// export const beige        = '#D9E5CA'
-// export const pink         = 'rgb(255, 64, 129)'
-// export const white        = '#ffffff'
-// export const black        = '#000000'
-// export const darkGrey     = '#757575'
-// export const grey         = '#DEDEDE'
-// export const grey50       = 'rgba(222, 222, 222, 0.5)'
-// export const grey30       = 'rgba(222, 222, 222, 0.7)'
-//
-// // Palette
-// const theme = createMuiTheme({
-//  palette: {
-//   primary1Color: darkBlue,
-//   primary2Color: pink,
-//   primary3Color: beige,
-//   accent1Color: pink,
-//   textColor: black,
-//   alternateTextColor: white,
-//   canvasColor: white,
-//   borderColor: grey,
-//   disabledColor: grey30
-// }
-// })
-//
-// export default getMuiTheme({ palette })
+import { createMuiTheme } from 'material-ui/styles';
+// Dark Theme
+
+//Primary colors
+const primaryLight               = '#ffff6b'
+const primaryMain                = '#fdd835'
+const primaryDark                = '#f97d00'
+const primaryContrastText        = '#000000'
+
+//Secondary colors
+const secondaryLight             = '#3b7680'
+const secondaryMain              = '#004a54'
+const secondaryDark              = '#00222b'
+const secondaryContrastText      = '#ffffff'
+
+//Background
+const paperDark                  = '#000046'
+const defaultDark                = '#000046'
+const appBarDark                 = '#000046'
+const contentFrameDark           = '#000046'
+const chipDark                   = '#000046'
+const avatarDark                 = '#000046'
+
+const theme = createMuiTheme({
+   palette: {
+     primary: {
+       light: primaryLight,
+       main: primaryMain,
+       dark: primaryDark,
+       contrastText: primaryContrastText,
+     },
+     secondary: {
+       light: secondaryLight,
+       main: secondaryMain,
+       dark: secondaryDark,
+       contrastText: secondaryContrastText,
+     },
+     background: {
+       paperDark: paperDark,
+       defaultDark: defaultDark,
+       appBarDark: appBarDark,
+       contentFrameDark: contentFrameDark,
+       chipDark: chipDark,
+       avatarDark: avatarDark
+     }
+   }
+ })
+
+export default theme

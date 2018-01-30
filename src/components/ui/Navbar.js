@@ -36,13 +36,13 @@ class Navbar extends PureComponent {
     const { signedIn } = this.props
 
     return (
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Toolbar>
-          <Typography type="title" color="inherit">
+          <Typography type="title">
             {TITLE}
           </Typography>
           {signedIn ?
-              <Button raised className="menuButton" onClick={this.signOut.bind(this)}>Sign out</Button>  :
+              <Button raised color="primary" className="menuButton" onClick={this.signOut.bind(this)}>Sign out</Button>  :
               <Button raised className="menuButton" onClick={this.signUp}>Sign up</Button>
             }
 
