@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import PostItem from './PostItem'
+
 // import Tag from './Tag'
 import './styles/PostsOverview.css'
 import fetchPosts from '../actions/posts/fetch'

@@ -7,6 +7,7 @@ import {
 } from '../loading'
 
 export const FETCHED_POSTS = 'FETCHED_POSTS'
+export const FETCHED_USER_POSTS = 'FETCHED_USER_POSTS'
 
 const api = new API()
 
@@ -32,5 +33,29 @@ export default () => {
           payload: error.message
         })
       })
+  }
+}
+
+export const fetchUserPosts = (userId) => {
+  return dispatch => {
+    dispatch({ type: APP_LOADING })
+
+    api.get(`/users/${userId}/posts`)
+    .then((result) => {
+      dispatch({ type: APP_DONE_LOADING })
+      dispatch({ type: LOAD_SUCCESS })
+
+      dispatch({
+        type: FETCHED_USER_POSTS,
+        payload: result.body
+      })
+    })
+    .catch((error) => {
+      dispatch({ type: APP_DONE_LOADING })
+      dispatch({
+        type: LOAD_ERROR,
+        payload: error.message
+      })
+    })
   }
 }
