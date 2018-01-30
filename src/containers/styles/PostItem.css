@@ -1,14 +1,25 @@
 .post-item {
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 70%;
-  padding: 2rem;
   background-color: #fff;
   box-shadow: 2px 2px 10px 2px #8B8982;
   margin: 2rem;
   height: 300px;
   overflow: hidden;
+}
+
+.post-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.post-info > p {
+  margin: 1rem;
 }
 
 .post-img {
