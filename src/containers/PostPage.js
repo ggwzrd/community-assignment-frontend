@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchOnePost } from '../actions/posts/fetch'
+import { fetchOnePost, fetchSources } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
 import Paper from 'material-ui/Paper'
@@ -41,6 +41,7 @@ class PostPage extends PureComponent {
 
   componentWillMount() {
     this.props.fetchOnePost(this.props.match.params.postId)
+    this.props.fetchSources()
   }
 
   state = {
@@ -233,4 +234,4 @@ const mapStateToProps = state => ({
   post: state.posts
 })
 
-export default connect(mapStateToProps, { fetchOnePost, reportPost, trustPost })(PostPage)
+export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost })(PostPage)
