@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchOnePost } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
+import { trustPost } from '../actions/posts/trust'
 import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
@@ -47,7 +48,7 @@ class PostPage extends PureComponent {
     this.setState({ open: false })
   }
 
-  handleClick = () => {
+  handleReportClick = () => {
     const postId = this.props.post.id
     const newReport = {
       reason: this.state.reason,
@@ -60,6 +61,21 @@ class PostPage extends PureComponent {
     this.handleClose()
 
     this.props.reportPost(newReport)
+  }
+
+  handleTrustClick = () => {
+    const postId = this.props.post.id
+    const newTrust = {
+      source_id: "1",
+      link: this.state.link,
+      screenshot: this.state.screenshot,
+      user_id: this.state.user_id,
+      post_id: postId
+    }
+
+    this.handleClose()
+
+    this.props.trustPost(newTrust)
   }
 
   handleChange = name => event => {
@@ -85,13 +101,7 @@ class PostPage extends PureComponent {
             {content}
             {link}
           </Typography>
-          <Button
-            raised
-            color="primary"
-            className="trust"
-            onClick={this.trustPost}>
-            TRUST
-          </Button>
+
           <Button
             raised
             onClick={this.handleClickOpen}
@@ -139,12 +149,65 @@ class PostPage extends PureComponent {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleClick} color="primary">
+            <Button onClick={this.handleReportClick} color="primary">
               Report
             </Button>
           </DialogActions>
         </Dialog>
         </Paper>
+
+        <Button
+          raised
+          onClick={this.handleClickOpen}
+          color="primary"
+          className="trust">Trust</Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+        <DialogTitle id="form-dialog-title">Trust Post</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To trust a post you need to fill in a source.
+          </DialogContentText>
+          <TextField
+            onChange={this.handleChange('source')}
+            autoFocus
+            margin="dense"
+            id="source"
+            label="Source"
+            type="email"
+            fullWidth
+          />
+          <TextField
+            onChange={this.handleChange('link')}
+            autoFocus
+            margin="dense"
+            id="link"
+            label="Link"
+            type="link"
+            fullWidth
+          />
+          <TextField
+            onChange={this.handleChange('screenshot')}
+            autoFocus
+            margin="dense"
+            id="screenshot"
+            label="Screenshot"
+            type="screenshot"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={this.handleTrustClick} color="primary">
+            Trust
+          </Button>
+        </DialogActions>
+      </Dialog>
       </div>
     )
   }
@@ -154,4 +217,4 @@ const mapStateToProps = state => ({
   post: state.posts
 })
 
-export default connect(mapStateToProps, { fetchOnePost, reportPost })(PostPage)
+export default connect(mapStateToProps, { fetchOnePost, reportPost, trustPost })(PostPage)

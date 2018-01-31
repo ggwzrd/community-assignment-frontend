@@ -1,6 +1,7 @@
 import { FETCHED_POSTS, FETCHED_USER_POSTS, FETCHED_ONE_POST } from '../actions/posts/fetch'
 import { CREATED_POST } from '../actions/posts/create'
 import { CREATED_REPORT } from '../actions/posts/report'
+import { CREATED_TRUST } from '../actions/posts/trust'
 
 export default (state = [], { type, payload } = {}) => {
   switch (type) {
@@ -17,6 +18,9 @@ export default (state = [], { type, payload } = {}) => {
       return payload
 
     case CREATED_REPORT :
+      return { ...state, payload }
+
+    case CREATED_TRUST :
       return { ...state, payload }
 
     default :

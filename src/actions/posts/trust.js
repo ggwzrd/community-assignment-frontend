@@ -10,7 +10,7 @@ export const CREATED_TRUST = 'CREATED_TRUST'
 
 const api = new API()
 
-export const reportPost = (newTrust) => {
+export const trustPost = (newTrust) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
