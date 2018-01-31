@@ -3,3 +3,7 @@
   flex-direction: column;
   margin-bottom: 2rem;
 }
+
+#root > div > main > div > div {
+  text-align: right !important;
+}
