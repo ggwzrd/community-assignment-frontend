@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField'
 
 const dialogStyle = {
   width: '60%',
-  marginLeft: '0',
   padding: '2rem'
 }
 
@@ -66,7 +65,6 @@ export class CreatePostForm extends PureComponent {
                  fullWidth="true"
                  multiline
                  rows="10"
-                 defaultValue="Write something"
                  margin="normal"
                  onChange={this.handleChange('content')}
               />
@@ -75,14 +73,12 @@ export class CreatePostForm extends PureComponent {
               <TextField
                  id="image"
                  label="Images(url)"
-                 defaultValue="Images(url)"
                  margin="normal"
                  onChange={this.handleChange('images')}
               />
               <TextField
                  id="link"
                  label="Link"
-                 defaultValue="Link"
                  margin="normal"
                  onChange={this.handleChange('link')}
               />

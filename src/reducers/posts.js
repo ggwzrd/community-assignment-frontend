@@ -6,25 +6,25 @@ import { CREATED_TRUST } from '../actions/posts/trust'
 export default (state = [], { type, payload } = {}) => {
   switch (type) {
     case FETCHED_POSTS :
-      return payload
+      return { ...payload }
 
     case FETCHED_ONE_POST :
-      return {...payload}
+      return { ...payload }
 
     case FETCHED_USER_POSTS :
-      return payload
+      return { ...payload }
 
     case FETCHED_SOURCES :
-      return { ...state, payload }
+      return { ...payload }
 
     case CREATED_POST :
-      return payload
+      return { ...state, ...payload }
 
     case CREATED_REPORT :
-      return { ...state, payload }
+      return [{ ...state.reports}].concat(payload)
 
     case CREATED_TRUST :
-      return [{...state}].concat(payload)
+      return [{...state.trusts}].concat(payload)
 
     default :
       return state
