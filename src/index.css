@@ -2,10 +2,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+  background-color: #E6ECF0;
 }
 
 .mainContainer {
-  width: 1200px;
+  width: 600px;
   margin: 0 auto;
   padding: 60px;
 }

@@ -18,6 +18,9 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
+
+    return (
+
     console.log(this.props)
 
     let tagsArray = this.props.posts.map(post => post.tags)
@@ -37,6 +40,7 @@ class PostsOverview extends PureComponent {
               description={tag.description}
               />)}
         </div>
+        
         <div className="posts-container">
           {this.props.posts && this.props.posts.map(post =>
             <PostItem
@@ -46,7 +50,6 @@ class PostsOverview extends PureComponent {
               trusts={post.trusts}
               reports={post.reports} />)}
         </div>
-      </div>
     )
   }
 }

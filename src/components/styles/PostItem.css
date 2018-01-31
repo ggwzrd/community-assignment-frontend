@@ -1,46 +1,48 @@
-.post-item {
-  padding: 2rem;
+.card {
+  display: flex;
+  width: 100% !important;
+  border-bottom: 1px solid #E7E7E7;
+}
+
+.card:hover {
+  background-color: #F5F8FA;
+}
+
+.details {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 70%;
-  background-color: #fff;
-  box-shadow: 2px 2px 10px 2px #8B8982;
-  margin: 2rem;
-  height: 300px;
-  overflow: hidden;
+
 }
 
-.post-info {
+.content {
+  flex: 1 0 auto;
+}
+
+.cover {
+  min-width: 151px;
+  min-height: 151px;
+}
+
+.controls {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
+  align-items: center;
+  padding-left: theme.spacing.unit;
+  padding-bottom: theme.spacing.unit;
 }
 
-.post-info > p {
-  margin: 1rem;
+.playIcon {
+  height: 38px;
+  width: 38px;
 }
 
-.post-img {
-  overflow: hidden;
+.badge {
+  margin: 0 10px;
 }
 
-.read-more-box {
-  position: relative;
+.card-header {
+  margin-right: 10px;
 }
 
-.read-more {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  margin: 0; padding: 30px 0;
-
-  background-image: linear-gradient(to bottom, transparent, white);
-}
-
-img {
-  max-width: 100%;
+.badgeIcon {
+  font-size: 2px !important;
 }
