@@ -2,36 +2,32 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import signOut from '../../actions/user/sign-out'
+import signIn from '../../actions/user/sign-in'
 import PropTypes from 'prop-types'
 import './Navbar.css'
+import CreatePost from '../forms/createPost'
+import SignInForm from '../forms/SignInForm'
 
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
-import Switch from 'material-ui/Switch'
-import { FormControlLabel, FormGroup } from 'material-ui/Form'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Avatar from 'material-ui/Avatar'
 import AddIcon from 'material-ui-icons/Add'
-import TextField from 'material-ui/TextField'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog'
+import Dialog from 'material-ui/Dialog'
 
 
 class Navbar extends React.Component {
   state = {
-    signedIn: true,
     anchorEl: null,
     open: false,
+    email: "",
+    password: "",
   }
 
   handleChange = (event, checked) => {
-    this.setState({ signedIn: checked })
+    this.setState({ signedInSwitch: checked })
   }
 
   handleMenu = event => {
@@ -53,6 +49,19 @@ class Navbar extends React.Component {
   signOut = (event) => {
     event.preventDefault()
     this.props.signOut()
+    this.handleClose()
+  }
+
+  updateEmail(event) {
+    this.setState({
+      email: event.target.value
+    })
+  }
+
+  updatePassword(event) {
+    this.setState({
+      password: event.target.value
+    })
   }
 
   signUp = () => {
@@ -63,22 +72,20 @@ class Navbar extends React.Component {
     this.props.push('/')
   }
 
+
+  submitForm(event) {
+    event.preventDefault()
+    this.props.signIn( this.state.email,  this.state.password)
+    this.handleDialogClose()
+  }
+
   render() {
 
-    const { signedIn, anchorEl } = this.state
+    const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-
+    const { signedIn } = this.props
     return (
       <div className="navbar">
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={signedIn} onChange={this.handleChange} aria-label="LoginSwitch" />
-            }
-            label={signedIn ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
-
         <AppBar position="static">
           <Toolbar>
             <Typography type="title" color="inherit" className="navbar logo">
@@ -116,11 +123,12 @@ class Navbar extends React.Component {
                             onClose={this.handleClose}
                           >
                             <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={this.signOut.bind(this), this.handleClose}>Sign out</MenuItem>
+                            <MenuItem onClick={this.signOut.bind(this)}>Sign out</MenuItem>
                           </Menu>
                         </div>
                         :
-                          <Button color="secondary" className="menuButton" onClick={this.signUp}>Sign up</Button>
+                          // <Button color="secondary" className="menuButton" onClick={this.signUp}>Sign up</Button>
+                          <Button color="secondary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
                         }
 
           </Toolbar>
@@ -131,29 +139,14 @@ class Navbar extends React.Component {
           onClose={this.handleDialogClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occationally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleDialogClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleDialogClose} color="primary">
-              Subscribe
-            </Button>
-          </DialogActions>
+
+        <SignInForm
+          handleDialogClose={this.handleDialogClose}
+          submitForm={this.submitForm.bind(this)}
+          updatePassword={this.updatePassword.bind(this)}
+          updateEmail={this.updateEmail.bind(this)}
+          />
+
         </Dialog>
 
       </div>
@@ -163,7 +156,7 @@ class Navbar extends React.Component {
 
 
 const mapStateToProps = state => ({
-  signedIn: !!state.currentUser && !!state.currentUser._id
+  signedIn: !!state.currentUser
 })
 
-export default connect(mapStateToProps, { signOut, push })(Navbar)
+export default connect(mapStateToProps, { signIn, signOut, push })(Navbar)

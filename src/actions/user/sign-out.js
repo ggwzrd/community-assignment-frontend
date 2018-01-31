@@ -8,7 +8,7 @@ const api = new API()
 export default () => {
   return dispatch => {
     api.signOut()
-    dispatch(push('/sign-in'))
+    dispatch(push('/'))
     dispatch({ type: USER_SIGNED_OUT })
   }
 }
