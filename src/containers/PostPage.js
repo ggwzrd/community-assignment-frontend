@@ -14,6 +14,14 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
+import Radio, { RadioGroup } from 'material-ui/Radio'
+import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
+import facebook from './images/sources/facebook.svg'
+import google from './images/sources/google.jpg'
+import coinerd from './images/sources/logo.svg'
+import reddit from './images/sources/reddit.svg'
+import twitter from './images/sources/twitter.svg'
+import './styles/PostPage.css'
 
 export const postShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -171,15 +179,23 @@ class PostPage extends PureComponent {
           <DialogContentText>
             To trust a post you need to fill in a source.
           </DialogContentText>
-          <TextField
-            onChange={this.handleChange('source')}
-            autoFocus
-            margin="dense"
-            id="source"
-            label="Source"
-            type="email"
-            fullWidth
-          />
+          <FormControl component="fieldset" required>
+            <FormLabel component="legend">Source</FormLabel>
+            <RadioGroup
+              aria-label="source"
+              name="source"
+              value={this.state.source}
+              onChange={this.handleChange}
+            >
+              <div className="radio-buttons">
+                <FormControlLabel value="facebook" control={<Radio />} label={<img src={facebook}/>} />
+                <FormControlLabel value="google" control={<Radio />} label={<img src={google}/>} />
+                <FormControlLabel value="reddit" control={<Radio />} label={<img src={reddit}/>} />
+                <FormControlLabel value="coinerd" control={<Radio />} label={<img src={coinerd}/>} />
+                <FormControlLabel value="twitter" disabled control={<Radio />} label={<img src={twitter}/>} />
+              </div>
+            </RadioGroup>
+          </FormControl>
           <TextField
             onChange={this.handleChange('link')}
             autoFocus
