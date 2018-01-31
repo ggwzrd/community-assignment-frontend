@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField'
 
 const dialogStyle = {
   width: '60%',
-  marginLeft: '0',
   padding: '2rem'
 }
 
