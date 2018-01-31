@@ -24,7 +24,7 @@ export default class ApiClient {
   //
   // Returns: Promise
   authenticate(email, password) {
-    return this.post('/sessions', { email, password })
+    return this.post('/users/sign_in', { email, password })
   }
 
   // Sign out (remove the token from localStorage)
