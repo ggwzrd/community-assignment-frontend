@@ -9,6 +9,7 @@ import {
 export const FETCHED_POSTS = 'FETCHED_POSTS'
 export const FETCHED_ONE_POST = 'FETCHED_ONE_POST'
 export const FETCHED_USER_POSTS = 'FETCHED_USER_POSTS'
+export const FETCHED_SOURCES = 'FETCHED_SOURCES'
 
 const api = new API()
 
@@ -81,5 +82,29 @@ export const fetchUserPosts = (userId) => {
         payload: error.message
       })
     })
+  }
+}
+
+export const fetchSources = () => {
+  return (dispatch) => {
+    dispatch({ type: APP_LOADING })
+
+    api.get('/sources')
+      .then((result) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
+
+        dispatch({
+          type: FETCHED_SOURCES,
+          payload: result.body
+        })
+      })
+      .catch((error) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({
+          type: LOAD_ERROR,
+          payload: error.message
+        })
+      })
   }
 }

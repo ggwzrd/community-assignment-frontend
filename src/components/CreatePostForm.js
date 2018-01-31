@@ -6,13 +6,10 @@ import { createPost } from '../actions/posts/create'
 import './styles/CreatePostForm.css'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import Snackbar from 'material-ui/Snackbar'
 
 const dialogStyle = {
   width: '60%',
-  marginLeft: '0',
-  padding: '2rem',
-  fontFamily: 'Nunito',
+  padding: '2rem'
 }
 
 export class CreatePostForm extends PureComponent {
@@ -57,7 +54,7 @@ export class CreatePostForm extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="create-post">
         <h1>Create new post</h1>
         <Paper style={ dialogStyle }>
           <form onSubmit={this.submitForm.bind(this)}>
@@ -68,7 +65,6 @@ export class CreatePostForm extends PureComponent {
                  fullWidth="true"
                  multiline
                  rows="10"
-                 defaultValue="Write something"
                  margin="normal"
                  onChange={this.handleChange('content')}
               />
@@ -77,21 +73,18 @@ export class CreatePostForm extends PureComponent {
               <TextField
                  id="image"
                  label="Images(url)"
-                 rows="10"
-                 defaultValue="Images(url)"
                  margin="normal"
                  onChange={this.handleChange('images')}
               />
               <TextField
-                 id="multiline-static"
+                 id="link"
                  label="Link"
-                 rows="10"
-                 defaultValue="Link"
                  margin="normal"
                  onChange={this.handleChange('link')}
               />
             </div>
             <Button
+              className="submit-button"
               raised
               color="secondary"
               onClick={ this.submitForm.bind(this) }>Submit</Button>
