@@ -6,8 +6,7 @@ import { CREATED_TRUST } from '../actions/posts/trust'
 export default (state = [], { type, payload } = {}) => {
   switch (type) {
     case FETCHED_POSTS :
-      return { ...payload }
-
+      return payload
     case FETCHED_ONE_POST :
       return { ...payload }
 
