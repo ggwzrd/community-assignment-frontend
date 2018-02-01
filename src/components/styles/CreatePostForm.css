@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  padding: 1rem;
 }
 
 .cover {
@@ -30,7 +31,7 @@
 }
 
 #root > div > main > div > div.details > div {
-  padding: 16px 16px 0 16px !important;
+  padding: 0 !important;
 }
 
 #root > div > main > div > div.details > div.tags > div > div::before {
