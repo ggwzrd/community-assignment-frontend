@@ -40,7 +40,7 @@ class PostPage extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.fetchOnePost(this.props.match.params.postId)
+    this.props.fetchOnePost(this.props.postId)
     this.props.fetchSources()
   }
 
@@ -73,7 +73,7 @@ class PostPage extends PureComponent {
   }
 
   handleTrustClick = () => {
-    const postId = this.props.post.id
+    const postId = this.props.selectedPost.id
     const newTrust = {
       source_id: "1",
       link: this.state.link,
@@ -94,7 +94,7 @@ class PostPage extends PureComponent {
   }
 
   render() {
-    const { id, content, link, is_spam, trusts, reports, images } = this.props.post
+    const { id, content, link, is_spam, trusts, reports, images } = this.props.selectedPost
 
     return (
       <div className="post-page">
@@ -233,7 +233,8 @@ class PostPage extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  post: state.posts
+  selectedPost: state.selectedPost,
+  sources: state.sources
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost })(PostPage)

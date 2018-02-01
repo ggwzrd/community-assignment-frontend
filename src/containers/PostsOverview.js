@@ -8,10 +8,12 @@ import { fetchTags } from '../actions/tags/fetch'
 import './styles/PostsOverview.css'
 import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
+import PostPage from './PostPage'
 
 class PostsOverview extends PureComponent {
   state = {
     open: false,
+    postId: null
   }
   // static propTypes = {
   //   posts: PropTypes.arrayOf(postShape).isRequired,
@@ -23,12 +25,18 @@ class PostsOverview extends PureComponent {
     this.props.fetchTags()
   }
 
-  handleDialogOpen = () => {
-    this.setState({ open: true })
+  handleDialogOpen = (postId) => (event) => {
+    this.setState({
+      open: true,
+      postId: postId
+    })
   }
 
   handleDialogClose = () => {
-    this.setState({ open: false })
+    this.setState({
+      open: false,
+      postId: null
+    })
   }
 
   render() {
@@ -57,7 +65,7 @@ class PostsOverview extends PureComponent {
               trusts={post.trusts}
               reports={post.reports}
               createdAt={post.created_at}
-              onClick={this.handleDialogOpen}
+              onClick={this.handleDialogOpen(post.id)}
               />)}
         </div>
 
@@ -67,10 +75,7 @@ class PostsOverview extends PureComponent {
           aria-labelledby="form-dialog-title"
         >
 
-        <PostItem
-          trusts={[1,2]}
-          reports={[1,2]}
-                />
+        <PostPage postId={this.state.postId}/>
 
         </Dialog>
       </div>
