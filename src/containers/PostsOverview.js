@@ -47,7 +47,9 @@ class PostsOverview extends PureComponent {
               content={post.content}
               images={post.images}
               trusts={post.trusts}
-              reports={post.reports} />)}
+              reports={post.reports}
+              createdAt={post.created_at}
+              />)}
         </div>
       </div>
     )
