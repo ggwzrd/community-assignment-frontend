@@ -41,7 +41,6 @@ class PostsOverview extends PureComponent {
         <div className="tags-container">
           {this.props.tags && this.props.tags.map(tag =>
             <TagItem
-              icon={tag.icon}
               key={uuid4()}
               name={tag.name}
               todays_mentions={tag.todays_mentions}
