@@ -45,6 +45,7 @@ class PostsOverview extends PureComponent {
             <PostItem
               id={post.id}
               content={post.content}
+              summary={post.summary}
               images={post.images}
               trusts={post.trusts}
               reports={post.reports}
