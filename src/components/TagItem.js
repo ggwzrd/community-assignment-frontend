@@ -14,10 +14,10 @@ class TagItem extends PureComponent {
   }
 
   render() {
-    const { id, name, description, today_mentions } = this.props
+    const { id, name, description, todays_mentions, icon } = this.props
 
     return (
-        <div className="tag-item">
+        <div style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>
           <IconButton>
             <Tooltip id="tooltip-top" title={description} placement="top-end">
               <Chip
@@ -31,10 +31,10 @@ class TagItem extends PureComponent {
                 className="tag-info"
               />
             </Tooltip>
-            <Badge className="badge" badgeContent={today_mentions} color="primary">
+            <Badge className="badge" badgeContent={todays_mentions} color="primary">
             </Badge>
           </IconButton>
-        </div>
+      </div>
     )
   }
 }
