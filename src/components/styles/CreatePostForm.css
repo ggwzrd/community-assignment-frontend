@@ -2,6 +2,8 @@
   display: flex;
   width: 100% !important;
   border-bottom: 1px solid #E7E7E7;
+  margin-bottom: 10px;
+  border-radius: 3px !important;
 }
 
 .details {
@@ -9,7 +11,7 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .cover {
@@ -52,4 +54,12 @@
 
 #root > div > main > div > div.details > div.CreatePostForm-container-104 > div {
   margin: 0 !important;
+}
+
+#root > div > main > div > div:nth-child(1) > div > div.details > div.MuiCardContent-root-143.content > form > div.input-fields > div.MuiFormControl-root-109.MuiFormControl-marginNormal-110.MuiFormControl-fullWidth-112 {
+  margin-top: 0 !important;
+}
+
+#root > div > main > div > div:nth-child(1) > div > div.details > div.MuiCardContent-root-143.content {
+  padding: 0 16px 16px 16px;
 }
