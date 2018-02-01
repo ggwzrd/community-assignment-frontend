@@ -49,7 +49,7 @@ class PostItem extends PureComponent {
               <Fragment>
               <IconButton>
                 <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
-                  <Badge className="badge trust" badgeContent={trusts.length} color="default">
+                  <Badge className="badge trust" badgeContent={trusts && trusts.length} color="default">
                     <VerifiedUserIcon fontSize="true"/>
                   </Badge>
               </Tooltip>
@@ -57,7 +57,7 @@ class PostItem extends PureComponent {
               </IconButton>
               <IconButton>
                 <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
-                  <Badge className="badge report" badgeContent={reports.length} color="default">
+                  <Badge className="badge report" badgeContent={reports && reports.length} color="default">
                     <ReportIcon fontSize="true" className="badgeIcon"/>
                   </Badge>
               </Tooltip>

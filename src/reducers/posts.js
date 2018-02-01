@@ -7,6 +7,7 @@ export default (state = [], { type, payload } = {}) => {
   switch (type) {
     case FETCHED_POSTS :
       return payload
+
     case FETCHED_ONE_POST :
       return { ...payload }
 
@@ -17,7 +18,7 @@ export default (state = [], { type, payload } = {}) => {
       return { ...payload }
 
     case CREATED_POST :
-      return { ...state, ...payload }
+      return [{...payload}].concat(state)
 
     case CREATED_REPORT :
       return [{ ...state.reports}].concat(payload)
