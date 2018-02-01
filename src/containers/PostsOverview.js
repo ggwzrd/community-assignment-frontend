@@ -8,6 +8,7 @@ import { fetchTags } from '../actions/tags/fetch'
 import './styles/PostsOverview.css'
 import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
+import CreatePostForm from '../components/forms/CreatePostForm'
 
 class PostsOverview extends PureComponent {
   state = {
@@ -32,10 +33,11 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
-    console.log(this.props.tags)
-
     return (
       <div className="container">
+        <div className="">
+          <CreatePostForm />
+        </div>
         <div className="tags-container">
           {this.props.tags && this.props.tags.map(tag =>
             <TagItem

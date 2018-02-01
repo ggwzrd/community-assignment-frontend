@@ -49,3 +49,7 @@
 #root > div > main > div > div.details > div.MuiCardContent-root-143.content > form > div.input-fields > div.MuiFormControl-root-109.MuiFormControl-marginNormal-110.MuiFormControl-fullWidth-112 {
   margin-top: 0 !important;
 }
+
+#root > div > main > div > div.details > div.CreatePostForm-container-104 > div {
+  margin: 0 !important;
+}
