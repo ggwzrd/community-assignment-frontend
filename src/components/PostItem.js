@@ -11,6 +11,8 @@ import Avatar from 'material-ui/Avatar'
 import Badge from 'material-ui/Badge';
 import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
 import ReportIcon from 'material-ui-icons/Report';
+import Tooltip from 'material-ui/Tooltip';
+
 
 
 import './styles/PostItem.css'
@@ -18,7 +20,7 @@ import './styles/PostItem.css'
 class PostItem extends PureComponent {
 
   render() {
-    const { id, content, images, trusts, reports, createdAt } = this.props
+    const { id, summary, images, trusts, reports, createdAt, onClick } = this.props
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',
@@ -27,7 +29,7 @@ class PostItem extends PureComponent {
                                                              minute: 'numeric' })
 
     return (
-      <Card className="post-item" raised="false" elevation="0">
+      <Card className="post-item"  elevation={0} onClick={onClick}>
         <CardMedia
           className="cover"
           image={images}
@@ -35,7 +37,7 @@ class PostItem extends PureComponent {
         <div className="details">
           <CardHeader className="card-header"
             avatar={
-              <Badge className="badge" badgeContent={100} color="primary ">
+              <Badge className="badge" badgeContent={100} color="default">
               <Avatar
                 alt="Remy Sharp"
                 src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
@@ -46,14 +48,20 @@ class PostItem extends PureComponent {
             action={
               <Fragment>
               <IconButton>
-                <Badge className="badge trust" badgeContent={trusts.length} color="default">
-                  <VerifiedUserIcon fontSize="true"/>
-                </Badge>
+                <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+                  <Badge className="badge trust" badgeContent={trusts.length} color="default">
+                    <VerifiedUserIcon fontSize="true"/>
+                  </Badge>
+              </Tooltip>
+
               </IconButton>
               <IconButton>
-                <Badge className="badge report" badgeContent={reports.length} color="default">
-                  <ReportIcon fontSize="true" className="badgeIcon"/>
-                </Badge>
+                <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+                  <Badge className="badge report" badgeContent={reports.length} color="default">
+                    <ReportIcon fontSize="true" className="badgeIcon"/>
+                  </Badge>
+              </Tooltip>
+
               </IconButton>
             </Fragment>
             }
@@ -63,7 +71,7 @@ class PostItem extends PureComponent {
           <CardContent className="content">
 
             <Typography type="body1" >
-              {content}
+              {summary}
             </Typography>
           </CardContent>
         </div>

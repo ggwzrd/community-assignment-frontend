@@ -57,3 +57,7 @@
 .badgeIcon {
   font-size: 2px !important;
 }
+
+.tooltip {
+  white-space: nowrap;
+}
