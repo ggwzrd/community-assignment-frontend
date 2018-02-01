@@ -20,7 +20,7 @@ import './styles/PostItem.css'
 class PostItem extends PureComponent {
 
   render() {
-    const { id, summary, images, trusts, reports, createdAt } = this.props
+    const { id, summary, images, trusts, reports, createdAt, onClick } = this.props
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',
@@ -29,7 +29,7 @@ class PostItem extends PureComponent {
                                                              minute: 'numeric' })
 
     return (
-      <Card className="post-item" raised="false" elevation="0">
+      <Card className="post-item"  elevation={0} onClick={onClick}>
         <CardMedia
           className="cover"
           image={images}
@@ -37,7 +37,7 @@ class PostItem extends PureComponent {
         <div className="details">
           <CardHeader className="card-header"
             avatar={
-              <Badge className="badge" badgeContent={100} color="primary ">
+              <Badge className="badge" badgeContent={100} color="default">
               <Avatar
                 alt="Remy Sharp"
                 src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
