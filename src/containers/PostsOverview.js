@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import PostItem from '../components/PostItem'
 import TagItem from '../components/TagItem'
-// import Tag from './Tag'
-import './styles/PostsOverview.css'
 import { fetchPosts } from '../actions/posts/fetch'
+import { fetchTags } from '../actions/tags/fetch'
+import './styles/PostsOverview.css'
 import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
-
 
 class PostsOverview extends PureComponent {
   state = {
@@ -21,7 +20,11 @@ class PostsOverview extends PureComponent {
 
   componentWillMount() {
     this.props.fetchPosts()
+    this.props.fetchTags()
   }
+
+  render() {
+    console.log(this.props.tags)
 
   handleDialogOpen = () => {
     this.setState({ open: true })
@@ -31,25 +34,14 @@ class PostsOverview extends PureComponent {
     this.setState({ open: false })
   }
 
-  render() {
-
-    console.log(this.props)
-
-    let tagsArray = this.props.posts.map(post => post.tags)
-    console.log(tagsArray)
-    let mergedtagArray = [].concat.apply([],tagsArray)
-    console.log(mergedtagArray)
-    let tagIdArray = mergedtagArray.map(item => item.id)
-    console.log(tagIdArray)
-
     return (
       <div className="container">
         <div className="tags-container">
-          {mergedtagArray.map(tag =>
+          {this.props.tags && this.props.tags.map(tag =>
             <TagItem
               key={uuid4()}
               name={tag.name}
-              total_mentions={tagIdArray.filter(id => id === tag.id).length}
+              today_mentions={tag.today_mentions}
               description={tag.description}
               />)}
         </div>
@@ -87,7 +79,8 @@ class PostsOverview extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  posts: state.posts
+  posts: state.posts,
+  tags: state.tags
 })
 
-export default connect(mapStateToProps, { fetchPosts })(PostsOverview)
+export default connect(mapStateToProps, { fetchPosts, fetchTags })(PostsOverview)

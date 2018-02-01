@@ -1,23 +1,39 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
+import Avatar from 'material-ui/Avatar'
+import Chip from 'material-ui/Chip'
+import FaceIcon from 'material-ui-icons/Face'
+import Badge from 'material-ui/Badge';
+import IconButton from 'material-ui/IconButton';
+import Tooltip from 'material-ui/Tooltip';
 
 class TagItem extends PureComponent {
 
+  handleClick = () => {
+    alert('You clicked the Chip.')
+  }
+
   render() {
-    const { id, name, description, total_mentions } = this.props
+    const { id, name, description, today_mentions } = this.props
 
     return (
         <div className="tag-item">
-          <div className="tag-info">
-            <Link to={ `/posts/${id}` }>
-              <div style={{display:'flex', flexDirection:'row'}}>
-                <a href="" id='tag' title={description} style={{backgroundColor:"#FFFFFF", color:"#000000", textDecoration: 'none'}}>
-                  {name}
-                  <div style={{width:30, height:30, backgroundColor:"#f4c842", display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{total_mentions}</div>
-                </a>
-              </div>
-            </Link>
-          </div>
+          <IconButton>
+            <Tooltip id="tooltip-top" title={description} placement="top-end">
+              <Chip
+                avatar={
+                  <Avatar>
+                    <FaceIcon />
+                  </Avatar>
+                }
+                label={name}
+                onClick={this.handleClick.bind(this)}
+                className="tag-info"
+              />
+            </Tooltip>
+            <Badge className="badge" badgeContent={today_mentions} color="primary">
+            </Badge>
+          </IconButton>
         </div>
     )
   }
