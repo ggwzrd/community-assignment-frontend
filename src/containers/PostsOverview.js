@@ -23,9 +23,6 @@ class PostsOverview extends PureComponent {
     this.props.fetchTags()
   }
 
-  render() {
-    console.log(this.props.tags)
-
   handleDialogOpen = () => {
     this.setState({ open: true })
   }
@@ -33,6 +30,9 @@ class PostsOverview extends PureComponent {
   handleDialogClose = () => {
     this.setState({ open: false })
   }
+
+  render() {
+    console.log(this.props.tags)
 
     return (
       <div className="container">
