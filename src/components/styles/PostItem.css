@@ -1,17 +1,19 @@
-.card {
+.post-item {
   display: flex;
   width: 100% !important;
-  border-bottom: 1px solid #E7E7E7;
+  /* border-bottom: 1px solid #E7E7E7; */
+  margin-bottom: 10px;
+  border-radius: 3px !important;
+  transition: all ease-in 0.2s;
 }
 
-.card:hover {
+.post-item:hover {
   background-color: #F5F8FA;
 }
 
 .details {
   display: flex;
   flex-direction: column;
-
 }
 
 .content {
@@ -21,6 +23,7 @@
 .cover {
   min-width: 151px;
   min-height: 151px;
+  border-radius: 3px 0px 0px 3px !important;
 }
 
 .controls {
@@ -37,6 +40,14 @@
 
 .badge {
   margin: 0 10px;
+  transition: all ease-in 0.2s;
+}
+.badge.trust:hover {
+  color: green;
+}
+
+.badge.report:hover {
+  color: red;
 }
 
 .card-header {
@@ -45,4 +56,8 @@
 
 .badgeIcon {
   font-size: 2px !important;
+}
+
+.tooltip {
+  white-space: nowrap;
 }
