@@ -6,8 +6,13 @@ import TagItem from '../components/TagItem'
 import { fetchPosts } from '../actions/posts/fetch'
 import { fetchTags } from '../actions/tags/fetch'
 import './styles/PostsOverview.css'
+import Dialog from 'material-ui/Dialog'
+import uuid4 from 'uuid4'
 
 class PostsOverview extends PureComponent {
+  state = {
+    open: false,
+  }
   // static propTypes = {
   //   posts: PropTypes.arrayOf(postShape).isRequired,
   //   tags: PropTypes.arrayOf(tagShape).isRequired
@@ -21,11 +26,20 @@ class PostsOverview extends PureComponent {
   render() {
     console.log(this.props.tags)
 
+  handleDialogOpen = () => {
+    this.setState({ open: true })
+  }
+
+  handleDialogClose = () => {
+    this.setState({ open: false })
+  }
+
     return (
       <div className="container">
         <div className="tags-container">
           {this.props.tags && this.props.tags.map(tag =>
             <TagItem
+              key={uuid4()}
               name={tag.name}
               today_mentions={tag.today_mentions}
               description={tag.description}
@@ -36,11 +50,29 @@ class PostsOverview extends PureComponent {
           {this.props.posts && this.props.posts.map(post =>
             <PostItem
               id={post.id}
+              key={uuid4()}
               content={post.content}
+              summary={post.summary}
               images={post.images}
               trusts={post.trusts}
-              reports={post.reports} />)}
+              reports={post.reports}
+              createdAt={post.created_at}
+              onClick={this.handleDialogOpen}
+              />)}
         </div>
+
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleDialogClose}
+          aria-labelledby="form-dialog-title"
+        >
+
+        <PostItem
+          trusts={[1,2]}
+          reports={[1,2]}
+                />
+
+        </Dialog>
       </div>
     )
   }
