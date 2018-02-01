@@ -18,10 +18,16 @@ import './styles/PostItem.css'
 class PostItem extends PureComponent {
 
   render() {
-    const { id, content, images, trusts, reports } = this.props
+    const { id, content, images, trusts, reports, createdAt } = this.props
+    const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
+                                                             year:   'numeric',
+                                                             month:  'numeric',
+                                                             day:    'numeric',
+                                                             hour:   'numeric',
+                                                             minute: 'numeric' })
 
     return (
-      <Card className="card" raised="false" elevation="0">
+      <Card className="post-item" raised="false" elevation="0">
         <CardMedia
           className="cover"
           image={images}
@@ -40,19 +46,19 @@ class PostItem extends PureComponent {
             action={
               <Fragment>
               <IconButton>
-                <Badge className="badge" badgeContent={4} color="default">
+                <Badge className="badge trust" badgeContent={trusts.length} color="default">
                   <VerifiedUserIcon fontSize="true"/>
                 </Badge>
               </IconButton>
               <IconButton>
-                <Badge className="badge" badgeContent={4} color="default">
+                <Badge className="badge report" badgeContent={reports.length} color="default">
                   <ReportIcon fontSize="true" className="badgeIcon"/>
                 </Badge>
               </IconButton>
             </Fragment>
             }
             title="Name Lastname"
-            subheader="Created on: 09-16-2018"
+            subheader={date}
           />
           <CardContent className="content">
 
