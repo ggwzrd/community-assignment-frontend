@@ -32,6 +32,10 @@ class PostsOverview extends PureComponent {
     this.setState({ open: false })
   }
 
+  handleTagChange = event => {
+    this.setState({ tag: event.target.value });
+  }
+
   render() {
     return (
       <div className="container">
@@ -55,7 +59,7 @@ class PostsOverview extends PureComponent {
               key={uuid4()}
               content={post.content}
               summary={post.summary}
-              images={post.images}
+              images={post.images.url}
               trusts={post.trusts}
               reports={post.reports}
               createdAt={post.created_at}

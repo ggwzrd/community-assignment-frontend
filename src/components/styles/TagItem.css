@@ -1,1 +1,11 @@
+#root > div > main > div > div.tags-container > * > button > span.MuiIconButton-label-149 > span > span {
+  top: -30px !important;
+  width: 24px !important;
+  right: 2px !important;
+}
 
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

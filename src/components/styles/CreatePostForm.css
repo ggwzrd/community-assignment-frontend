@@ -40,10 +40,6 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-#root > div > main > div > div.details > div.CreatePostForm-container-104 > div > div > div > div {
-  overflow: unset;
-}
-
 #root > div > main > div > div.details > div.CreatePostForm-container-104 > div > div::before {
   height: 0;
 }

@@ -27,7 +27,7 @@ const styles = theme => ({
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
-    fontSize: 10
+    fontSize: 10,
   }
 });
 
@@ -119,7 +119,7 @@ export class CreatePostForm extends PureComponent {
                 input={<Input id="select-multiple-tags" />}
                 renderValue={selected => (
                   <div className={classes.chips}>
-                    {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
+                    {selected.map(value => <Chip key={value} label={value} className={classes.chip} style={{height: 20}}/>)}
                   </div>
                 )}
                 MenuProps={MenuProps}>
