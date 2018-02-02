@@ -15,7 +15,7 @@ export default (state = [], { type, payload } = {}) => {
       return { ...payload }
 
     case CREATED_POST :
-      return { allPosts: [payload].concat(state) }
+      return { allPosts: [payload].concat(state.allPosts) }
 
     case CREATED_REPORT :
       return [{ ...state.reports}].concat(payload)
