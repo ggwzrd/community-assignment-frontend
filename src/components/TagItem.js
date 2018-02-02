@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import Avatar from 'material-ui/Avatar'
 import Chip from 'material-ui/Chip'
 import Badge from 'material-ui/Badge'
@@ -16,13 +16,13 @@ import ShowAllIcon from 'material-ui-icons/FilterNone'
 import './styles/TagItem.css'
 
 class TagItem extends PureComponent {
-  static propTypes = {
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    todays_mentions: PropTypes.number.isRequired,
-    handleClick: PropTypes.func.isRequired,
-  }
+  // static propTypes = {
+  //   id: PropTypes.number.isRequired,
+  //   name: PropTypes.string.isRequired,
+  //   description: PropTypes.string.isRequired,
+  //   todays_mentions: PropTypes.number.isRequired,
+  //   handleClick: PropTypes.func.isRequired,
+  // }
 
   renderIcon = () => {
     const { name } = this.props
@@ -42,21 +42,21 @@ class TagItem extends PureComponent {
     return (
         <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>
           <IconButton>
-            <Tooltip id="tooltip-top" title={description} placement="top-end">
-              <Chip
-                avatar={
-                  <Avatar>
-                    {this.renderIcon()}
-                  </Avatar>
-                }
-                label={name}
-                id={id}
-                onClick={
-                  () => handleClick(id)}
-                className="tag-info"
-              />
-            </Tooltip>
             <Badge className="badge" badgeContent={todays_mentions} color="primary" children="">
+              <Tooltip id="tooltip-top" title={description} placement="top-end">
+                <Chip
+                  avatar={
+                    <Avatar>
+                      {this.renderIcon()}
+                    </Avatar>
+                  }
+                  label={name}
+                  id={id}
+                  onClick={
+                    () => handleClick(id)}
+                  className="tag-info"
+                />
+              </Tooltip>
             </Badge>
           </IconButton>
       </div>

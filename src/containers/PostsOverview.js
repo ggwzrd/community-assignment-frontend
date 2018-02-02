@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import PostItem from '../components/PostItem'
 import TagItem from '../components/TagItem'
 import { fetchPosts } from '../actions/posts/fetch'
@@ -19,10 +19,10 @@ class PostsOverview extends PureComponent {
     postId: null
 
   }
-  static propTypes = {
-    posts: PropTypes.array.isRequired,
-    tags: PropTypes.array.isRequired
-  }
+  // static propTypes = {
+  //   posts: PropTypes.array.isRequired,
+  //   tags: PropTypes.array.isRequired
+  // }
 
   selectTag(tagId) {
     if (tagId === this.state.selectedTagId) {
@@ -63,6 +63,7 @@ class PostsOverview extends PureComponent {
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
+    const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
 
     return (
       <div className="container">
@@ -73,7 +74,7 @@ class PostsOverview extends PureComponent {
           <TagItem
             id={null}
             name={"All"}
-            todays_mentions={null}
+            todays_mentions={todays_posts}
             description={"Show all posts"}
             handleClick={this.handleClick} />
           {tags && tags.map(tag =>
