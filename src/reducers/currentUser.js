@@ -7,7 +7,7 @@ const currentUserFromLocalStorage = JSON.parse(
   window.localStorage.getItem(CURRENT_USER_KEY) || 'null'
 )
 
-export default (state = {}, { type, payload } = {}) => {
+export default (state = currentUserFromLocalStorage, { type, payload } = {}) => {
   switch (type) {
     case USER_SIGNED_IN :
       const currentUser = { ...payload }

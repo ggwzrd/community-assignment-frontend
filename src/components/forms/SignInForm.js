@@ -10,7 +10,7 @@ import {
 } from 'material-ui/Dialog'
 
 const SignInForm = props => {
-  const { routes, updateEmail, updatePassword, handleDialogClose, submitForm } = props;
+  const { updateEmail, updatePassword, handleDialogClose, submitForm } = props;
   return (
     <Fragment>
       <DialogTitle id="form-dialog-title">Sign in</DialogTitle>

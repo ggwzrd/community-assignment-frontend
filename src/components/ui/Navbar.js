@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import signOut from '../../actions/user/sign-out'
 import signIn from '../../actions/user/sign-in'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import './Navbar.css'
-import CreatePost from '../forms/createPost'
+// import CreatePost from '../forms/createPost'
 import SignInForm from '../forms/SignInForm'
 
 import Button from 'material-ui/Button'
@@ -89,8 +89,8 @@ class Navbar extends React.Component {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn } = this.props
-    console.log(this.props.signedIn);
-    console.log(this.props.currentUser);
+    // console.log(this.props.signedIn);
+    // console.log(this.props.currentUser);
     return (
       <div className="navbar">
         <AppBar position="static">
@@ -167,7 +167,7 @@ class Navbar extends React.Component {
 // })
 
 const mapStateToProps = ({currentUser}) => ({
-  signedIn: !!currentUser && currentUser.token
+  signedIn: !!currentUser && !!currentUser.token
 })
 
 export default connect(mapStateToProps, { signIn, signOut, push })(Navbar)
