@@ -61,10 +61,11 @@ export class CreatePostForm extends PureComponent {
   static propTypes = {
     createPost: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired
   }
 
   state = {
+      content: '',
+      link: '',
       uploadedFileCloudinaryUrl: '',
       tag: []
     }
@@ -72,27 +73,27 @@ export class CreatePostForm extends PureComponent {
   onDrop(files) {
     this.setState({
       uploadedFile: files[0]
-    });
+    })
 
-    this.handleImageUpload(files[0]);
+    this.handleImageUpload(files[0])
   }
 
   handleImageUpload(file) {
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                        .field('file', file);
+                        .field('file', file)
 
     upload.end((err, response) => {
       if (err) {
-        console.error(err);
+        console.error(err)
       }
 
       if (response.body.secure_url !== '') {
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url
-        });
+        })
       }
-    });
+    })
   }
 
   handleChange = name => event => {
@@ -107,45 +108,64 @@ export class CreatePostForm extends PureComponent {
 
   submitForm(event) {
     event.preventDefault()
+    if (this.validateContent(event) && this.validateLink()) {
+      const newPost = {
+        content: this.state.content,
+        link: this.state.link,
+        tags: this.state.tag || [],
+        images: this.state.uploadedFileCloudinaryUrl
+      }
 
-    const newPost = {
-      content: this.state.content,
-      link: this.state.link,
-      tags: this.state.tag,
-      images: this.state.uploadedFileCloudinaryUrl
+      this.props.createPost(newPost)
     }
 
-    this.props.createPost(newPost)
+    return false
   }
 
-  // onDrop(files) {
-  //   this.props.uploadFiles()
-  // }
+  validateContent(event) {
+    const content = this.state.content
 
-  // validateContent() {
-  //   const { content } = this.state.content
-  //
-  //   if (content.getValue().length <= 500) {
-  //     this.setState({
-  //       contentError: null
-  //     })
-  //     return true
-  //   }
-  //
-  //   this.setState({
-  //     contentError: 'Max 500 characteres'
-  //   })
-  //   console.log('max 500 characteres')
-  //   return false
-  // }
+    if (content.length > 1 && content.length <= 5000) {
+      this.setState({
+        contentError: null
+      })
+      return true
+    } else if (content.length <= 0){
+      this.setState({
+        contentError: 'Content is required'
+      })
+      return false
+    } else if (content.length < 5000 ) {
+      this.setState({
+        contentError: 'Max 5000 characteres'
+      })
+      return false
+    }
+  }
+
+  validateLink() {
+    const link = this.state.link
+
+    if (link.length > 1) {
+      this.setState({
+        linkError: null
+      })
+
+      return true
+    }
+
+    this.setState({
+      linkError: 'Link is required'
+    })
+
+    return false
+  }
 
   render() {
-    console.log(this.state.uploadedFile)
-    console.log(this.state.uploadedFileCloudinaryUrl)
     const { classes } = this.props;
 
     return (
-      <Card className="card" raised="false" elevation="0">
+      <Card className="card" elevation={0}>
         <Dropzone
           multiple={false}
           accept="image/*"
@@ -188,24 +208,26 @@ export class CreatePostForm extends PureComponent {
                 <TextField
                    id="multiline-flex"
                    label="Your post here"
-                   fullWidth="true"
+                   fullWidth={true}
                    multiline
                    rows="3"
                    margin="normal"
                    onChange={this.handleChange('content')}
+                   helperText={this.state.contentError}
                 />
                 <TextField
                    id="link"
                    label="Link"
                    margin="none"
-                   fullWidth="true"
+                   fullWidth={true}
                    onChange={this.handleChange('link')}
+                   helperText={this.state.linkError}
                 />
               </div>
               <div className="submit-button">
                 <Button
                   size="small"
-                  flat
+                  flat="true"
                   color="secondary"
                   onClick={this.submitForm.bind(this)}>Submit</Button>
               </div>

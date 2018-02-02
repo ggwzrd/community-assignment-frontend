@@ -1,5 +1,4 @@
-// src/actions/user/sign-in.js
-import { replace } from 'react-router-redux'
+// import { replace } from 'react-router-redux'
 import API from '../../api/client'
 import {
   APP_LOADING,

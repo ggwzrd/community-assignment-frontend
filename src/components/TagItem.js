@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+// import PropTypes from 'prop-types'
+// import { Link } from 'react-router-dom'
 import Avatar from 'material-ui/Avatar'
 import Chip from 'material-ui/Chip'
 import Badge from 'material-ui/Badge'
@@ -30,7 +30,6 @@ class TagItem extends PureComponent {
 
   render() {
     const { id, name, description, todays_mentions, handleClick } = this.props
-    // console.log(this.props)
 
     return (
         <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>
@@ -49,7 +48,7 @@ class TagItem extends PureComponent {
                 className="tag-info"
               />
             </Tooltip>
-            <Badge className="badge" badgeContent={todays_mentions} color="primary">
+            <Badge className="badge" badgeContent={todays_mentions} color="primary" children="">
             </Badge>
           </IconButton>
       </div>

@@ -17,8 +17,6 @@ class ProfilePage extends PureComponent {
   }
 
   render() {
-    console.log(this.props
-    );
     return (
       <Fragment>
         <Paper>

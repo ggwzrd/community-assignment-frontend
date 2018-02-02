@@ -16,7 +16,8 @@ import Menu, { MenuItem } from 'material-ui/Menu'
 import Avatar from 'material-ui/Avatar'
 import AddIcon from 'material-ui-icons/Add'
 import Dialog from 'material-ui/Dialog'
-
+import IconButton from 'material-ui/IconButton'
+import HomeIcon from 'material-ui-icons/Home'
 
 class Navbar extends React.Component {
   state = {
@@ -75,12 +76,14 @@ class Navbar extends React.Component {
 
   submitForm(event) {
     event.preventDefault()
+
     const user = {
       user: { email: this.state.email,
               password: this.state.password
             }
     }
     this.props.signIn( user )
+
     this.handleDialogClose()
   }
 
@@ -96,6 +99,7 @@ class Navbar extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Typography type="title" color="inherit" className="navbar logo">
+              <IconButton onClick={this.goHome}><HomeIcon /></IconButton>
               Coinmunity
             </Typography>
             {signedIn ?
