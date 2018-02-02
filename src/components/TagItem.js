@@ -17,8 +17,11 @@ import './styles/TagItem.css'
 
 class TagItem extends PureComponent {
 
-  handleClick = () => {
+  handleClick = (event) => {
     alert('You clicked the Chip.')
+    const { id, selectTag } = this.props
+    event.preventDefault()
+    selectTag(id)
   }
 
   renderIcon = () => {
@@ -33,7 +36,7 @@ class TagItem extends PureComponent {
   }
 
   render() {
-    const { name, description, todays_mentions} = this.props
+    const { id, name, description, todays_mentions} = this.props
 
     return (
         <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>

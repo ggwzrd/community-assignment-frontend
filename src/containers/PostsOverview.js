@@ -13,11 +13,18 @@ import CreatePostForm from '../components/forms/CreatePostForm'
 class PostsOverview extends PureComponent {
   state = {
     open: false,
+    tags: this.state,
+    posts: this.state,
+    selectedTagId: null,
   }
   // static propTypes = {
   //   posts: PropTypes.arrayOf(postShape).isRequired,
   //   tags: PropTypes.arrayOf(tagShape).isRequired
   // }
+
+  selectTag(tag) {
+    this.setState({ selectedTagId: tag })
+  }
 
   componentWillMount() {
     this.props.fetchPosts()
@@ -33,6 +40,8 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
+    const { tags, posts, selectedTagId, selectTag } = this.state
+
     return (
       <div className="container">
         <div className="">
@@ -45,11 +54,17 @@ class PostsOverview extends PureComponent {
               name={tag.name}
               todays_mentions={tag.todays_mentions}
               description={tag.description}
+              selectTag={this.selectTag}
               />)}
         </div>
 
         <div className="posts-container">
-          {this.props.posts && this.props.posts.map(post =>
+          {this.props.posts && this.props.posts.filter(post => {
+            return post.tags.some(tag => {
+              return tag.id === selectedTagId.id|
+            })
+          })
+          .map(post =>
             <PostItem
               id={post.id}
               key={uuid4()}
