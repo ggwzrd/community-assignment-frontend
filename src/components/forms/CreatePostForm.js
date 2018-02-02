@@ -113,7 +113,7 @@ export class CreatePostForm extends PureComponent {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tags: this.state.tag,
+        tags: this.state.tag || [],
         images: this.state.uploadedFileCloudinaryUrl
       }
 
