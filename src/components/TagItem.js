@@ -37,6 +37,7 @@ class TagItem extends PureComponent {
 
   render() {
     const { id, name, description, todays_mentions} = this.props
+    console.log(this.props)
 
     return (
         <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>

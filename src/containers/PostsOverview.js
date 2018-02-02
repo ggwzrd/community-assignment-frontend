@@ -13,8 +13,6 @@ import CreatePostForm from '../components/forms/CreatePostForm'
 class PostsOverview extends PureComponent {
   state = {
     open: false,
-    tags: this.state,
-    posts: this.state,
     selectedTagId: null,
   }
   // static propTypes = {
@@ -22,8 +20,8 @@ class PostsOverview extends PureComponent {
   //   tags: PropTypes.arrayOf(tagShape).isRequired
   // }
 
-  selectTag(tag) {
-    this.setState({ selectedTagId: tag })
+  selectTag(tagId) {
+    this.setState({ selectedTagId: tagId })
   }
 
   componentWillMount() {
@@ -40,7 +38,7 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
-    const { tags, posts, selectedTagId } = this.state
+    const { selectedTagId } = this.state
     console.log(this.props)
     console.log(this.state)
     return (
@@ -52,6 +50,7 @@ class PostsOverview extends PureComponent {
           {this.props.tags && this.props.tags.map(tag =>
             <TagItem
               key={uuid4()}
+              id={tag.id}
               name={tag.name}
               todays_mentions={tag.todays_mentions}
               description={tag.description}
@@ -76,6 +75,7 @@ class PostsOverview extends PureComponent {
               reports={post.reports}
               createdAt={post.created_at}
               onClick={this.handleDialogOpen}
+              selectedTagId={selectedTagId}
               />)}
         </div>
 
