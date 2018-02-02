@@ -75,7 +75,12 @@ class Navbar extends React.Component {
 
   submitForm(event) {
     event.preventDefault()
-    this.props.signIn( this.state.email,  this.state.password)
+    const user = {
+      user: { email: this.state.email,
+              password: this.state.password
+            }
+    }
+    this.props.signIn( user )
     this.handleDialogClose()
   }
 
@@ -84,6 +89,8 @@ class Navbar extends React.Component {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn } = this.props
+    console.log(this.props.signedIn);
+    console.log(this.props.currentUser);
     return (
       <div className="navbar">
         <AppBar position="static">
@@ -155,8 +162,12 @@ class Navbar extends React.Component {
 }
 
 
-const mapStateToProps = state => ({
-  signedIn: !!state.currentUser
+// const mapStateToProps = state => ({
+//   signedIn: !!state.currentUser
+// })
+
+const mapStateToProps = ({currentUser}) => ({
+  signedIn: !!currentUser && currentUser.token
 })
 
 export default connect(mapStateToProps, { signIn, signOut, push })(Navbar)

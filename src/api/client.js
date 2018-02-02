@@ -4,7 +4,7 @@ import request from 'superagent'
 
 export default class ApiClient {
   defaultOptions = {
-    tokenStorageKey: 'gameApiJWT'
+    tokenStorageKey: 'currentUser'
   }
 
   constructor(host, options = {}) {
@@ -23,8 +23,8 @@ export default class ApiClient {
   //    .catch(err => console.log(err))
   //
   // Returns: Promise
-  authenticate(email, password) {
-    return this.post('/users/sign_in', { email, password })
+  authenticate(user) {
+    return this.post('/users/sign_in', user )
   }
 
   // Sign out (remove the token from localStorage)
