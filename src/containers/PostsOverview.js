@@ -40,8 +40,6 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
-    console.log(this.props.tags)
-
     return (
       <div className="container">
         <div className="tags-container">
@@ -73,6 +71,7 @@ class PostsOverview extends PureComponent {
           open={this.state.open}
           onClose={this.handleDialogClose}
           aria-labelledby="form-dialog-title"
+          style={{ overflowY: "scroll" }}
         >
 
         <PostPage postId={this.state.postId}/>
@@ -84,7 +83,7 @@ class PostsOverview extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  posts: state.posts,
+  posts: state.posts.allPosts,
   tags: state.tags
 })
 

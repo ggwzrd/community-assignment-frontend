@@ -43,13 +43,13 @@ export const fetchOnePost = (postId) => {
 
     api.get(`/posts/${postId}`)
       .then((res) => {
-        dispatch({ type: APP_DONE_LOADING })
-        dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
           type: FETCHED_ONE_POST,
           payload: res.body
         })
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
@@ -91,13 +91,13 @@ export const fetchSources = () => {
 
     api.get('/sources')
       .then((result) => {
-        dispatch({ type: APP_DONE_LOADING })
-        dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
           type: FETCHED_SOURCES,
           payload: result.body
         })
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })

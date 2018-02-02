@@ -12,6 +12,5 @@ export default {
   posts,
   currentUser,
   tags,
-  selectedPost,
   sources
 }
