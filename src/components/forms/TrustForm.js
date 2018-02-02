@@ -18,7 +18,7 @@ class TrustForm extends PureComponent {
         <FormControl component="fieldset" required>
           <div className="sources">
             {this.props.sources.map(source =>
-              <div className="source-buttons" style={{width: 50, height: 50, borderRadius: '50%', overflow: 'hidden', background: `url(${source.logo})`, backgroundSize: "70% 70%", backgroundRepeat: "no-repeat", backgroundPosition: "center center"}}>
+              <div className="source-buttons" style={{ borderRadius: '50%', overflow: 'hidden', background: `url(${source.logo})`, backgroundSize: "70% 70%", backgroundRepeat: "no-repeat", backgroundPosition: "center center"}}>
               </div>
             )}
           </div>
