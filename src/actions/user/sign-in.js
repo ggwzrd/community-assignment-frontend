@@ -1,5 +1,4 @@
-// src/actions/user/sign-in.js
-import { replace } from 'react-router-redux'
+// import { replace } from 'react-router-redux'
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -12,10 +11,10 @@ export const USER_SIGNED_IN = 'USER_SIGNED_IN'
 
 const api = new API()
 
-export default ( email, password ) => {
+export default ( user ) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
-    api.authenticate(email, password)
+    api.authenticate(user)
       .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
@@ -24,7 +23,7 @@ export default ( email, password ) => {
         api.storeToken(jwt)
 
         // Redirect programatically to the Lobby
-        return res.body.email
+        return res.body
 
       })
       .then((res) => {

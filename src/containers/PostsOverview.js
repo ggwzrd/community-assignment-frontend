@@ -61,16 +61,8 @@ class PostsOverview extends PureComponent {
 
 
   render() {
-    console.log(this.props)
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
-    const today = new Date()
-
-    // const todays_posts = posts ? posts.filter(post =>
-    //   post.created_at.toDate().getDate() === today.getDate() &&
-    //   post.created_at.toDate().getMonth() === today.getMonth() &&
-    //   post.created_at.toDate().getYear() === today.getYear()
-    // ).length : null
 
     return (
       <div className="container">
@@ -96,8 +88,11 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
+
+
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
             post.tags && post.tags.some(tag => {
+
               return tag.id === selectedTagId
             })
           ))
