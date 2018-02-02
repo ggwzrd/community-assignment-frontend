@@ -4,28 +4,28 @@ import PropTypes from 'prop-types'
 import { fetchOnePost, fetchSources } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
-import Paper from 'material-ui/Paper'
-import Button from 'material-ui/Button'
-import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card';
+// import Paper from 'material-ui/Paper'
+// import Button from 'material-ui/Button'
+import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
-import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-import SkipNextIcon from 'material-ui-icons/SkipNext';
+// import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
+// import PlayArrowIcon from 'material-ui-icons/PlayArrow';
+// import SkipNextIcon from 'material-ui-icons/SkipNext';
 import Avatar from 'material-ui/Avatar'
 import Badge from 'material-ui/Badge';
 import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
 import ReportIcon from 'material-ui-icons/Report';
 import Tooltip from 'material-ui/Tooltip';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
-import Radio, { RadioGroup } from 'material-ui/Radio'
-import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
+// import Dialog, {
+//   DialogActions,
+//   DialogContent,
+//   DialogContentText,
+//   DialogTitle,
+// } from 'material-ui/Dialog'
+// import TextField from 'material-ui/TextField'
+// import Radio, { RadioGroup } from 'material-ui/Radio'
+// import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
@@ -111,7 +111,6 @@ class PostPage extends PureComponent {
   }
 
   handleChange = name => event => {
-    console.log(name, event.target.value);
    this.setState({
      [name]: event.target.value
    })
@@ -120,7 +119,7 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { id, content, link, is_spam, trusts, reports, images, created_at } = this.props.selectedPost
+      var { content, trusts, reports, images, created_at } = this.props.selectedPost
     }
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,

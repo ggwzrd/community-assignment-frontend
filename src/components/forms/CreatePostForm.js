@@ -61,7 +61,6 @@ export class CreatePostForm extends PureComponent {
   static propTypes = {
     createPost: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired
   }
 
   state = {
@@ -163,11 +162,10 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-    console.log(this.state);
     const { classes } = this.props;
 
     return (
-      <Card className="card" raised="false" elevation="0">
+      <Card className="card" elevation={0}>
         <Dropzone
           multiple={false}
           accept="image/*"
@@ -210,7 +208,7 @@ export class CreatePostForm extends PureComponent {
                 <TextField
                    id="multiline-flex"
                    label="Your post here"
-                   fullWidth="true"
+                   fullWidth={true}
                    multiline
                    rows="3"
                    margin="normal"
@@ -221,7 +219,7 @@ export class CreatePostForm extends PureComponent {
                    id="link"
                    label="Link"
                    margin="none"
-                   fullWidth="true"
+                   fullWidth={true}
                    onChange={this.handleChange('link')}
                    helperText={this.state.linkError}
                 />
@@ -229,7 +227,7 @@ export class CreatePostForm extends PureComponent {
               <div className="submit-button">
                 <Button
                   size="small"
-                  flat
+                  flat="true"
                   color="secondary"
                   onClick={this.submitForm.bind(this)}>Submit</Button>
               </div>
