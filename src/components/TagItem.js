@@ -17,13 +17,6 @@ import './styles/TagItem.css'
 
 class TagItem extends PureComponent {
 
-  handleClick = (event) => {
-    alert('You clicked the Chip.')
-    const { id, selectTag } = this.props
-    event.preventDefault()
-    selectTag(id)
-  }
-
   renderIcon = () => {
     const { name } = this.props
     if (name === "Analysis") return <AssessmentIcon />
@@ -36,8 +29,8 @@ class TagItem extends PureComponent {
   }
 
   render() {
-    const { id, name, description, todays_mentions} = this.props
-    console.log(this.props)
+    const { id, name, description, todays_mentions, handleClick } = this.props
+    // console.log(this.props)
 
     return (
         <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>
@@ -50,6 +43,9 @@ class TagItem extends PureComponent {
                   </Avatar>
                 }
                 label={name}
+                id={id}
+                onClick={
+                  () => handleClick(id)}
                 className="tag-info"
               />
             </Tooltip>

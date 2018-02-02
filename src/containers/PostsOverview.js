@@ -24,6 +24,14 @@ class PostsOverview extends PureComponent {
     this.setState({ selectedTagId: tagId })
   }
 
+  handleClick = (id) => {
+    alert('You clicked the Chip.')
+    // event.preventDefault()
+    // console.log(event)
+    console.log(id)
+    this.selectTag(id)
+  }
+
   componentWillMount() {
     this.props.fetchPosts()
     this.props.fetchTags()
@@ -43,7 +51,6 @@ class PostsOverview extends PureComponent {
 
   render() {
     const { selectedTagId } = this.state
-    console.log(this.props)
     console.log(this.state)
     return (
       <div className="container">
@@ -58,7 +65,7 @@ class PostsOverview extends PureComponent {
               name={tag.name}
               todays_mentions={tag.todays_mentions}
               description={tag.description}
-              selectTag={this.selectTag}
+              handleClick={this.handleClick}
               />)}
         </div>
 
@@ -79,7 +86,6 @@ class PostsOverview extends PureComponent {
               reports={post.reports}
               createdAt={post.created_at}
               onClick={this.handleDialogOpen}
-              selectedTagId={selectedTagId}
               />)}
         </div>
 
