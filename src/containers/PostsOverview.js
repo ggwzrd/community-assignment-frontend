@@ -83,7 +83,7 @@ class PostsOverview extends PureComponent {
 
         <div className="posts-container">
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
-            post.tags.some(tag => {
+            post.tags && post.tags.some(tag => {
               return tag.id === selectedTagId
             })
           ))
