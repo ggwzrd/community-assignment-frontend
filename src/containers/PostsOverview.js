@@ -32,6 +32,10 @@ class PostsOverview extends PureComponent {
     this.setState({ open: false })
   }
 
+  handleTagChange = event => {
+    this.setState({ tag: event.target.value });
+  }
+
   render() {
     return (
       <div className="container">
