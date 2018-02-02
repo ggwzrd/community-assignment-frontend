@@ -13,12 +13,21 @@ import AccountBalanceIcon from 'material-ui-icons/AccountBalance'
 import BusinessCenterIcon from 'material-ui-icons/BusinessCenter'
 import ShuffleIcon from 'material-ui-icons/Shuffle'
 import FaceIcon from 'material-ui-icons/Face'
+import ShowAllIcon from 'material-ui-icons/FilterNone'
 import './styles/TagItem.css'
 
 class TagItem extends PureComponent {
+  static propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    todays_mentions: PropTypes.number.isRequired,
+    handleClick: PropTypes.func.isRequired,
+  }
 
   renderIcon = () => {
     const { name } = this.props
+    if (name === "All") return <ShowAllIcon />
     if (name === "Analysis") return <AssessmentIcon />
     if (name === "News") return <PublicIcon />
     if (name === "Technical") return <ImportantDevicesIcon />

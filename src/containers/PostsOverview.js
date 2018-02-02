@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import PostItem from '../components/PostItem'
 import TagItem from '../components/TagItem'
 import { fetchPosts } from '../actions/posts/fetch'
@@ -19,10 +19,10 @@ class PostsOverview extends PureComponent {
     postId: null
 
   }
-  // static propTypes = {
-  //   posts: PropTypes.arrayOf(postShape).isRequired,
-  //   tags: PropTypes.arrayOf(tagShape).isRequired
-  // }
+  static propTypes = {
+    posts: PropTypes.array.isRequired,
+    tags: PropTypes.array.isRequired
+  }
 
   selectTag(tagId) {
     if (tagId === this.state.selectedTagId) {
@@ -61,15 +61,29 @@ class PostsOverview extends PureComponent {
 
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
+    const today = new Date()
+
+    // const todays_posts = posts ? posts.filter(post =>
+    //   post.created_at.toDate().getDate() === today.getDate() &&
+    //   post.created_at.toDate().getMonth() === today.getMonth() &&
+    //   post.created_at.toDate().getYear() === today.getYear()
+    // ).length : null
+
     return (
       <div className="container">
         <div className="">
           <CreatePostForm />
         </div>
         <div className="tags-container">
+          <TagItem
+            id={null}
+            name={"All"}
+            todays_mentions={null}
+            description={"Show all posts"}
+            handleClick={this.handleClick} />
           {tags && tags.map(tag =>
             <TagItem
               key={uuid4()}
