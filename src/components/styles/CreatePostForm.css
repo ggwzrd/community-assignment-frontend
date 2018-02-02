@@ -1,5 +1,61 @@
-.img-link-fields {
+.card {
+  display: flex;
+  width: 100% !important;
+  border-bottom: 1px solid #E7E7E7;
+  margin-bottom: 10px;
+  border-radius: 3px !important;
+}
+
+.details {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
+  justify-content: center;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.cover {
+  min-width: 151px;
+  min-height: 151px;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#multiline-flex {
+  font-size: 0.9em;
+}
+
+.input-fields {
+  margin-bottom: 1rem;
+}
+
+#root > div > main > div > div.details > div {
+  padding: 0 !important;
+}
+
+#root > div > main > div > div.details > div.tags > div > div::before {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#root > div > main > div > div.details > div.CreatePostForm-container-104 > div > div::before {
+  height: 0;
+}
+
+#root > div > main > div > div.details > div.MuiCardContent-root-143.content > form > div.input-fields > div.MuiFormControl-root-109.MuiFormControl-marginNormal-110.MuiFormControl-fullWidth-112 {
+  margin-top: 0 !important;
+}
+
+#root > div > main > div > div.details > div.CreatePostForm-container-104 > div {
+  margin: 0 !important;
+}
+
+#root > div > main > div > div:nth-child(1) > div > div.details > div.MuiCardContent-root-143.content > form > div.input-fields > div.MuiFormControl-root-109.MuiFormControl-marginNormal-110.MuiFormControl-fullWidth-112 {
+  margin-top: 0 !important;
+}
+
+#root > div > main > div > div:nth-child(1) > div > div.details > div.MuiCardContent-root-143.content {
+  padding: 0 16px 16px 16px;
 }

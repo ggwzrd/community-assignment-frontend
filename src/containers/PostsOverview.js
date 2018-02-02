@@ -9,6 +9,8 @@ import './styles/PostsOverview.css'
 import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
 import PostPage from './PostPage'
+import CreatePostForm from '../components/forms/CreatePostForm'
+
 
 class PostsOverview extends PureComponent {
   state = {
@@ -39,15 +41,23 @@ class PostsOverview extends PureComponent {
     })
   }
 
+  handleTagChange = event => {
+    this.setState({ tag: event.target.value });
+  }
+
+
   render() {
     return (
       <div className="container">
+        <div className="">
+          <CreatePostForm />
+        </div>
         <div className="tags-container">
           {this.props.tags && this.props.tags.map(tag =>
             <TagItem
               key={uuid4()}
               name={tag.name}
-              today_mentions={tag.today_mentions}
+              todays_mentions={tag.todays_mentions}
               description={tag.description}
               />)}
         </div>
