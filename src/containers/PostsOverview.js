@@ -21,14 +21,14 @@ class PostsOverview extends PureComponent {
   // }
 
   selectTag(tagId) {
-    this.setState({ selectedTagId: tagId })
+    if (tagId === this.state.selectedTagId) {
+      this.setState({ selectedTagId: null })
+    } else {
+      this.setState({ selectedTagId: tagId })
+    }
   }
 
   handleClick = (id) => {
-    alert('You clicked the Chip.')
-    // event.preventDefault()
-    // console.log(event)
-    console.log(id)
     this.selectTag(id)
   }
 
@@ -70,11 +70,11 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-          {this.props.posts && (selectedTagId === null ? this.props.posts : this.props.posts.filter(post => {
+          {this.props.posts && (selectedTagId === null ? this.props.posts : this.props.posts.filter(post =>
             post.tags.some(tag => {
               return tag.id === selectedTagId
             })
-          }))
+          ))
           .map(post =>
             <PostItem
               id={post.id}
