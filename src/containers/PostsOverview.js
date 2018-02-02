@@ -40,8 +40,9 @@ class PostsOverview extends PureComponent {
   }
 
   render() {
-    const { tags, posts, selectedTagId, selectTag } = this.state
-
+    const { tags, posts, selectedTagId } = this.state
+    console.log(this.props)
+    console.log(this.state)
     return (
       <div className="container">
         <div className="">
@@ -59,11 +60,11 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-          {this.props.posts && this.props.posts.filter(post => {
-            return post.tags.some(tag => {
-              return tag.id === selectedTagId.id|
+          {this.props.posts && (selectedTagId === null ? this.props.posts : this.props.posts.filter(post => {
+            post.tags.some(tag => {
+              return tag.id === selectedTagId
             })
-          })
+          }))
           .map(post =>
             <PostItem
               id={post.id}
