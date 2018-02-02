@@ -34,21 +34,21 @@ class TagItem extends PureComponent {
     return (
         <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>
           <IconButton>
-            <Tooltip id="tooltip-top" title={description} placement="top-end">
-              <Chip
-                avatar={
-                  <Avatar>
-                    {this.renderIcon()}
-                  </Avatar>
-                }
-                label={name}
-                id={id}
-                onClick={
-                  () => handleClick(id)}
-                className="tag-info"
-              />
-            </Tooltip>
             <Badge className="badge" badgeContent={todays_mentions} color="primary" children="">
+              <Tooltip id="tooltip-top" title={description} placement="top-end">
+                <Chip
+                  avatar={
+                    <Avatar>
+                      {this.renderIcon()}
+                    </Avatar>
+                  }
+                  label={name}
+                  id={id}
+                  onClick={
+                    () => handleClick(id)}
+                  className="tag-info"
+                />
+              </Tooltip>
             </Badge>
           </IconButton>
       </div>
