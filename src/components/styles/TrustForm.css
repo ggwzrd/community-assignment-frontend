@@ -1,0 +1,21 @@
+.sources {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.source-buttons {
+  box-shadow: 2px 2px 2px 2px #000;
+  margin: 0.5rem;
+}
+
+/* .source-buttons {
+  width: 50px;
+  height: 50;
+  borderRadius: 10%;
+  overflow: hidden;
+  backgroundSize: 70% 70%;
+  backgroundRepeat: no-repeat;
+  backgroundPosition: center center;
+} */
