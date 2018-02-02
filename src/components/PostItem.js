@@ -1,17 +1,17 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import './styles/PostItem.css'
-import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
-import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-import SkipNextIcon from 'material-ui-icons/SkipNext';
+import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
+import Typography from 'material-ui/Typography'
+// import SkipPreviousIcon from 'material-ui-icons/SkipPrevious'
+// import PlayArrowIcon from 'material-ui-icons/PlayArrow'
+// import SkipNextIcon from 'material-ui-icons/SkipNext'
 import Avatar from 'material-ui/Avatar'
-import Badge from 'material-ui/Badge';
-import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
-import ReportIcon from 'material-ui-icons/Report';
-import Tooltip from 'material-ui/Tooltip';
+import Badge from 'material-ui/Badge'
+import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
+import ReportIcon from 'material-ui-icons/Report'
+import Tooltip from 'material-ui/Tooltip'
 
 
 
@@ -20,7 +20,7 @@ import './styles/PostItem.css'
 class PostItem extends PureComponent {
 
   render() {
-    const { id, summary, images, trusts, reports, createdAt, onClick } = this.props
+    const { summary, images, trusts, reports, createdAt, onClick } = this.props
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',

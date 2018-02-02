@@ -61,7 +61,6 @@ class PostsOverview extends PureComponent {
 
 
   render() {
-    console.log(this.state)
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
     return (
