@@ -50,7 +50,6 @@ class TagItem extends PureComponent {
                   </Avatar>
                 }
                 label={name}
-                onClick={this.handleClick.bind(this)}
                 className="tag-info"
               />
             </Tooltip>
