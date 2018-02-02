@@ -61,15 +61,16 @@ class PostsOverview extends PureComponent {
 
 
   render() {
-    const { selectedTagId } = this.state
     console.log(this.state)
+    const { selectedTagId } = this.state
+    const { posts, tags } = this.props
     return (
       <div className="container">
         <div className="">
           <CreatePostForm />
         </div>
         <div className="tags-container">
-          {this.props.tags && this.props.tags.map(tag =>
+          {tags && tags.map(tag =>
             <TagItem
               key={uuid4()}
               id={tag.id}
@@ -81,7 +82,7 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-          {this.props.posts && (selectedTagId === null ? this.props.posts : this.props.posts.filter(post =>
+          {posts && (selectedTagId === null ? posts : posts.filter(post =>
             post.tags.some(tag => {
               return tag.id === selectedTagId
             })
