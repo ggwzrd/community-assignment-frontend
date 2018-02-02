@@ -59,7 +59,7 @@ class PostsOverview extends PureComponent {
               key={uuid4()}
               content={post.content}
               summary={post.summary}
-              images={post.images.url}
+              images={post.images}
               trusts={post.trusts}
               reports={post.reports}
               createdAt={post.created_at}

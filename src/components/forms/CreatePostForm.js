@@ -11,7 +11,12 @@ import { MenuItem } from 'material-ui/Menu'
 import { FormControl } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 import Chip from 'material-ui/Chip'
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles'
+import Dropzone from 'react-dropzone'
+import request from 'superagent'
+
+const CLOUDINARY_UPLOAD_PRESET = 'hhstyojs'
+const CLOUDINARY_UPLOAD_URL = '	https://api.cloudinary.com/v1_1/dyyxiefx5/upload'
 
 const styles = theme => ({
   container: {
@@ -43,7 +48,7 @@ const MenuProps = {
 };
 
 const tags = [
-  'Analisys',
+  'Analysis',
   'News',
   'Technical',
   'Political',
@@ -60,8 +65,34 @@ export class CreatePostForm extends PureComponent {
   }
 
   state = {
-    tag: [],
-    images: "http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png"
+      uploadedFileCloudinaryUrl: '',
+      tag: []
+    }
+
+  onDrop(files) {
+    this.setState({
+      uploadedFile: files[0]
+    });
+
+    this.handleImageUpload(files[0]);
+  }
+
+  handleImageUpload(file) {
+    let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                        .field('file', file);
+
+    upload.end((err, response) => {
+      if (err) {
+        console.error(err);
+      }
+
+      if (response.body.secure_url !== '') {
+        this.setState({
+          uploadedFileCloudinaryUrl: response.body.secure_url
+        });
+      }
+    });
   }
 
   handleChange = name => event => {
@@ -77,10 +108,19 @@ export class CreatePostForm extends PureComponent {
   submitForm(event) {
     event.preventDefault()
 
-    const newPost = this.state
+    const newPost = {
+      content: this.state.content,
+      link: this.state.link,
+      tags: this.state.tag,
+      images: this.state.uploadedFileCloudinaryUrl
+    }
 
     this.props.createPost(newPost)
   }
+
+  // onDrop(files) {
+  //   this.props.uploadFiles()
+  // }
 
   // validateContent() {
   //   const { content } = this.state.content
@@ -100,14 +140,23 @@ export class CreatePostForm extends PureComponent {
   // }
 
   render() {
+    console.log(this.state.uploadedFile)
+    console.log(this.state.uploadedFileCloudinaryUrl)
     const { classes } = this.props;
 
     return (
       <Card className="card" raised="false" elevation="0">
-        <CardMedia
-          className="cover"
-          image='http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'
-          />
+        <Dropzone
+          multiple={false}
+          accept="image/*"
+          onDrop={this.onDrop.bind(this)}
+          style={{border: "none"}}>
+          <CardMedia
+            className="cover"
+            image={this.state.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
+            />
+        </Dropzone>
+
         <div className="details">
           <div className={classes.container}>
             <FormControl className={classes.formControl}>
