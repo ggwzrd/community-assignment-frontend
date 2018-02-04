@@ -37,7 +37,7 @@ class PostItem extends PureComponent {
         <div className="details">
           <CardHeader className="card-header"
             avatar={
-              <Badge className="badge" badgeContent={100} color="default">
+              <Badge className="badge" badgeContent={100} color="primary">
               <Avatar
                 alt="Remy Sharp"
                 src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
