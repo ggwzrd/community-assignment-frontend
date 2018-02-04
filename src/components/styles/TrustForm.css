@@ -5,16 +5,51 @@
   justify-content: center;
 }
 
+.form-title {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
 .source-buttons {
   margin: 0.3rem;
   width: 50px;
   height: 50px;
 }
 
-.source-buttons:hover {
-  width: 65px;
-  height: 65px;
-  box-shadow: 1px 1px 5px 0.5px #CECECE;
+.card-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  padding: 0 !important;
+  padding-bottom: 0 !important;
+  height: 0;
+  transition: .5s !important;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.cols-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cols-2 > div:first-child{
+  margin-right: 10px;
+}
+
+.card-form.open {
+  padding: 16px !important;
+  height: 275px;
+  max-height: none;
+  opacity: 1;
+  visibility: visible;
+  -webkit-box-shadow: inset 0px 0px 7px -1px rgba(0,0,0,0.5);
+  -moz-box-shadow: inset 0px 0px 7px -1px rgba(0,0,0,0.5);
+  box-shadow: inset 0px 0px 7px -1px rgba(0,0,0,0.5);
 }
 
 /* .source-buttons {
