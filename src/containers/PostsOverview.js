@@ -1,16 +1,21 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import React, { PureComponent } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import uuid4 from 'uuid4';
 // import PropTypes from 'prop-types'
-import PostItem from '../components/PostItem'
-import TagItem from '../components/TagItem'
+
+// components
+import PostItem from '../components/PostItem';
+import TagItem from '../components/TagItem';
+import PostPage from './PostPage';
+import CreatePostForm from '../components/forms/CreatePostForm';
+
+// actions
 import { fetchPosts } from '../actions/posts/fetch'
 import { fetchTags } from '../actions/tags/fetch'
-import './styles/PostsOverview.css'
-import Dialog from 'material-ui/Dialog'
-import uuid4 from 'uuid4'
-import PostPage from './PostPage'
-import CreatePostForm from '../components/forms/CreatePostForm'
 
+// styles
+import './styles/PostsOverview.css';
 
 class PostsOverview extends PureComponent {
   state = {
@@ -19,10 +24,6 @@ class PostsOverview extends PureComponent {
     postId: null
 
   }
-  // static propTypes = {
-  //   posts: PropTypes.array.isRequired,
-  //   tags: PropTypes.array.isRequired
-  // }
 
   selectTag(tagId) {
     if (tagId === this.state.selectedTagId) {
@@ -41,28 +42,20 @@ class PostsOverview extends PureComponent {
     this.props.fetchTags()
   }
 
-  handleDialogOpen = (postId) => (event) => {
-    this.setState({
-      open: true,
-      postId: postId
-    })
-  }
-
-  handleDialogClose = () => {
-    this.setState({
-      open: false,
-      postId: null
-    })
-  }
 
   handleTagChange = event => {
     this.setState({ tag: event.target.value });
   }
 
+  handlePostClick = postId => (event) => {
+    const { history, } = this.props;
+    history.push(`/posts/${postId}`);
+  }
+
 
   render() {
-    const { selectedTagId } = this.state
-    const { posts, tags } = this.props
+    const { selectedTagId, postId, } = this.state;
+    const { posts, tags } = this.props;
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
 
     return (
@@ -107,20 +100,13 @@ class PostsOverview extends PureComponent {
               trusts={post.trusts}
               reports={post.reports}
               createdAt={post.created_at}
-              onClick={this.handleDialogOpen(post.id)}
+              onClick={this.handlePostClick(post.id)}
               />)}
         </div>
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleDialogClose}
-          aria-labelledby="form-dialog-title"
-          style={{ overflowY: "scroll" }}
-        >
-
-        <PostPage postId={this.state.postId}/>
-
-        </Dialog>
+        <Switch>
+          <Route path="/posts/:postId" component={PostPage} />
+        </Switch>
       </div>
     )
   }
