@@ -14,10 +14,10 @@ export const selectComments = createSelector(
   [trustsSelector, reportsSelector,], (trusts, reports) => {
     return [].concat(trusts, reports).map((comment) => ({
       avatar: 'https://organicthemes.com/demo/profile/files/2012/12/profile_img.png',
-      commentedAt: comment.updated_at,
-      content: comment.reason || '',
+      commentedAt: comment.updated_at || comment.created_at,
+      content: comment.reason || comment.comment || '',
       source: comment.source || null,
       type: commentType(comment),
-    })).sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at))
+    })).sort((a, b) => new Date(b.commentedAt) - new Date(a.commentedAt))
   }
 );
