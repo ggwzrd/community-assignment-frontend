@@ -35,11 +35,8 @@
 }
 
 .formwrapper {
-  /* height: 300px; */
   background-color: #f5f8fa;
   border-bottom: 1px solid #e6ecf0;
-  border-top: 1px solid #e6ecf0;
-  /* padding: 20px 30px 0px 20px; */
   text-align: center;
 }
 .card-form {

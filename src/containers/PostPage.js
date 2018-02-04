@@ -34,6 +34,7 @@ const styles = {
   root: {
     overflow: 'scroll',
     maxHeight: '100vh',
+    alignItems: 'flex-start',
   },
   paper: {
     display: 'block',
@@ -73,7 +74,9 @@ class PostPage extends PureComponent {
   constructor(props, context) {
     super(props, context);
 
-    this.handlePostClose = this.handlePostClose.bind(this);
+    this.handlePostClose    = this.handlePostClose.bind(this);
+    this.handleReportSubmit = this.handleReportSubmit.bind(this);
+    this.handleTrustSubmit  = this.handleTrustSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -114,44 +117,39 @@ class PostPage extends PureComponent {
     this.setState({ reportFormIsOpen: !this.state.reportFormIsOpen })
   }
 
-  handleReportClick = () => {
-    const postId = this.props.selectedPost.id
-    const newReport = {
-      reason: this.state.reason,
-      link: this.state.link,
-      screenshot: this.state.screenshot,
-      user_id: this.state.user_id,
-      post_id: postId
-    }
+  handleReportSubmit = (newReport) => {
+    const { user_id, } = this.state;
+    const { reportPost, } = this.props;
+    const post_id = this.props.id
 
-    this.props.reportPost(newReport)
+    reportPost(Object.assign({}, newReport, { user_id, post_id, }));
+
     this.setReportState()
   }
 
-  handleTrustClick = () => {
-    const postId = this.props.selectedPost.id
-    const newTrust = {
-      source_id: "1",
-      link: this.state.link,
-      screenshot: this.state.screenshot,
-      user_id: this.state.user_id,
-      post_id: postId
-    }
+  handleTrustSubmit = (newTrust) => {
+    const { user_id, } = this.state;
+    const { id, trustPost, } = this.props;
+    const post_id = id;
 
-    this.props.trustPost(newTrust)
-    this.setTrustState()
-  }
+    trustPost(Object.assign({}, newTrust, { user_id, post_id, }));
 
-  handleChange = name => event => {
-   this.setState({
-     [name]: event.target.value
-   })
+    this.setTrustState();
   }
 
 
   render() {
-    const { classes, } = this.props;
-    const { content, trusts, reports, images, created_at, comments,  } = this.props;
+    const { reportFormIsOpen, trustFormIsOpen, } = this.state;
+    const {
+      classes,
+      content,
+      trusts,
+      reports,
+      images,
+      created_at,
+      comments,
+      sources,
+    } = this.props;
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
@@ -177,17 +175,16 @@ class PostPage extends PureComponent {
           <div className="expanded-details">
 
             <div className="formwrapper">
-              {this.state.reportFormIsOpen ? <ReportForm
-                                              handleChange={this.handleChange}
-                                              setReportState={this.setReportState}
-                                              handleReportClick={this.handleReportClick}/> : null}
+               <ReportForm
+                open={reportFormIsOpen}
+                handleClose={this.setReportState}
+                handleReportSubmit={this.handleReportSubmit}/>
 
-              {this.state.trustFormIsOpen ? <TrustForm
-                                              handleChange={this.handleChange}
-                                              setReportState={this.setTrustState}
-                                              handleReportClick={this.handleTrustClick}
-                                              sources={this.props.sources}
-                                              sourceIdState={this.state.source_id}/> : null}
+               <TrustForm
+                open={trustFormIsOpen}
+                handleClose={this.setTrustState}
+                handleTrustSubmit={this.handleTrustSubmit}
+                sources={sources}/>
             </div>
 
 
@@ -248,14 +245,17 @@ class PostPage extends PureComponent {
 }
 
 PostPage.defaultProps = {
-  content: 'lorem ipsum',
+  id: -1,
+  content: 'Ops, I think we missed it.',
   trusts: [],
   reports: [],
-  images: '',
+  images: 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
   created_at: new Date(),
+  updated_at: new Date(),
 }
 
 const mapStateToProps = state => ({
+  id: state.posts.selectedPost.id,
   content: state.posts.selectedPost.content,
   comments: selectComments(state),
   trusts: state.posts.selectedPost.trusts,
@@ -267,152 +267,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost })(withStyles(styles)(PostPage))
-
-
-
-
-// <div className="post-page">
-//   <Paper className="post-details" elevation={4}>
-//     <Typography type="headline" component="h3">
-//       Post# {id}
-//       {is_spam}
-//       Trust Count: {trusts && trusts.length}
-//       Report Count: {reports && reports.length}
-//     </Typography>
-//     <img src={images} alt="Something"/>
-//     <Typography component="p">
-//       {content}
-//       {link}
-//     </Typography>
-//
-//
-//     <Button
-//       raised
-//       onClick={this.handleClickOpen}
-//       color="secondary"
-//       className="report">Report</Button>
-//
-//
-//
-//
-//
-//
-//     <Dialog
-//       open={this.state.open}
-//       onClose={this.handleClose}
-//       aria-labelledby="form-dialog-title"
-//     >
-//     <DialogTitle id="form-dialog-title">Report Post</DialogTitle>
-//     <DialogContent>
-//       <DialogContentText>
-//         To report a post you need to fill in a reason.
-//       </DialogContentText>
-//       <TextField
-//         onChange={this.handleChange('reason')}
-//         autoFocus
-//         margin="dense"
-//         id="reason"
-//         label="Reason"
-//         type="email"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('link')}
-//         autoFocus
-//         margin="dense"
-//         id="link"
-//         label="Link"
-//         type="link"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('screenshot')}
-//         autoFocus
-//         margin="dense"
-//         id="screenshot"
-//         label="Screenshot"
-//         type="screenshot"
-//         fullWidth
-//       />
-//     </DialogContent>
-//     <DialogActions>
-//       <Button onClick={this.handleClose} color="primary">
-//         Cancel
-//       </Button>
-//       <Button onClick={this.handleReportClick} color="primary">
-//         Report
-//       </Button>
-//     </DialogActions>
-//   </Dialog>import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card';
-//
-//
-//   <Button
-//     raised
-//     onClick={this.handleClickOpen}
-//     color="primary"
-//     className="trust">Trust</Button>
-//
-//
-//
-//
-//
-//
-// <Dialog
-//     open={this.state.open}
-//     onClose={this.handleClose}
-//     aria-labelledby="form-dialog-title"
-//   >
-//     <DialogTitle id="form-dialog-title">Trust Post</DialogTitle>
-//     <DialogContent>
-//       <DialogContentText>
-//         To trust a post you need to fill in a source.
-//       </DialogContentText>
-//       <FormControl component="fieldset" required>
-//         <FormLabel component="legend">Source</FormLabel>
-//         <RadioGroup
-//           aria-label="source"
-//           name="source"
-//           value={this.state.source}
-//           onChange={this.handleChange}
-//         >
-//           <div className="radio-buttons">
-//             <FormControlLabel value="facebook" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="google" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="reddit" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="coinerd" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="twitter" disabled control={<Radio />} label={<img src='' alt='' />} />
-//           </div>
-//         </RadioGroup>
-//       </FormControl>
-//       <TextField
-//         onChange={this.handleChange('link')}
-//         autoFocus
-//         margin="dense"
-//         id="link"
-//         label="Link"
-//         type="link"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('screenshot')}
-//         autoFocus
-//         margin="dense"
-//         id="screenshot"
-//         label="Screenshot"
-//         type="screenshot"
-//         fullWidth
-//       />
-//     </DialogContent>
-//     <DialogActions>
-//       <Button onClick={this.handleClose} color="primary">
-//         Cancel
-//       </Button>
-//       <Button onClick={this.handleTrustClick} color="primary">
-//         Trust
-//       </Button>
-//     </DialogActions>
-//   </Dialog>
-//   </Paper>
-//
-//
-// </div>
