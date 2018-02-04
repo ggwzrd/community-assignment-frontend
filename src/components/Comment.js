@@ -57,7 +57,7 @@ const styles = theme => ({
     width: 38,
   },
   badge: {
-   margin: `0 ${theme.spacing.unit * 2}px`,
+   // margin: `0 ${theme.spacing.unit * 2}px`,
   },
 
   img: {
@@ -66,6 +66,25 @@ const styles = theme => ({
   },
 });
 
+const inlineStyles = {
+  avatarContainer: {
+    position: 'relative',
+    display: 'inline-block',
+    maxWidth: '80px',
+    paddingRight: '20px',
+  },
+
+  sourceAvatar: {
+    position: 'absolute',
+    top: '15px',
+    left: '40px',
+    width: '30px',
+    height: '30px',
+    padding: '5px',
+    transform: 'translateX(-50%)',
+  }
+
+}
 
 class Comment extends React.Component {
   render() {
@@ -77,12 +96,19 @@ class Comment extends React.Component {
       }}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
-            <Badge className={classes.badge} badgeContent={50} color="primary">
-              <Avatar src={avatar} />
-            </Badge>
-            {source ? <Tooltip title={source.name} placement="right">
-              <Avatar src={source.logo} style={{ padding: '5px', }} classes={{ img: classes.img, }}/>
-            </Tooltip> : null}
+            <div style={inlineStyles.avatarContainer}>
+              <Badge className={classes.badge} badgeContent={50} color="primary">
+                <Avatar src={avatar} />
+              </Badge>
+              {source ? <Tooltip title={source.name} placement="right">
+                <a href={source.domain} target="_blank">
+                  <Avatar
+                    src={source.logo}
+                    style={inlineStyles.sourceAvatar}
+                    classes={{ img: classes.img, }}/>
+                  </a>
+              </Tooltip> : null}
+            </div>
 
             <Paper className={type} classes={{
               rounded: classes.rounded,

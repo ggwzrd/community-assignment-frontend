@@ -194,7 +194,7 @@ class PostPage extends PureComponent {
 
             <CardHeader className="expanded-card-header"
               avatar={
-                <Badge className="expanded-badge" badgeContent={100} color="default">
+                <Badge className="expanded-badge" badgeContent={100} color="primary">
                 <Avatar
                   alt="Remy Sharp"
                   src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
