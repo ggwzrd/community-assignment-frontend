@@ -11,7 +11,6 @@ import uuid4 from 'uuid4'
 import PostPage from './PostPage'
 import CreatePostForm from '../components/forms/CreatePostForm'
 
-
 class PostsOverview extends PureComponent {
   state = {
     open: false,
@@ -110,8 +109,9 @@ class PostsOverview extends PureComponent {
               reports={post.reports}
               createdAt={post.created_at}
               trustiness={post.user.trustiness}
-              // picture={post.profile.picture}
-              // nickname={post.profile.nickname}
+              picture={ post.user.profile.picture}
+
+              nickname={post.user.profile.nickname}
               onClick={this.handleDialogOpen(post.id)}
               />)}
         </div>

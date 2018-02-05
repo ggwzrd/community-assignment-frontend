@@ -12,10 +12,18 @@ import Badge from 'material-ui/Badge'
 import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
 import ReportIcon from 'material-ui-icons/Report'
 import Tooltip from 'material-ui/Tooltip'
-
 import './styles/PostItem.css'
 
 class PostItem extends PureComponent {
+
+  renderPicture = () => {
+    const { picture } = this.props
+    if (picture === null) {
+      return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    } else {
+    return picture
+    }
+  }
 
   render() {
     const { summary, images, trusts, reports, createdAt, onClick, picture, nickname, trustiness } = this.props
@@ -37,10 +45,10 @@ class PostItem extends PureComponent {
           <CardHeader className="card-header"
             avatar={
               <Badge className="badge" badgeContent={trustiness} color="default">
-              <Avatar
-                alt="Remy Sharp"
-                src={picture}
-                />
+                <Avatar
+                  alt="Remy Sharp"
+                  src={this.renderPicture()}
+                  />
               </Badge>
 
             }
