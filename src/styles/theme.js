@@ -42,7 +42,10 @@ const theme = createMuiTheme({
        contentFrameDark: contentFrameDark,
        chipDark: chipDark,
        avatarDark: avatarDark
-     }
+     },
+     status: {
+   danger: 'orange',
+ },
    }
  })
 
