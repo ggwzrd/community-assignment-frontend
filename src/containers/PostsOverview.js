@@ -18,6 +18,7 @@ class PostsOverview extends PureComponent {
     postId: null
 
   }
+
   // static propTypes = {
   //   posts: PropTypes.array.isRequired,
   //   tags: PropTypes.array.isRequired
@@ -63,8 +64,6 @@ class PostsOverview extends PureComponent {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
-
-    console.log(this.props)
 
     return (
       <div className="container">
