@@ -65,6 +65,8 @@ class PostsOverview extends PureComponent {
     const { posts, tags } = this.props
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
 
+    console.log(this.props)
+
     return (
       <div className="container">
         <div className="">
@@ -107,6 +109,9 @@ class PostsOverview extends PureComponent {
               trusts={post.trusts}
               reports={post.reports}
               createdAt={post.created_at}
+              trustiness={post.user.trustiness}
+              // picture={post.profile.picture}
+              // nickname={post.profile.nickname}
               onClick={this.handleDialogOpen(post.id)}
               />)}
         </div>

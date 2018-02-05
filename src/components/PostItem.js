@@ -13,14 +13,13 @@ import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
 import ReportIcon from 'material-ui-icons/Report'
 import Tooltip from 'material-ui/Tooltip'
 
-
-
 import './styles/PostItem.css'
 
 class PostItem extends PureComponent {
 
   render() {
-    const { summary, images, trusts, reports, createdAt, onClick } = this.props
+    const { summary, images, trusts, reports, createdAt, onClick, picture, nickname, trustiness } = this.props
+    // console.log(this.props)
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',
@@ -37,10 +36,10 @@ class PostItem extends PureComponent {
         <div className="details">
           <CardHeader className="card-header"
             avatar={
-              <Badge className="badge" badgeContent={100} color="default">
+              <Badge className="badge" badgeContent={trustiness} color="default">
               <Avatar
                 alt="Remy Sharp"
-                src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
+                src={picture}
                 />
               </Badge>
 
@@ -65,7 +64,7 @@ class PostItem extends PureComponent {
               </IconButton>
             </Fragment>
             }
-            title="Name Lastname"
+            title={nickname}
             subheader={date}
           />
           <CardContent className="content">
