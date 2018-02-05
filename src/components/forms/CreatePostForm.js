@@ -14,35 +14,20 @@ import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
+import Icon from 'material-ui/Icon'
+import Send from 'material-ui-icons/Send'
+
 
 const CLOUDINARY_UPLOAD_PRESET = 'hhstyojs'
 const CLOUDINARY_UPLOAD_URL = '	https://api.cloudinary.com/v1_1/dyyxiefx5/upload'
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end'
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 60,
-    maxWidth: 300,
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    fontSize: 10,
-  }
-});
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      // width: 250,
     },
   },
 };
@@ -67,7 +52,7 @@ export class CreatePostForm extends PureComponent {
       content: '',
       link: '',
       uploadedFileCloudinaryUrl: '',
-      tags: []
+      tag: []
     }
 
   onDrop(files) {
@@ -103,17 +88,16 @@ export class CreatePostForm extends PureComponent {
   }
 
   handleTagChange = event => {
-    this.setState({ tags: event.target.value });
+    this.setState({ tag: event.target.value });
   }
 
   submitForm(event) {
-    console.log(this.state);
     event.preventDefault()
-    if (this.validateContent(event) && this.validateLink() && this.validateTags()) {
+    if (this.validateContent(event) && this.validateLink()) {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tags: this.state.tags || [],
+        tags: this.state.tag || [],
         images: this.state.uploadedFileCloudinaryUrl
       }
 
@@ -162,27 +146,7 @@ export class CreatePostForm extends PureComponent {
     return false
   }
 
-  validateTags() {
-    const tags = this.state.tags
-
-    if (tags.length >= 1) {
-      this.setState({
-        tagError: null
-      })
-
-      return true
-    }
-
-    this.setState({
-      tagError: 'Tag is required'
-    })
-
-    return false
-  }
-
   render() {
-    const { classes } = this.props
-    console.log(this.state);
 
     return (
       <Card className="card" elevation={0}>
@@ -192,65 +156,74 @@ export class CreatePostForm extends PureComponent {
           onDrop={this.onDrop.bind(this)}
           style={{border: "none"}}>
           <CardMedia
-            className="cover"
+            className="cover-upload"
             image={this.state.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
             />
         </Dropzone>
 
-        <div className="details">
-          <div className={classes.container}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="select-multiple-tags">Tags</InputLabel>
-              <Select
-                multiple
-                value={this.state.tags}
-                onChange={this.handleTagChange}
-                input={<Input id="select-multiple-tags" />}
-                renderValue={selected => (
-                  <div className={classes.chips}>
-                    {selected.map(value => <Chip key={value} label={value} className={classes.chip} style={{height: 20}}/>)}
-                  </div>
-                )}
-                MenuProps={MenuProps}>
-                {tags.map(tag => (
-                  <MenuItem
-                    key={tag}
-                    value={tag}>
-                    {tag}
-                  </MenuItem>
-                ))}
-              </Select>
-              <p className="error-text">{this.state.tagError}</p>
-            </FormControl>
-          </div>
-          <CardContent className="content">
+        <div>
+        <CardContent className="content">
+
             <form onSubmit={this.submitForm.bind(this)}>
-              <div className="input-fields">
+              <div className="post-form">
                 <TextField
-                   id="multiline-flex"
-                   label="Your post here"
-                   fullWidth={true}
-                   multiline
-                   rows="3"
-                   margin="normal"
-                   onChange={this.handleChange('content')}
+                  style={{marginBottom: 10}}
+                  id="multiline-flex"
+                  label="Your post here"
+                  fullWidth={true}
+                  multiline
+                  rowsMax="4"
+                  margin="none"
+                  onChange={this.handleChange('content')}
+                  helperText={this.state.contentError}
                 />
-                <p className="error-text">{this.state.contentError}</p>
+
+                <FormControl className="formControl">
+                  <InputLabel htmlFor="select-multiple-tags">Tags</InputLabel>
+                  <Select
+                    style={{marginBottom: 10}}
+                    margin="none"
+                    multiple
+                    value={this.state.tag}
+                    onChange={this.handleTagChange}
+                    input={<Input id="select-multiple-tags" />}
+                    renderValue={selected => (
+                      <div className="chips">
+                        {selected.map(value => <Chip
+                                                  key={value}
+                                                  label={value}
+                                                  className="chip"
+                                                  style={{height: 20}}
+                                                />)}
+                      </div>
+                    )}
+                    // MenuProps={MenuProps}
+                    >
+                    {tags.map(tag => (
+                      <MenuItem
+                        key={tag}
+                        value={tag}>
+                        {tag}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
                 <TextField
                    id="link"
                    label="Link"
                    margin="none"
-                   fullWidth={true}
+                   fullWidth={false}
+                   className="link-input"
                    onChange={this.handleChange('link')}
+                   helperText={this.state.linkError}
                 />
-                <p className="error-text">{this.state.linkError}</p>
-              </div>
-              <div className="submit-button">
                 <Button
-                  size="small"
-                  flat="true"
-                  color="secondary"
-                  onClick={this.submitForm.bind(this)}>Submit</Button>
+                  style={{height: 30, width: 30, marginTop: 'auto'}}
+                  color="default"
+                  onClick={this.submitForm.bind(this)} >
+                  <Send style={{ width: 20, height: 20}}/>
+                </Button>
               </div>
             </form>
           </CardContent>
@@ -260,5 +233,4 @@ export class CreatePostForm extends PureComponent {
   }
 }
 
-CreatePostForm = withStyles(styles, {name: 'CreatePostForm'})(CreatePostForm);
 export default connect(null, {createPost})(CreatePostForm)
