@@ -109,7 +109,6 @@ class PostsOverview extends PureComponent {
               createdAt={post.created_at}
               trustiness={post.user.trustiness}
               picture={ post.user.profile.picture}
-
               nickname={post.user.profile.nickname}
               onClick={this.handleDialogOpen(post.id)}
               />)}

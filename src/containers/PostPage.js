@@ -1,9 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
-// actions
-import { fetchOnePost, fetchSources } from '../actions/posts/fetch'
+import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
 
@@ -111,15 +109,14 @@ class PostPage extends PureComponent {
   }
 
   renderPicture = () => {
-    const picture = this.props.selectedPost ? this.props.selectedPost.user.profile.picture : null
 
-    if (picture === null) {
+    const { userProfilePic } = this.props
+    if (userProfilePic === null) {
       return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
     } else {
-    return picture
+    return userProfilePic
     }
   }
-
 
   render() {
     console.log(this.props.selectedPost);
@@ -163,13 +160,12 @@ class PostPage extends PureComponent {
 
           <CardHeader className="expanded-card-header"
             avatar={
-              <Badge className="expanded-badge" badgeContent={trustiness} color="default">
+              <Badge className="expanded-badge" badgeContent={this.props.userTrustiness} color="default">
               <Avatar
-                alt={nickname}
+                alt="Remy shape"
                 src={this.renderPicture()}
                 />
               </Badge>
-
             }
             action={
               <Fragment>
@@ -191,7 +187,8 @@ class PostPage extends PureComponent {
               </IconButton>
             </Fragment>
             }
-            title={nickname}
+
+            title={this.props.userProfileName}
             subheader={date}
           />
           <CardContent className="expanded-content">
@@ -209,10 +206,13 @@ class PostPage extends PureComponent {
 const mapStateToProps = state => ({
   selectedPost: state.posts.selectedPost,
   sources: state.sources,
-  loading: state.loading
+  loading: state.loading,
+  userTrustiness: state.posts.userTrustiness,
+  userProfilePic: state.posts.userProfilePic,
+  userProfileName: state.posts.userProfileName,
 })
 
-export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost })(PostPage)
+export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
 
 
 
