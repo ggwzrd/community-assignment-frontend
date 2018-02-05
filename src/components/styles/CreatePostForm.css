@@ -32,6 +32,11 @@
   margin-bottom: 1rem;
 }
 
+.error-text {
+  font-size: 11px;
+  color: red;
+}
+
 #root > div > main > div > div.details > div {
   padding: 0 !important;
 }
