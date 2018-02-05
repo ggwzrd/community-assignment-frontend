@@ -109,7 +109,6 @@ class PostPage extends PureComponent {
   }
 
   renderPicture = () => {
-
     const { userProfilePic } = this.props
     if (userProfilePic === null) {
       return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"

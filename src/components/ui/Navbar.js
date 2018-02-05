@@ -73,7 +73,6 @@ class Navbar extends React.Component {
     this.props.push('/')
   }
 
-
   submitForm(event) {
     event.preventDefault()
 
@@ -88,34 +87,23 @@ class Navbar extends React.Component {
   }
 
   render() {
-
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn } = this.props
-    // console.log(this.props.signedIn);
-    // console.log(this.props.currentUser);
+    console.log(this.props)
     return (
       <div className="navbar">
-        <AppBar position="static">
+        <AppBar position="static" style={{backgroundColor: "#3b7680", color:"#ffffff"}}>
           <Toolbar>
             <Typography type="title" color="inherit" className="navbar logo">
-              <IconButton onClick={this.goHome}><HomeIcon /></IconButton>
+              <IconButton onClick={this.goHome}><img className="home-logo" src="http://res.cloudinary.com/dyyxiefx5/image/upload/v1517396145/coinmunity-logos/logo.svg" alt="Coinmunity" /></IconButton>
               Coinmunity
             </Typography>
             {signedIn ?
                         <div className="user-menu">
-                          <Button fab mini
-                            color="primary"
-                            aria-label="add"
-                            className="button add"
-                            onClick={this.handleDialogOpen}
-                            >
-                            <AddIcon />
-                          </Button>
-
                           <Avatar
                             alt="Remy Sharp"
-                            src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
+                            src="https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
                             onMouseEnter={this.handleMenu}
                             />
 
