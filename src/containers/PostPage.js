@@ -110,14 +110,15 @@ class PostPage extends PureComponent {
    })
   }
 
-  // renderPicture = () => {
-  //   const { picture } = this.props.selectedPost.user.profile || null
-  //   if (picture === null) {
-  //     return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
-  //   } else {
-  //   return picture
-  //   }
-  // }
+  renderPicture = () => {
+    const picture = this.props.selectedPost ? this.props.selectedPost.user.profile.picture : null
+
+    if (picture === null) {
+      return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    } else {
+    return picture
+    }
+  }
 
 
   render() {
@@ -126,7 +127,7 @@ class PostPage extends PureComponent {
     if (!!this.props.selectedPost) {
       var { user, content, trusts, reports, images, created_at } = this.props.selectedPost
       var { trustiness, profile } = user
-      var { picture, nickname } = profile
+      var { nickname } = profile
     }
 
     console.log(user);
@@ -165,7 +166,7 @@ class PostPage extends PureComponent {
               <Badge className="expanded-badge" badgeContent={trustiness} color="default">
               <Avatar
                 alt={nickname}
-                src={picture}
+                src={this.renderPicture()}
                 />
               </Badge>
 
