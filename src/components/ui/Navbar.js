@@ -98,7 +98,7 @@ class Navbar extends React.Component {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn, user } = this.props
-    console.log(user)
+    // console.log(user)
     return (
       <div className="navbar">
         <AppBar position="static" style={{backgroundColor: "#3b7680", color:"#ffffff"}}>
@@ -160,11 +160,6 @@ class Navbar extends React.Component {
     )
   }
 }
-
-
-// const mapStateToProps = state => ({
-//   signedIn: !!state.currentUser
-// })
 
 const mapStateToProps = ({currentUser}) => ({
   signedIn: !!currentUser && !!currentUser.token,
