@@ -118,6 +118,8 @@ class PostPage extends PureComponent {
 
 
   render() {
+    console.log(this.state);
+
     if (!!this.props.selectedPost) {
       var { content, trusts, reports, images, created_at } = this.props.selectedPost
     }
