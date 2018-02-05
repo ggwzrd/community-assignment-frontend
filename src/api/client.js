@@ -1,6 +1,7 @@
 // src/api/client.js
 
 import request from 'superagent'
+import ActionCable from 'actioncable'
 
 export default class ApiClient {
   defaultOptions = {
@@ -15,6 +16,7 @@ export default class ApiClient {
     this.options = { ...this.defaultOptions, ...options }
   }
 
+
   // Authenticate and store the token
   //
   // Example:
@@ -23,6 +25,13 @@ export default class ApiClient {
   //    .catch(err => console.log(err))
   //
   // Returns: Promise
+
+  cableConnect() {
+    var cable = ActionCable.createConsumer('http://localhost:3030/cable')
+
+
+     return cable.subscriptions.create('PostsChannel')
+  }
   authenticate(user) {
     return this.post('/users/sign_in', user )
   }

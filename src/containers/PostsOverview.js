@@ -10,6 +10,9 @@ import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
 import PostPage from './PostPage'
 import CreatePostForm from '../components/forms/CreatePostForm'
+import API from '../api/client'
+
+const api = new API()
 
 class PostsOverview extends PureComponent {
   state = {
@@ -65,6 +68,9 @@ class PostsOverview extends PureComponent {
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
 
     console.log(this.props)
+
+    var sub = api.cableConnect()
+    console.log(sub);
 
     return (
       <div className="container">
