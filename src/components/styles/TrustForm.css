@@ -12,9 +12,7 @@
 }
 
 .source-buttons:hover {
-  width: 65px;
-  height: 65px;
-  box-shadow: 1px 1px 5px 0.5px #CECECE;
+  cursor: pointer;
 }
 
 /* .source-buttons {

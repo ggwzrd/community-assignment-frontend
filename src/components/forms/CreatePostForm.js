@@ -67,7 +67,7 @@ export class CreatePostForm extends PureComponent {
       content: '',
       link: '',
       uploadedFileCloudinaryUrl: '',
-      tag: []
+      tags: []
     }
 
   onDrop(files) {
@@ -103,16 +103,17 @@ export class CreatePostForm extends PureComponent {
   }
 
   handleTagChange = event => {
-    this.setState({ tag: event.target.value });
+    this.setState({ tags: event.target.value });
   }
 
   submitForm(event) {
+    console.log(this.state);
     event.preventDefault()
     if (this.validateContent(event) && this.validateLink()) {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tags: this.state.tag || [],
+        tags: this.state.tags || [],
         images: this.state.uploadedFileCloudinaryUrl
       }
 
@@ -162,7 +163,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <Card className="card" elevation={0}>
@@ -183,7 +184,7 @@ export class CreatePostForm extends PureComponent {
               <InputLabel htmlFor="select-multiple-tags">Tags</InputLabel>
               <Select
                 multiple
-                value={this.state.tag}
+                value={this.state.tags}
                 onChange={this.handleTagChange}
                 input={<Input id="select-multiple-tags" />}
                 renderValue={selected => (
