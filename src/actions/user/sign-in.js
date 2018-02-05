@@ -22,7 +22,6 @@ export default ( user ) => {
 
         api.storeToken(jwt)
 
-        // Redirect programatically to the Lobby
         return res.body
 
       })

@@ -26,7 +26,7 @@ class PostItem extends PureComponent {
   }
 
   render() {
-    const { summary, images, trusts, reports, createdAt, onClick, picture, nickname, trustiness } = this.props
+    const { summary, images, trusts, reports, createdAt, onClick, nickname, trustiness } = this.props
     // console.log(this.props)
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
