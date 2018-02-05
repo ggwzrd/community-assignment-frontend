@@ -7,7 +7,6 @@ import signIn from '../../actions/user/sign-in'
 import './Navbar.css'
 // import CreatePost from '../forms/createPost'
 import SignInForm from '../forms/SignInForm'
-
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
@@ -86,11 +85,20 @@ class Navbar extends React.Component {
     this.handleDialogClose()
   }
 
+  renderPicture = () => {
+    const { user } = this.props
+    if (user.picture === null) {
+      return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    } else {
+    return user.picture
+    }
+  }
+
   render() {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { signedIn } = this.props
-    console.log(this.props)
+    const { signedIn, user } = this.props
+    console.log(user)
     return (
       <div className="navbar">
         <AppBar position="static" style={{backgroundColor: "#3b7680", color:"#ffffff"}}>
@@ -103,7 +111,7 @@ class Navbar extends React.Component {
                         <div className="user-menu">
                           <Avatar
                             alt="Remy Sharp"
-                            src="https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+                            src={this.renderPicture()}
                             onMouseEnter={this.handleMenu}
                             />
 
@@ -127,7 +135,7 @@ class Navbar extends React.Component {
                         </div>
                         :
                           // <Button color="secondary" className="menuButton" onClick={this.signUp}>Sign up</Button>
-                          <Button color="secondary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
+                          <Button color="primary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
                         }
 
           </Toolbar>
@@ -159,7 +167,8 @@ class Navbar extends React.Component {
 // })
 
 const mapStateToProps = ({currentUser}) => ({
-  signedIn: !!currentUser && !!currentUser.token
+  signedIn: !!currentUser && !!currentUser.token,
+  user: currentUser
 })
 
 export default connect(mapStateToProps, { signIn, signOut, push })(Navbar)
