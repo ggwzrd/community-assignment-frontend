@@ -1,4 +1,3 @@
-// src/api/client.js
 
 import request from 'superagent'
 
