@@ -24,7 +24,41 @@
   display: flex;
   justify-content: flex-end;
 }
+/* 
+#multiline-flex {
+  font-size: 0.9em;
+}
 
+.input-fields {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.text-fields {
+  width: 70%;
+  margin-left: 2rem;
+}
+
+.error-text {
+  font-size: 11px;
+  color: red;
+}
+
+.progress-circle {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}
+
+#root > div > main > div > div:nth-child(1) > div > div > div.MuiCardContent-root-150.content {
+  padding: 0 0 1rem 0 !important;
+}
+
+#root > div > main > div > div.details > div {
+  padding: 0 !important;
+======= */
 
 .post-form {
   display: flex;
@@ -61,4 +95,8 @@
 
 .chip {
   margin: 4px;
+}
+
+#root > div > main > div > div:nth-child(1) > div > div > div.CreatePostForm-container-111 > div > div > div > div {
+  min-height: 1em;
 }
