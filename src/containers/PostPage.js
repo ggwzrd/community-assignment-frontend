@@ -186,10 +186,16 @@ class PostPage extends PureComponent {
   }
 
   renderComments = () => {
-    const { trusts, reports, comments } = this.props.selectedPost
+    console.log(this.props.selectedPost)
+    const { trusts, reports } = this.props.selectedPost
 
-    const allComments = [].concat(trusts, reports, comments)
-    console.log(allComments)
+    const allComments = [trusts, reports]
+    const mergedComments = [].concat.apply([], allComments)
+    const sortedComments = mergedComments.sort((a, b) => {
+      return a.created_at < b.created_at
+    })
+
+    return sortedComments.map(comment => <div>{comment.reason || comment.comment}</div>)
   }
 
   render() {
@@ -324,9 +330,7 @@ export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost
 //     <DialogContent>
 //       <DialogContentText>
 //         To report a post you need to fill in a reason.
-//       </DialogContentText>
-//       <TextField
-//         onChange={this.handleChange('reason')}
+              //         onChange={this.handleChange('reason')}
 //         autoFocus
 //         margin="dense"
 //         id="reason"
