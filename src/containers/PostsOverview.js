@@ -110,6 +110,7 @@ class PostsOverview extends PureComponent {
               trustiness={post.user.trustiness}
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
+              comments={post.comments}
               onClick={this.handleDialogOpen(post.id)}
               />)}
         </div>
