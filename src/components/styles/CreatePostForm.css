@@ -6,6 +6,11 @@
   border-radius: 3px !important;
 }
 
+.MuiInput-inputSingleline-128 {
+  min-height: 28px;
+  height: auto !important;
+}
+
 .MuiInput-inputSingleline-140 {
   min-height: 28px;
   height: auto !important;
@@ -36,7 +41,7 @@
 }
 
 .link {
-  width: 70%;
+  flex-grow: 1;
 }
 
 .link-input {
@@ -76,8 +81,4 @@
 
 .chip {
   margin: 4px;
-}
-
-#root > div > main > div > div:nth-child(1) > div > div > div.CreatePostForm-container-111 > div > div > div > div {
-  min-height: 1em;
 }
