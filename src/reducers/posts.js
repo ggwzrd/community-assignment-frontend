@@ -41,7 +41,7 @@ export default (state = INITIAL_STATE, { type, payload } = {}) => {
     // because it was continuosly trowing error messages about attributes that were
     // not defined.
     case FETCHED_USER_POSTS :
-      return { ...payload }
+      return Object.assign({}, state, { userPosts: payload, });
 
     case CREATED_POST :
       return Object.assign({}, state, { allPosts: [payload].concat(state.allPosts) })

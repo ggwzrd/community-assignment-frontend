@@ -50,22 +50,22 @@ class PostItem extends PureComponent {
             }
             action={
               <Fragment>
-              <IconButton>
-                <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+                <IconButton>
                   <Badge className="badge trust" badgeContent={trusts && trusts.length} color="default">
                     <VerifiedUserIcon fontSize="true"/>
                   </Badge>
+                </IconButton>
               </Tooltip>
 
-              </IconButton>
-              <IconButton>
-                <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+                <IconButton>
                   <Badge className="badge report" badgeContent={reports && reports.length} color="default">
                     <ReportIcon fontSize="true" className="badgeIcon"/>
                   </Badge>
+                </IconButton>
               </Tooltip>
 
-              </IconButton>
             </Fragment>
             }
             title={nickname}

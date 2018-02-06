@@ -185,6 +185,7 @@ class PostPage extends PureComponent {
     return false
   }
 
+
   renderComments = () => {
     // const { trusts, reports, comments } = this.props.selectedPost
     //
