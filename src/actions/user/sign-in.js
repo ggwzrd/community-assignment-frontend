@@ -21,7 +21,9 @@ export default ( user ) => {
         const jwt = res.body.token
 
         api.storeToken(jwt)
-
+        // var sub = api.cableConnect()
+        // api.subscribePosts()
+        // api.broadCast()
         // Redirect programatically to the Lobby
         return res.body
 

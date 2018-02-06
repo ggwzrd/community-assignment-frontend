@@ -14,6 +14,11 @@ export default class ApiClient {
       : (host || 'http://localhost:3030')
 
     this.options = { ...this.defaultOptions, ...options }
+
+    const token = this.getToken()
+    this.cable = ActionCable.createConsumer(`http://localhost:3030/cable?token=${token}`)
+    this.subscription = false
+    // this.subscribePosts()
   }
 
 
@@ -26,12 +31,39 @@ export default class ApiClient {
   //
   // Returns: Promise
 
-  cableConnect() {
-    var cable = ActionCable.createConsumer('http://localhost:3030/cable')
+  subscribePosts = ( ) => {
+    this.subscription = this.cable.subscriptions.create({channel:"PostsChannel"},
+      {
+        connected: this.connected,
+        received: this.received
+      }
 
-
-     return cable.subscriptions.create('PostsChannel')
+    )
   }
+
+  connected = () => {
+    console.log("eomone connected");
+  }
+  received = (data) => {
+    const dat = JSON.stringify(data)
+    console.log(`Received Data: ${dat}`);
+
+  };
+
+  broadCast = () => {
+    // console.log(this.subscription);
+    this.subscription.send({ sent_by: "Paul", body: "This is a cool chat app." })
+    // ActionCable.server.broadCast( "PostsChannel", { sent_by: 'Paul', body: 'This is a cool chat app.' } )
+  }
+  //
+  // cableConnect = (callback) => {
+  //   const token = this.getToken()
+  //   var cable = ActionCable.createConsumer(`http://localhost:3030/cable?token=${token}`)
+  //   // console.log(cable);
+  //   this.subscription = cable.subscriptions.create({channel: 'PostsChannel'}, {received: callback})
+  //   }
+
+
   authenticate(user) {
     return this.post('/users/sign_in', user )
   }

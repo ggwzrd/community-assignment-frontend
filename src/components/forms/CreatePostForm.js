@@ -107,7 +107,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   submitForm(event) {
-    console.log(this.state);
+    // console.log(this.state);
     event.preventDefault()
     if (this.validateContent(event) && this.validateLink() && this.validateTags()) {
       const newPost = {
@@ -182,7 +182,7 @@ export class CreatePostForm extends PureComponent {
 
   render() {
     const { classes } = this.props
-    console.log(this.state);
+    // console.log(this.state);
 
     return (
       <Card className="card" elevation={0}>

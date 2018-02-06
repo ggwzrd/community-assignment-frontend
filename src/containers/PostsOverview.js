@@ -67,10 +67,12 @@ class PostsOverview extends PureComponent {
     const { posts, tags } = this.props
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
 
-    console.log(this.props)
+    // console.log(this.props)
 
-    var sub = api.cableConnect()
-    console.log(sub);
+    // var sub = api.cableConnect()
+
+
+    // console.log(sub);
 
     return (
       <div className="container">
@@ -132,6 +134,8 @@ class PostsOverview extends PureComponent {
         <PostPage postId={this.state.postId}/>
 
         </Dialog>
+        <button onClick={api.subscribePosts}>sub</button>
+        <button onClick={api.broadCast}>go</button>
       </div>
     )
   }
