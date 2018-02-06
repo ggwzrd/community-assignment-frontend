@@ -12,7 +12,7 @@ export default (state = [], { type, payload } = {}) => {
       return { ...state, selectedPost: payload, userTrustiness: payload.user.trustiness, userProfilePic: payload.user.profile.picture, userProfileName: payload.user.profile.nickname }
 
     case FETCHED_USER_POSTS :
-      return { ...payload }
+      return Object.assign({}, state, { userPosts: payload, });
 
     case CREATED_POST :
       return { ...state, allPosts: [payload].concat(state.allPosts) }

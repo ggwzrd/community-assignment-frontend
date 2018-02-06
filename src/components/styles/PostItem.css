@@ -43,11 +43,11 @@
   transition: all ease-in 0.2s;
 }
 .badge.trust:hover {
-  color: green;
+  color: #2BC273;
 }
 
 .badge.report:hover {
-  color: red;
+  color: #EF4136;
 }
 
 .card-header {

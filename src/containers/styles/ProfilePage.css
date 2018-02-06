@@ -1,0 +1,65 @@
+.profile-avatar {
+  width: 120px !important;
+  height: 120px !important;
+
+}
+
+.profile-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.profile-details {
+  margin-left: 20px;
+  align-self: center;
+}
+
+.nickname {
+  align-self: center;
+}
+
+.trustiness-profile {
+  /* align-self: flex-start; */
+  position: relative;
+  bottom: -6px;
+  margin-left: 15px;
+  height: 24px !important;
+}
+
+.trustiness-icon{
+  color: #2BC273 !important;
+}
+
+.report-icon{
+  color: #EF4136 !important;
+  transform: scale(1.15, 1.15);
+}
+
+.silenced-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.wrapper {
+  display: flex;
+  margin-top: 5px;
+}
+
+.fullname {
+  margin-right: 10px !important;
+}
+
+.profile-edit {
+  margin: 5px 5px 0 0;
+  transition: all ease-in 0.3s
+}
+
+
+.profile-content {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px;
+  justify-content: center;
+
+}
