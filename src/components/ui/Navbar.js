@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { fetchUser } from '../../actions/user/fetch'
 import signOut from '../../actions/user/sign-out'
-import signIn from '../../actions/user/sign-in'
-import signUp from '../../actions/user/sign-up'
 import SignUpForm from '../forms/SignUpForm'
 import SignInForm from '../forms/SignInForm'
 //material-ui & styling
@@ -22,12 +20,6 @@ class Navbar extends React.Component {
   state = {
     anchorEl: null,
     open: false,
-    first_name: "",
-    last_name: "",
-    nickname: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
     signUpFormIsOpen: false,
     signInFormIsOpen: false,
   }
@@ -87,145 +79,6 @@ class Navbar extends React.Component {
     this.setState({ anchorEl: null })
   }
 
-//sign-in
-  updateEmail(event) {
-    this.setState({
-      email: event.target.value
-    })
- }
-
-  updatePassword(event) {
-    this.setState({
-      password: event.target.value
-    })
-  }
-
-  submitSignInForm(event) {
-    event.preventDefault()
-    const user = {
-      user: { email: this.state.email,
-              password: this.state.password
-            }
-    }
-    this.props.signIn( user )
-
-    this.handleDialogClose()
-  }
-
-//sign-up
-  validateAll() {
-    return this.validateNickname() &&
-      this.validateEmail() &&
-      this.validatePassword() &&
-      this.validatePasswordConfirmation()
-  }
-
-  submitSignUpForm(event) {
-    event.preventDefault()
-    if (this.validateAll()) {
-      const user = {
-      user: { first_name: this.state.first_name,
-              last_name: this.state.last_name,
-              nickname: this.state.nickname,
-              email: this.state.email,
-              password: this.state.password
-            }
-      }
-      this.props.signUp(user)
-    }
-    this.handleDialogClose()
-  }
-
-  setFirstName(event) {
-    this.setState({
-      first_name: event.target.value
-    })
-  }
-
-  setLastName(event) {
-    this.setState({
-      last_name: event.target.value
-    })
-  }
-
-  validateNickname() {
-    const { nickname } = this.state.nickname
-
-    if (nickname.length > 1) {
-      this.setState({
-        nicknameError: null,
-      })
-      return true
-    }
-
-    this.setState({
-      nicknameError: 'Please provide your nickname'
-    })
-    return false
-  }
-
-  validateEmail() {
-    const { email } = this.state.email
-
-    if (email.match(/^[a-z0-9._-]+@[a-z0-9._-]+.[a-z0-9._-]+$/)) {
-      this.setState({
-        emailError: null
-      })
-      return true
-    }
-
-    if (email === '') {
-      this.setState({
-        emailError: 'Please provide your email address'
-      })
-      return false
-    }
-
-    this.setState({
-      emailError: 'Please provide a valid email address'
-    })
-    return false
-  }
-
-  validatePassword() {
-    const { password } = this.state.password
-
-    if (password.length < 6) {
-      this.setState({
-        passwordError: 'Password is too short'
-      })
-      return false
-    }
-
-    if (password.match(/[a-zA-Z]+/) && password.match(/[0-9]+/)) {
-      this.setState({
-        passwordError: null
-      })
-      return this.validatePasswordConfirmation()
-    }
-
-    this.setState({
-      passwordError: 'Password should contain both letters and numbers'
-    })
-    return false
-  }
-
-  validatePasswordConfirmation() {
-    const { password, passwordConfirmation } = this.state.passwordConfirmation
-
-    if (password === passwordConfirmation) {
-      this.setState({
-        passwordConfirmationError: null
-      })
-      return true
-    }
-
-    this.setState({
-      passwordConfirmationError: 'Passwords do not match'
-    })
-    return false
-  }
-
   render() {
     const { anchorEl } = this.state
     console.log(this.state)
@@ -276,20 +129,13 @@ class Navbar extends React.Component {
 
         <div className="formwrapper">
           <div>
-              <Dialog
-                open={this.state.signUpFormIsOpen}
-                onClose={this.handleDialogClose}
-                aria-labelledby="signUp-form-dialog">
+          <Dialog
+            open={this.state.signUpFormIsOpen}
+            onClose={this.handleDialogClose}
+            aria-labelledby="signUp-form-dialog">
               <SignUpForm
-                handleDialogClose={this.handleDialogClose}
-                submitSignUpForm={this.submitSignUpForm.bind(this)}
-                setFirstName={this.setFirstName.bind(this)}
-                setLastName={this.setLastName.bind(this)}
-                validateNickname={this.validateNickname.bind(this)}
-                validateEmail={this.validateEmail.bind(this)}
-                validatePassword={this.validatePassword.bind(this)}
-                validatePasswordConfirmation={this.validatePasswordConfirmation.bind(this)}/>
-              </Dialog>
+                handleDialogClose={this.handleDialogClose.bind(this)}/>
+          </Dialog>
           </div>
 
           <div>
@@ -298,10 +144,7 @@ class Navbar extends React.Component {
                 onClose={this.handleDialogClose}
                 aria-labelledby="signIn-form-dialog">
               <SignInForm
-                handleDialogClose={this.handleDialogClose}
-                submitSignInForm={this.submitSignInForm.bind(this)}
-                updatePassword={this.updatePassword.bind(this)}
-                updateEmail={this.updateEmail.bind(this)} />
+                handleDialogClose={this.handleDialogClose.bind(this)} />
               </Dialog>
           </div>
         </div>
@@ -316,4 +159,4 @@ const mapStateToProps = ({currentUser}) => ({
   user: currentUser
 })
 
-export default connect(mapStateToProps, { signUp, signIn, signOut, push, fetchUser })(Navbar)
+export default connect(mapStateToProps, { signOut, push, fetchUser })(Navbar)

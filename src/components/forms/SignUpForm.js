@@ -1,4 +1,6 @@
 import React, { PureComponent, Fragment } from "react"
+import { connect } from 'react-redux'
+import signUp from '../../actions/user/sign-up'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import {
@@ -9,6 +11,128 @@ import {
 } from 'material-ui/Dialog'
 
 class SignUpForm extends PureComponent {
+  state = {
+    first_name: "",
+    last_name: "",
+    nickname: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  }
+
+  validateAll() {
+    return this.validateNickname() &&
+      this.validateEmail() &&
+      this.validatePassword() &&
+      this.validatePasswordConfirmation()
+  }
+
+  submitSignUpForm(event) {
+    event.preventDefault()
+    if (this.validateAll()) {
+      const user = {
+      user: { first_name: this.state.first_name,
+              last_name: this.state.last_name,
+              nickname: this.state.nickname,
+              email: this.state.email,
+              password: this.state.password
+            }
+      }
+      this.props.signUp(user)
+    }
+    this.props.handleDialogClose()
+  }
+
+  setFirstName(event) {
+    this.setState({
+      first_name: event.target.value
+    })
+  }
+
+  setLastName(event) {
+    this.setState({
+      last_name: event.target.value
+    })
+  }
+
+  validateNickname() {
+    const { nickname } = this.state
+
+    if (nickname.length > 1) {
+      this.setState({
+        nicknameError: null,
+      })
+      return true
+    }
+
+    this.setState({
+      nicknameError: 'Please provide your nickname'
+    })
+    return false
+  }
+
+  validateEmail() {
+    const { email } = this.state
+
+    if (email.match(/^[a-z0-9._-]+@[a-z0-9._-]+.[a-z0-9._-]+$/)) {
+      this.setState({
+        emailError: null
+      })
+      return true
+    }
+
+    if (email === '') {
+      this.setState({
+        emailError: 'Please provide your email address'
+      })
+      return false
+    }
+
+    this.setState({
+      emailError: 'Please provide a valid email address'
+    })
+    return false
+  }
+
+  validatePassword() {
+    const { password } = this.state
+
+    if (password.length < 6) {
+      this.setState({
+        passwordError: 'Password is too short'
+      })
+      return false
+    }
+
+    if (password.match(/[a-zA-Z]+/) && password.match(/[0-9]+/)) {
+      this.setState({
+        passwordError: null
+      })
+      return this.validatePasswordConfirmation()
+    }
+
+    this.setState({
+      passwordError: 'Password should contain both letters and numbers'
+    })
+    return false
+  }
+
+  validatePasswordConfirmation() {
+    const { password, passwordConfirmation } = this.state
+
+    if (password === passwordConfirmation) {
+      this.setState({
+        passwordConfirmationError: null
+      })
+      return true
+    }
+
+    this.setState({
+      passwordConfirmationError: 'Passwords do not match'
+    })
+    return false
+  }
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -31,7 +155,9 @@ class SignUpForm extends PureComponent {
 }
 
   render() {
-  const { validateNickname, validateEmail, validatePassword, validatePasswordConfirmation, setFirstName, setLastName, handleDialogClose, submitSignUpForm, nicknameError, emailError, passwordError, passwordConfirmationError} = this.props
+  const { nicknameError, emailError, passwordError, passwordConfirmationError} = this.state
+
+  const { handleDialogClose } = this.props
 
   return (
     <Fragment>
@@ -47,7 +173,7 @@ class SignUpForm extends PureComponent {
           id="firstName"
           label="Your first Name"
           type="text"
-          onChange={setFirstName} />
+          onChange={this.setFirstName.bind(this)} />
         <TextField
           autoFocus
           fullWidth
@@ -55,7 +181,7 @@ class SignUpForm extends PureComponent {
           id="lastName"
           label="Your last Name"
           type="lastName"
-          onChange={setLastName} />
+          onChange={this.setLastName.bind(this)} />
         <TextField
           autoFocus
           fullWidth
@@ -63,7 +189,7 @@ class SignUpForm extends PureComponent {
           id="nickname"
           label={nicknameError || "Your nickname"}
           type="nickname"
-          onChange={this.handleChange('nickname')}
+          onChange={this.handleChange('nickname').bind(this)}
           error={!!nicknameError} />
         <TextField
           autoFocus
@@ -98,7 +224,7 @@ class SignUpForm extends PureComponent {
         <Button onClick={handleDialogClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={submitSignUpForm} color="primary">
+        <Button onClick={this.submitSignUpForm.bind(this)} color="primary">
           Sign up
         </Button>
       </DialogActions>
@@ -108,4 +234,4 @@ class SignUpForm extends PureComponent {
  }
 }
 
-export default SignUpForm
+export default connect(null, {signUp})(SignUpForm)
