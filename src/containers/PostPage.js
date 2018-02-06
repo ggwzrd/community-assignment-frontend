@@ -5,19 +5,21 @@ import PropTypes from 'prop-types'
 import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
+import { createComment } from '../actions/posts/comment'
 
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
 // material-ui
-import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
+import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
+import Typography from 'material-ui/Typography'
 import Avatar from 'material-ui/Avatar'
-import Badge from 'material-ui/Badge';
-import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
-import ReportIcon from 'material-ui-icons/Report';
-import Tooltip from 'material-ui/Tooltip';
+import Badge from 'material-ui/Badge'
+import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
+import ReportIcon from 'material-ui-icons/Report'
+import Tooltip from 'material-ui/Tooltip'
+import Input from 'material-ui/Input'
 // import Dialog, {
 //   DialogActions,
 //   DialogContent,
@@ -146,6 +148,7 @@ class PostPage extends PureComponent {
    this.setState({
      [name]: event.target.value
    })
+   console.log(this.state)
   }
 
   getSource = event => {
@@ -181,16 +184,69 @@ class PostPage extends PureComponent {
     return false
   }
 
-  renderComments = () => {
-    const { trusts, reports } = this.props.selectedPost
+  submitComment = () => {
+    const postId = this.props.selectedPost.id
+    const newComment = {
+      post_id: postId,
+      text: this.state.comment
+    }
 
-    const allComments = [trusts, reports]
+    this.props.createComment(newComment)
+  }
+
+  renderComments = () => {
+    const { trusts, reports, comments } = this.props.selectedPost
+    const allComments = [trusts, reports, comments]
     const mergedComments = [].concat.apply([], allComments)
+
     const sortedComments = mergedComments.sort((a, b) => {
       return a.created_at < b.created_at
     })
 
-    return sortedComments.map(comment => <div key={comment.id}>{comment.reason || comment.comment}</div>)
+    if (trusts && reports && comments) {
+      return sortedComments.map(comment => this.renderComment(comment))
+    }
+  }
+
+  renderComment(comment) {
+    const placeholder = "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    const user = comment.user
+
+    if (comment.text) {
+      return <div className="comment">
+              <Badge className="badge" badgeContent={user.trustiness} color="default">
+                <Avatar
+                  alt={user.profile.nickname}
+                  src={user.profile.picture || placeholder }
+                />
+              </Badge>
+              <p className="comment-text"><b>{user.profile.nickname} says: </b>{comment.text}</p>
+            </div>
+    }
+
+    if (comment.comment) {
+      return <div className="trust">
+              <Badge className="badge" badgeContent={user.trustiness} color="default">
+                <Avatar
+                  alt={user.profile.nickname}
+                  src={user.profile.picture || placeholder }
+                />
+              </Badge>
+              <p className="comment-text"><b>{user.profile.nickname} <span className="bold-green">trusts</span> this post: </b><i>{comment.comment}</i></p>
+            </div>
+    }
+    
+    if (comment.reason) {
+      return <div className="report">
+              <Badge className="badge" badgeContent={user.trustiness} color="default">
+                <Avatar
+                  alt={user.profile.nickname}
+                  src={user.profile.picture || placeholder }
+                />
+              </Badge>
+              <p className="comment-text"><b>{user.profile.nickname} <span className="bold-red">reported</span> this post: </b><i>{comment.reason}</i></p>
+            </div>
+    }
   }
 
   render() {
@@ -270,6 +326,14 @@ class PostPage extends PureComponent {
           <CardContent className="expanded-content">
             <Typography type="body1" >{content}</Typography>
           </CardContent>
+          <Input
+            placeholder="Placeholder"
+            inputProps={{
+              'aria-label': 'Description',
+            }}
+            onChange={this.handleChange('comment')}
+          />
+        <button onClick={this.submitComment} color="primary">comment</button>
           <div className="comments">
             {this.renderComments()}
           </div>
@@ -289,4 +353,4 @@ const mapStateToProps = state => ({
   trustScreenshot: state.posts.trustScreenshot
 })
 
-export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
+export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts, createComment })(PostPage)

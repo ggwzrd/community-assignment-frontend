@@ -53,12 +53,17 @@
   margin: 0 10px;
   transition: all ease-in 0.2s;
 }
+
 .badge.trust:hover {
   color: #2BC273;
 }
 
 .badge.report:hover {
   color: #EF4136;
+}
+
+.badge.comment:hover {
+  color: #20A4F3;
 }
 
 .card-header {

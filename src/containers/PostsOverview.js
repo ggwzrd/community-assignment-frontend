@@ -114,6 +114,7 @@ class PostsOverview extends PureComponent {
               trustiness={post.user.trustiness}
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
+              comments={post.comments}
               trustiness={post.user.trustiness}
               onClick={this.handleDialogOpen(post.id)}
               onProfileClick={this.goToUser(post.user_id)}

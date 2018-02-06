@@ -47,5 +47,28 @@
 
 }
 
-.card-form.show {
+.comments {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+}
+
+.comments .comment, .comments .trust, .comments .report {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 0.5px solid #cccccc;
+  background-color: #F6F7F8;
+}
+
+.comment-text {
+  margin-left: 0.7rem;
+}
+
+.bold-green {
+  color: green;
+}
+
+.bold-red {
+  color: red;
 }

@@ -2,6 +2,7 @@ import { FETCHED_POSTS, FETCHED_USER_POSTS, FETCHED_ONE_POST } from '../actions/
 import { CREATED_POST } from '../actions/posts/create'
 import { CREATED_REPORT } from '../actions/posts/report'
 import { CREATED_TRUST } from '../actions/posts/trust'
+import { CREATED_COMMENT } from '../actions/posts/comment'
 import { UPLOADED_IMAGE } from '../actions/upload'
 
 const INITIAL_STATE = {
@@ -25,6 +26,10 @@ const concatPostTrust = (post, trust) => {
 
 const concatPostReport = (post, report) => {
   return Object.assign({}, post, { reports: [].concat(post.reports, [report])})
+}
+
+const concatPostComment = (post, comment) => {
+  return Object.assign({}, post, { comments: [].concat(post.comments, [comment])})
 }
 
 export default (state = INITIAL_STATE, { type, payload } = {}) => {
@@ -53,6 +58,9 @@ export default (state = INITIAL_STATE, { type, payload } = {}) => {
 
     case CREATED_TRUST :
       return Object.assign({}, state, { selectedPost: concatPostTrust(state.selectedPost, payload), })
+
+    case CREATED_COMMENT :
+      return Object.assign({}, state, { selectedPost: concatPostComment(state.selectedPost, payload), })
 
     case UPLOADED_IMAGE :
       return Object.assign({}, state, { [payload.name]: payload.image })
