@@ -59,7 +59,6 @@ class PostsOverview extends PureComponent {
     this.setState({ tag: event.target.value });
   }
 
-
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
@@ -89,8 +88,6 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-
-
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
             post.tags && post.tags.some(tag => {
 
