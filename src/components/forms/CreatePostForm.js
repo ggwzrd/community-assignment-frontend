@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Button from 'material-ui/Button'
+import PropTypes from 'prop-types'
+
 import { createPost } from '../../actions/posts/create'
-import '../styles/CreatePostForm.css'
+import { uploadImage } from '../../actions/upload'
+import Dropzone from 'react-dropzone'
+
+import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import Card, { CardContent, CardMedia } from 'material-ui/Card'
 import Input, { InputLabel } from 'material-ui/Input'
@@ -12,11 +15,9 @@ import { FormControl } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
-import Dropzone from 'react-dropzone'
-import request from 'superagent'
+import { CircularProgress } from 'material-ui/Progress'
 
-const CLOUDINARY_UPLOAD_PRESET = 'hhstyojs'
-const CLOUDINARY_UPLOAD_URL = '	https://api.cloudinary.com/v1_1/dyyxiefx5/upload'
+import '../styles/CreatePostForm.css'
 
 const styles = theme => ({
   container: {
@@ -33,6 +34,9 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     fontSize: 10,
+  },
+  progress: {
+    margin: `0 ${theme.spacing.unit * 2}px`,
   }
 });
 
@@ -58,6 +62,7 @@ const tags = [
 ]
 
 export class CreatePostForm extends PureComponent {
+
   static propTypes = {
     createPost: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
@@ -66,7 +71,6 @@ export class CreatePostForm extends PureComponent {
   state = {
       content: '',
       link: '',
-      uploadedFileCloudinaryUrl: '',
       tags: []
     }
 
@@ -75,25 +79,7 @@ export class CreatePostForm extends PureComponent {
       uploadedFile: files[0]
     })
 
-    this.handleImageUpload(files[0])
-  }
-
-  handleImageUpload(file) {
-    let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                        .field('file', file)
-
-    upload.end((err, response) => {
-      if (err) {
-        console.error(err)
-      }
-
-      if (response.body.secure_url !== '') {
-        this.setState({
-          uploadedFileCloudinaryUrl: response.body.secure_url
-        })
-      }
-    })
+    this.props.uploadImage('uploadedFileCloudinaryUrl', files[0])
   }
 
   handleChange = name => event => {
@@ -103,18 +89,20 @@ export class CreatePostForm extends PureComponent {
   }
 
   handleTagChange = event => {
-    this.setState({ tags: event.target.value });
+    this.setState({
+      tags: event.target.value
+    })
   }
 
   submitForm(event) {
-    console.log(this.state);
     event.preventDefault()
-    if (this.validateContent(event) && this.validateLink() && this.validateTags()) {
+
+    if (this.validateContent() && this.validateLink() && this.validateTags()) {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
         tags: this.state.tags || [],
-        images: this.state.uploadedFileCloudinaryUrl
+        images: this.props.uploadedFileCloudinaryUrl
       }
 
       this.props.createPost(newPost)
@@ -123,23 +111,26 @@ export class CreatePostForm extends PureComponent {
     return false
   }
 
-  validateContent(event) {
+  validateContent() {
     const content = this.state.content
 
     if (content.length > 1 && content.length <= 5000) {
       this.setState({
         contentError: null
       })
+
       return true
-    } else if (content.length <= 0){
+    } else if (content.length <= 0) {
       this.setState({
         contentError: 'Content is required'
       })
+
       return false
     } else if (content.length < 5000 ) {
       this.setState({
         contentError: 'Max 5000 characteres'
       })
+
       return false
     }
   }
@@ -181,23 +172,12 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-    const { classes } = this.props
-    console.log(this.state);
+    const { classes, loading } = this.props
 
     return (
       <Card className="card" elevation={0}>
-        <Dropzone
-          multiple={false}
-          accept="image/*"
-          onDrop={this.onDrop.bind(this)}
-          style={{border: "none"}}>
-          <CardMedia
-            className="cover"
-            image={this.state.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
-            />
-        </Dropzone>
-
         <div className="details">
+
           <div className={classes.container}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="select-multiple-tags">Tags</InputLabel>
@@ -208,7 +188,11 @@ export class CreatePostForm extends PureComponent {
                 input={<Input id="select-multiple-tags" />}
                 renderValue={selected => (
                   <div className={classes.chips}>
-                    {selected.map(value => <Chip key={value} label={value} className={classes.chip} style={{height: 20}}/>)}
+                    {selected.map(value => <Chip key={value}
+                                                 label={value}
+                                                 className={classes.chip}
+                                                 style={{height: 20}}/>
+                     )}
                   </div>
                 )}
                 MenuProps={MenuProps}>
@@ -223,28 +207,47 @@ export class CreatePostForm extends PureComponent {
               <p className="error-text">{this.state.tagError}</p>
             </FormControl>
           </div>
+
           <CardContent className="content">
             <form onSubmit={this.submitForm.bind(this)}>
               <div className="input-fields">
+                <Dropzone
+                  multiple={false}
+                  accept="image/*"
+                  onDrop={this.onDrop.bind(this)}
+                  style={{border: "none"}}>
+                  <div style={{ position: 'relative' }}>
+                    <CardMedia
+                      className="cover"
+                      image={this.props.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
+                      />
+                    <div className="progress-circle">{loading ? <CircularProgress /> : null }</div>
+                  </div>
+                </Dropzone>
+
+                <div className="text-fields">
+                  <TextField
+                     id="multiline-flex"
+                     label="Your post here"
+                     fullWidth={true}
+                     multiline
+                     rows="3"
+                     margin="normal"
+                     onChange={this.handleChange('content')}
+                  />
+                  <p className="error-text">{this.state.contentError}</p>
+
                 <TextField
-                   id="multiline-flex"
-                   label="Your post here"
-                   fullWidth={true}
-                   multiline
-                   rows="3"
-                   margin="normal"
-                   onChange={this.handleChange('content')}
-                />
-                <p className="error-text">{this.state.contentError}</p>
-                <TextField
-                   id="link"
-                   label="Link"
-                   margin="none"
-                   fullWidth={true}
-                   onChange={this.handleChange('link')}
-                />
-                <p className="error-text">{this.state.linkError}</p>
+                     id="link"
+                     label="Link"
+                     margin="none"
+                     fullWidth={true}
+                     onChange={this.handleChange('link')}
+                  />
+                  <p className="error-text">{this.state.linkError}</p>
+                </div>
               </div>
+
               <div className="submit-button">
                 <Button
                   size="small"
@@ -260,5 +263,11 @@ export class CreatePostForm extends PureComponent {
   }
 }
 
-CreatePostForm = withStyles(styles, {name: 'CreatePostForm'})(CreatePostForm);
-export default connect(null, {createPost})(CreatePostForm)
+CreatePostForm = withStyles(styles, { name: 'CreatePostForm' })(CreatePostForm)
+
+const mapStateToProps = state => ({
+  uploadedFileCloudinaryUrl: state.posts.uploadedFileCloudinaryUrl,
+  loading: state.loading
+})
+
+export default connect(mapStateToProps, { createPost, uploadImage })(CreatePostForm)
