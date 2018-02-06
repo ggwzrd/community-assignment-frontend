@@ -57,13 +57,15 @@ export default class cableClient {
   unsubscribePosts = () => {
     if (this.postsChannel) {
       // console.log(this.postsChannel);
-      this.cable.subscriptions.remove(this.postsChannel)
+      // this.cable.subscriptions.unsubscribe(this.postsChannel)
+      this.postsChannel.unsubscribe()
       this.postsChannel = false
     }
   }
   unsubscribeAppearance = () => {
     if (this.appearanceChannel) {
-      this.cable.subscriptions.remove(this.appearanceChannel)
+      this.appearanceChannel.unsubscribe()
+      // this.cable.subscriptions.remove(this.appearanceChannel)
       this.appearanceChannel = false
     }
   }
