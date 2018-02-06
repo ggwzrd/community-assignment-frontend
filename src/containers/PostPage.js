@@ -200,7 +200,11 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { user, content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { content, trusts, reports, images, created_at } = this.props.selectedPost
+    }
+
+    if (!!this.props.userTrustiness) {
+      var { userTrustiness } = this.props
     }
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
@@ -241,9 +245,9 @@ class PostPage extends PureComponent {
             title={this.props.userProfileName}
             subheader={date}
             avatar={
-              <Badge className="expanded-badge" badgeContent={this.props.userTrustiness} color="default">
+              <Badge className="expanded-badge" badgeContent={userTrustiness} color="default">
               <Avatar
-                alt="Remy shape"
+                alt={this.props.userProfileName}
                 src={this.renderPicture()}
                 />
               </Badge>
@@ -291,7 +295,6 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
-
 
 
 
