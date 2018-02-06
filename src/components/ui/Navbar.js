@@ -52,24 +52,26 @@ class Navbar extends React.Component {
 
 //handle dialogs
   handleDialogOpen = () => {
-    this.setState({ open: true })
+    !this.state.signUpFormIsOpen ? this.setState({ signUpFormIsOpen: true }) : null
+    !this.state.signInFormIsOpen ? this.setState({ signInFormIsOpen: true }) : null
   }
 
   handleDialogClose = () => {
-    this.setState({ open: false })
+    this.state.signUpFormIsOpen ? this.setState({ signUpFormIsOpen: false }) : null
+    this.state.signInFormIsOpen ? this.setState({ signInFormIsOpen: false }) : null
   }
 
   setSignInState = () => {
+    this.state.signInFormIsOpen && this.setState({ signInFormIsOpen: false})
     this.setState({
       signInFormIsOpen: !this.state.signInFormIsOpen,
-      open: !this.state.open
     })
   }
 
   setSignUpState = () => {
+    this.state.signOutFormIsOpen && this.setState({ signOutFormIsOpen: false})
     this.setState({
       signUpFormIsOpen: !this.state.signUpFormIsOpen,
-      open: !this.state.open
     })
   }
 
@@ -269,35 +271,31 @@ class Navbar extends React.Component {
 
         <div className="formwrapper">
           <div>
-            {this.state.signUpFormIsOpen ?
               <Dialog
-                open={this.state.open}
+                open={this.state.signUpFormIsOpen}
                 onClose={this.handleDialogClose}
                 aria-labelledby="signUp-form-dialog">
               <SignUpForm
                 handleDialogClose={this.handleDialogClose}
-                submitForm={this.submitSignUpForm.bind(this)}
+                submitSignUpForm={this.submitSignUpForm.bind(this)}
                 validateNickname={this.validateNickname.bind(this)}
                 validateEmail={this.validateEmail.bind(this)}
                 validatePassword={this.validatePassword.bind(this)}
                 validatePasswordConfirmation={this.validatePasswordConfirmation.bind(this)}/>
               </Dialog>
-            : null}
           </div>
 
           <div>
-            {this.state.signInFormIsOpen ?
               <Dialog
-                open={this.state.open}
+                open={this.state.signInFormIsOpen}
                 onClose={this.handleDialogClose}
                 aria-labelledby="signIn-form-dialog">
               <SignInForm
                 handleDialogClose={this.handleDialogClose}
-                submitForm={this.submitSignInForm.bind(this)}
+                submitSignInForm={this.submitSignInForm.bind(this)}
                 updatePassword={this.updatePassword.bind(this)}
                 updateEmail={this.updateEmail.bind(this)} />
               </Dialog>
-            : null}
           </div>
         </div>
 
@@ -312,17 +310,3 @@ const mapStateToProps = ({currentUser}) => ({
 })
 
 export default connect(mapStateToProps, { signUp, signIn, signOut, push })(Navbar)
-
-//
-// <Dialog
-//   open={this.state.open}
-//   onClose={this.handleDialogClose}
-//   aria-labelledby="signIn-form-dialog">
-//
-//   <SignInForm
-//     handleDialogClose={this.handleDialogClose}
-//     submitForm={this.submitSignInForm.bind(this)}
-//     updatePassword={this.updatePassword.bind(this)}
-//     updateEmail={this.updateEmail.bind(this)} />
-//
-// </Dialog>
