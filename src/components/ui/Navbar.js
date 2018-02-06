@@ -1,11 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+
 import signOut from '../../actions/user/sign-out'
 import signIn from '../../actions/user/sign-in'
-// import PropTypes from 'prop-types'
-import './Navbar.css'
-// import CreatePost from '../forms/createPost'
 import SignInForm from '../forms/SignInForm'
 
 import Button from 'material-ui/Button'
@@ -14,10 +12,10 @@ import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Avatar from 'material-ui/Avatar'
-import AddIcon from 'material-ui-icons/Add'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
-import HomeIcon from 'material-ui-icons/Home'
+
+import './Navbar.css'
 
 class Navbar extends React.Component {
   state = {
@@ -73,7 +71,6 @@ class Navbar extends React.Component {
     this.props.push('/')
   }
 
-
   submitForm(event) {
     event.preventDefault()
 
@@ -87,35 +84,33 @@ class Navbar extends React.Component {
     this.handleDialogClose()
   }
 
-  render() {
+  renderPicture = () => {
+    const { user } = this.props
+    if (user.picture === null) {
+      return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    } else {
+    return user.picture
+    }
+  }
 
+  render() {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn } = this.props
-    // console.log(this.props.signedIn);
-    // console.log(this.props.currentUser);
+
     return (
       <div className="navbar">
-        <AppBar position="static">
+        <AppBar position="static" style={{backgroundColor: "#3b7680", color:"#ffffff"}}>
           <Toolbar>
             <Typography type="title" color="inherit" className="navbar logo">
-              <IconButton onClick={this.goHome}><HomeIcon /></IconButton>
+              <IconButton onClick={this.goHome}><img className="home-logo" src="http://res.cloudinary.com/dyyxiefx5/image/upload/v1517396145/coinmunity-logos/logo.svg" alt="Coinmunity" /></IconButton>
               Coinmunity
             </Typography>
             {signedIn ?
                         <div className="user-menu">
-                          <Button fab mini
-                            color="primary"
-                            aria-label="add"
-                            className="button add"
-                            onClick={this.handleDialogOpen}
-                            >
-                            <AddIcon />
-                          </Button>
-
                           <Avatar
                             alt="Remy Sharp"
-                            src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
+                            src={this.renderPicture()}
                             onMouseEnter={this.handleMenu}
                             />
 
@@ -139,7 +134,7 @@ class Navbar extends React.Component {
                         </div>
                         :
                           // <Button color="secondary" className="menuButton" onClick={this.signUp}>Sign up</Button>
-                          <Button color="secondary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
+                          <Button color="primary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
                         }
 
           </Toolbar>
@@ -165,13 +160,9 @@ class Navbar extends React.Component {
   }
 }
 
-
-// const mapStateToProps = state => ({
-//   signedIn: !!state.currentUser
-// })
-
 const mapStateToProps = ({currentUser}) => ({
-  signedIn: !!currentUser && !!currentUser.token
+  signedIn: !!currentUser && !!currentUser.token,
+  user: currentUser
 })
 
 export default connect(mapStateToProps, { signIn, signOut, push })(Navbar)

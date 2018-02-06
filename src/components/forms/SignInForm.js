@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from "react"
+
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 
@@ -10,7 +11,8 @@ import {
 } from 'material-ui/Dialog'
 
 const SignInForm = props => {
-  const { updateEmail, updatePassword, handleDialogClose, submitForm } = props;
+  const { updateEmail, updatePassword, handleDialogClose, submitForm } = props
+
   return (
     <Fragment>
       <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
@@ -48,7 +50,7 @@ const SignInForm = props => {
         </Button>
       </DialogActions>
     </Fragment>
-  );
-};
+  )
+}
 
-export default SignInForm;
+export default SignInForm

@@ -6,7 +6,6 @@
   border-radius: 3px !important;
 }
 
-
 .MuiInput-inputSingleline-140 {
   min-height: 28px;
   height: auto !important;
@@ -25,10 +24,19 @@
   justify-content: flex-end;
 }
 
+.progress-circle {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}
 
 .post-form {
   display: flex;
   flex-wrap: wrap;
+}
+
+.link {
+  width: 70%;
 }
 
 .link-input {
@@ -48,6 +56,13 @@
   max-width: 300px; */
 }
 
+.bottom-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -61,4 +76,8 @@
 
 .chip {
   margin: 4px;
+}
+
+#root > div > main > div > div:nth-child(1) > div > div > div.CreatePostForm-container-111 > div > div > div > div {
+  min-height: 1em;
 }

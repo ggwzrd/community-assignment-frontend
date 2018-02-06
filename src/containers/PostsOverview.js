@@ -1,15 +1,18 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
+import uuid4 from 'uuid4'
+
 import PostItem from '../components/PostItem'
 import TagItem from '../components/TagItem'
-import { fetchPosts } from '../actions/posts/fetch'
-import { fetchTags } from '../actions/tags/fetch'
-import './styles/PostsOverview.css'
-import Dialog from 'material-ui/Dialog'
-import uuid4 from 'uuid4'
 import PostPage from './PostPage'
 import CreatePostForm from '../components/forms/CreatePostForm'
+import { fetchPosts } from '../actions/posts/fetch'
+import { fetchTags } from '../actions/tags/fetch'
+
+import Dialog from 'material-ui/Dialog'
+
+import './styles/PostsOverview.css'
 
 class PostsOverview extends PureComponent {
   state = {
@@ -59,7 +62,6 @@ class PostsOverview extends PureComponent {
     this.setState({ tag: event.target.value });
   }
 
-
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
@@ -89,8 +91,6 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-
-
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
             post.tags && post.tags.some(tag => {
 

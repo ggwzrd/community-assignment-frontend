@@ -1,4 +1,3 @@
-// src/actions/loading.js
 export const LOAD_ERROR = 'LOAD_ERROR'
 export const LOAD_SUCCESS = 'LOAD_SUCCESS'
 export const APP_LOADING = 'APP_LOADING'
