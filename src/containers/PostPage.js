@@ -156,7 +156,7 @@ class PostPage extends PureComponent {
       source_id: sourceId
     })
   }
-  
+
   renderPicture = () => {
     const { userProfilePic } = this.props
     if (userProfilePic === null) {
@@ -165,9 +165,6 @@ class PostPage extends PureComponent {
     return userProfilePic
     }
   }
-
-  render() {
-    console.log(this.props.selectedPost);
 
   handleTrustClick = () => {
     if (this.validateTrust()) {

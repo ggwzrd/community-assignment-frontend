@@ -16,8 +16,6 @@ import Select from 'material-ui/Select'
 import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
-import Dropzone from 'react-dropzone'
-import request from 'superagent'
 import Icon from 'material-ui/Icon'
 import Send from 'material-ui-icons/Send'
 
@@ -200,7 +198,7 @@ export class CreatePostForm extends PureComponent {
                     margin="none"
                     multiple
                     value={this.state.tags}
-                    onChange={this.handleTagChange
+                    onChange={this.handleTagChange}
                     input={<Input id="select-multiple-tags" />}
                     renderValue={selected => (
                       <div className="chips">
