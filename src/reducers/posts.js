@@ -30,7 +30,7 @@ export default (state = INTIAL_STATE, { type, payload } = {}) => {
       return Object.assign({}, state, { allPosts: payload});
 
     case FETCHED_ONE_POST :
-      return Object.assign({}, state, { selectedPost: payload });
+      return { ...state, selectedPost: payload, userTrustiness: payload.user.trustiness, userProfilePic: payload.user.profile.picture, userProfileName: payload.user.profile.nickname }
 
     // @NB ALWAYS use Object.assign in the reducer, otherwise you are going
     // to overwrite the full post state!
