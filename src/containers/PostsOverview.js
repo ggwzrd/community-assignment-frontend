@@ -11,7 +11,6 @@ import uuid4 from 'uuid4'
 import PostPage from './PostPage'
 import CreatePostForm from '../components/forms/CreatePostForm'
 
-
 class PostsOverview extends PureComponent {
   state = {
     open: false,
@@ -19,6 +18,7 @@ class PostsOverview extends PureComponent {
     postId: null
 
   }
+
   // static propTypes = {
   //   posts: PropTypes.array.isRequired,
   //   tags: PropTypes.array.isRequired
@@ -107,6 +107,9 @@ class PostsOverview extends PureComponent {
               trusts={post.trusts}
               reports={post.reports}
               createdAt={post.created_at}
+              trustiness={post.user.trustiness}
+              picture={ post.user.profile.picture}
+              nickname={post.user.profile.nickname}
               onClick={this.handleDialogOpen(post.id)}
               />)}
         </div>

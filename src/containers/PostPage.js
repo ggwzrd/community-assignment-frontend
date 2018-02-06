@@ -1,17 +1,14 @@
 import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchOnePost, fetchSources } from '../actions/posts/fetch'
+import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
-// import Paper from 'material-ui/Paper'
-// import Button from 'material-ui/Button'
+
+// material-ui
 import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-// import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
-// import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-// import SkipNextIcon from 'material-ui-icons/SkipNext';
 import Avatar from 'material-ui/Avatar'
 import Badge from 'material-ui/Badge';
 import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
@@ -23,17 +20,12 @@ import Tooltip from 'material-ui/Tooltip';
 //   DialogContentText,
 //   DialogTitle,
 // } from 'material-ui/Dialog'
-// import TextField from 'material-ui/TextField'
-// import Radio, { RadioGroup } from 'material-ui/Radio'
-// import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
+
+// components
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
-// import facebook from './images/sources/facebook.svg'
-// import google from './images/sources/google.jpg'
-// import coinerd from './images/sources/logo.svg'
-// import reddit from './images/sources/reddit.svg'
-// import twitter from './images/sources/twitter.svg'
+// styles
 import './styles/PostPage.css'
 
 export const postShape = PropTypes.shape({
@@ -116,13 +108,25 @@ class PostPage extends PureComponent {
    })
   }
 
+  renderPicture = () => {
+    const { userProfilePic } = this.props
+    if (userProfilePic === null) {
+      return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    } else {
+    return userProfilePic
+    }
+  }
 
   render() {
-    console.log(this.state);
+    console.log(this.props.selectedPost);
 
     if (!!this.props.selectedPost) {
-      var { content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { user, content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { trustiness, profile } = user
+      var { nickname } = profile
     }
+
+    console.log(user);
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
@@ -153,17 +157,14 @@ class PostPage extends PureComponent {
                                             sourceIdState={this.state.source_id}/> : null}
           </div>
 
-
-
           <CardHeader className="expanded-card-header"
             avatar={
-              <Badge className="expanded-badge" badgeContent={100} color="default">
+              <Badge className="expanded-badge" badgeContent={this.props.userTrustiness} color="default">
               <Avatar
-                alt="Remy Sharp"
-                src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
+                alt="Remy shape"
+                src={this.renderPicture()}
                 />
               </Badge>
-
             }
             action={
               <Fragment>
@@ -185,7 +186,8 @@ class PostPage extends PureComponent {
               </IconButton>
             </Fragment>
             }
-            title="Name Lastname"
+
+            title={this.props.userProfileName}
             subheader={date}
           />
           <CardContent className="expanded-content">
@@ -196,9 +198,6 @@ class PostPage extends PureComponent {
           </CardContent>
         </div>
       </Card>
-
-
-
     )
   }
 }
@@ -206,10 +205,13 @@ class PostPage extends PureComponent {
 const mapStateToProps = state => ({
   selectedPost: state.posts.selectedPost,
   sources: state.sources,
-  loading: state.loading
+  loading: state.loading,
+  userTrustiness: state.posts.userTrustiness,
+  userProfilePic: state.posts.userProfilePic,
+  userProfileName: state.posts.userProfileName,
 })
 
-export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost })(PostPage)
+export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
 
 
 

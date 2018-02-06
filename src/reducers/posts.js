@@ -9,7 +9,7 @@ export default (state = [], { type, payload } = {}) => {
       return { allPosts: payload}
 
     case FETCHED_ONE_POST :
-      return { ...state, selectedPost: payload }
+      return { ...state, selectedPost: payload, userTrustiness: payload.user.trustiness, userProfilePic: payload.user.profile.picture, userProfileName: payload.user.profile.nickname }
 
     case FETCHED_USER_POSTS :
       return { ...payload }
