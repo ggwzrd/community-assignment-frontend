@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-
 import signOut from '../../actions/user/sign-out'
 import signIn from '../../actions/user/sign-in'
 import signUp from '../../actions/user/sign-up'
@@ -33,6 +32,11 @@ class Navbar extends React.Component {
 
   goHome = () => {
     this.props.push('/')
+  }
+
+  goToUser = userId => event => {
+    this.handleClose()
+    this.props.push(`/users/${userId}`)
   }
 
   renderPicture = () => {
@@ -224,40 +228,47 @@ class Navbar extends React.Component {
     return false
   }
 
+  renderFullname = () => {
+    return this.props.user === undefined
+      ? null
+      : <span className="username">Hi, {this.props.user.nickname}</span>
+  }
+
+
   render() {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { signedIn } = this.props
+    const { signedIn, user } = this.props
     return (
       <div className="navbar">
-        <AppBar position="static" style={{backgroundColor: "#3b7680", color:"#ffffff"}}>
+        <AppBar position="static" style={{backgroundColor: "#3b7680"}}>
           <Toolbar>
-            <Typography type="title" color="inherit" className="navbar logo">
-              <IconButton onClick={this.goHome}><img className="home-logo" src="http://res.cloudinary.com/dyyxiefx5/image/upload/v1517396145/coinmunity-logos/logo.svg" alt="Coinmunity" /></IconButton>
+            <Typography onClick={this.goHome} type="title" color="inherit" className="title">
+              <img onClick={this.goHome} className="home-logo" src="http://res.cloudinary.com/dyyxiefx5/image/upload/v1517396145/coinmunity-logos/logo.svg" alt="Coinmunity" />
               Coinmunity
             </Typography>
             {signedIn ?
                         <div className="user-menu">
+                             {this.renderFullname()}
                           <Avatar
                             alt="Remy Sharp"
                             src={this.renderPicture()}
-                            onMouseEnter={this.handleMenu}
+                            onClick={this.handleMenu}
                           />
-
                           <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}
                             anchorOrigin={{
-                              vertical: 'top',
+                              vertical: 'bottom',
                               horizontal: 'right',
                             }}
                             transformOrigin={{
-                              vertical: 'top',
+                              vertical: -74,
                               horizontal: 'right',
                             }}
                             open={open}
                             onClose={this.handleClose}>
-                            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={this.goToUser(user.id)}>Profile</MenuItem>
                             <MenuItem onClick={this.signOut.bind(this)}>Sign out</MenuItem>
                           </Menu>
                         </div>
@@ -270,12 +281,10 @@ class Navbar extends React.Component {
           </Toolbar>
         </AppBar>
 
-        <div className="formwrapper">
-          <div>
-              <Dialog
-                open={this.state.signUpFormIsOpen}
-                onClose={this.handleDialogClose}
-                aria-labelledby="signUp-form-dialog">
+          <Dialog
+            open={this.state.signUpFormIsOpen}
+            onClose={this.handleDialogClose}
+            aria-labelledby="signUp-form-dialog">
               <SignUpForm
                 handleDialogClose={this.handleDialogClose}
                 submitSignUpForm={this.submitSignUpForm.bind(this)}
@@ -283,22 +292,18 @@ class Navbar extends React.Component {
                 validateEmail={this.validateEmail.bind(this)}
                 validatePassword={this.validatePassword.bind(this)}
                 validatePasswordConfirmation={this.validatePasswordConfirmation.bind(this)}/>
-              </Dialog>
-          </div>
+          </Dialog>
 
-          <div>
-              <Dialog
-                open={this.state.signInFormIsOpen}
-                onClose={this.handleDialogClose}
-                aria-labelledby="signIn-form-dialog">
+          <Dialog
+            open={this.state.signInFormIsOpen}
+            onClose={this.handleDialogClose}
+            aria-labelledby="signIn-form-dialog">
               <SignInForm
                 handleDialogClose={this.handleDialogClose}
                 submitSignInForm={this.submitSignInForm.bind(this)}
                 updatePassword={this.updatePassword.bind(this)}
                 updateEmail={this.updateEmail.bind(this)} />
-              </Dialog>
-          </div>
-        </div>
+          </Dialog>
 
       </div>
     )

@@ -23,7 +23,16 @@ class PostItem extends PureComponent {
   }
 
   render() {
-    const { summary, images, trusts, reports, createdAt, onClick, nickname, trustiness, comments } = this.props
+    const { summary,
+            images,
+            trusts,
+            reports,
+            createdAt,
+            onClick,
+            nickname,
+            trustiness,
+            comments,
+            onProfileClick } = this.props
 
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
@@ -33,13 +42,14 @@ class PostItem extends PureComponent {
                                                              minute: 'numeric' })
 
     return (
-      <Card className="post-item"  elevation={0} onClick={onClick}>
+      <Card className="post-item"  elevation={0}>
         <CardMedia
+          onClick={onClick}
           className="cover"
           image={images}
           />
         <div className="details">
-          <CardHeader className="card-header"
+          <CardHeader className="card-header" onClick={onProfileClick}
             avatar={
               <Badge className="badge" badgeContent={trustiness} color="default">
                 <Avatar
@@ -80,7 +90,7 @@ class PostItem extends PureComponent {
             title={nickname}
             subheader={date}
           />
-          <CardContent className="content">
+          <CardContent className="content" onClick={onClick}>
 
             <Typography type="body1" >
               {summary}
