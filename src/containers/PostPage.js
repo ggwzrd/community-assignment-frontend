@@ -5,19 +5,21 @@ import PropTypes from 'prop-types'
 import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
+import { createComment } from '../actions/posts/comment'
 
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
 // material-ui
-import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
+import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
+import Typography from 'material-ui/Typography'
 import Avatar from 'material-ui/Avatar'
-import Badge from 'material-ui/Badge';
-import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
-import ReportIcon from 'material-ui-icons/Report';
-import Tooltip from 'material-ui/Tooltip';
+import Badge from 'material-ui/Badge'
+import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
+import ReportIcon from 'material-ui-icons/Report'
+import Tooltip from 'material-ui/Tooltip'
+import Input from 'material-ui/Input'
 // import Dialog, {
 //   DialogActions,
 //   DialogContent,
@@ -146,6 +148,7 @@ class PostPage extends PureComponent {
    this.setState({
      [name]: event.target.value
    })
+   console.log(this.state)
   }
 
   getSource = event => {
@@ -181,17 +184,27 @@ class PostPage extends PureComponent {
     return false
   }
 
-  renderComments = () => {
-    console.log(this.props.selectedPost)
-    const { trusts, reports } = this.props.selectedPost
+  submitComment = () => {
+    const postId = this.props.selectedPost.id
+    const newComment = {
+      post_id: postId,
+      text: this.state.comment
+    }
 
-    const allComments = [trusts, reports]
+    this.props.createComment(newComment)
+  }
+
+  renderComments = () => {
+    const { trusts, reports, comments } = this.props.selectedPost
+    const allComments = [trusts, reports, comments]
     const mergedComments = [].concat.apply([], allComments)
     const sortedComments = mergedComments.sort((a, b) => {
       return a.created_at < b.created_at
     })
 
-    return sortedComments.map(comment => <div>{comment.reason || comment.comment}</div>)
+    if (trusts && reports && comments) {
+      return sortedComments.map(comment => <div>{comment.text || comment.reason || comment.comment}</div>)
+    }
   }
 
   render() {
@@ -271,6 +284,14 @@ class PostPage extends PureComponent {
           <CardContent className="expanded-content">
             <Typography type="body1" >{content}</Typography>
           </CardContent>
+          <Input
+            placeholder="Placeholder"
+            inputProps={{
+              'aria-label': 'Description',
+            }}
+            onChange={this.handleChange('comment')}
+          />
+        <button onClick={this.submitComment} color="primary">comment</button>
           <div className="comments">
             {this.renderComments()}
           </div>
@@ -290,150 +311,4 @@ const mapStateToProps = state => ({
   trustScreenshot: state.posts.trustScreenshot
 })
 
-export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
-
-
-
-// <div className="post-page">
-//   <Paper className="post-details" elevation={4}>
-//     <Typography type="headline" component="h3">
-//       Post# {id}
-//       {is_spam}
-//       Trust Count: {trusts && trusts.length}
-//       Report Count: {reports && reports.length}
-//     </Typography>
-//     <img src={images} alt="Something"/>
-//     <Typography component="p">
-//       {content}
-//       {link}
-//     </Typography>
-//
-//
-//     <Button
-//       raised
-//       onClick={this.handleClickOpen}
-//       color="secondary"
-//       className="report">Report</Button>
-//
-//
-//
-//
-//
-//
-//     <Dialog
-//       open={this.state.open}
-//       onClose={this.handleClose}
-//       aria-labelledby="form-dialog-title"
-//     >
-//     <DialogTitle id="form-dialog-title">Report Post</DialogTitle>
-//     <DialogContent>
-//       <DialogContentText>
-//         To report a post you need to fill in a reason.
-              //         onChange={this.handleChange('reason')}
-//         autoFocus
-//         margin="dense"
-//         id="reason"
-//         label="Reason"
-//         type="email"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('link')}
-//         autoFocus
-//         margin="dense"
-//         id="link"
-//         label="Link"
-//         type="link"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('screenshot')}
-//         autoFocus
-//         margin="dense"
-//         id="screenshot"
-//         label="Screenshot"
-//         type="screenshot"
-//         fullWidth
-//       />
-//     </DialogContent>
-//     <DialogActions>
-//       <Button onClick={this.handleClose} color="primary">
-//         Cancel
-//       </Button>
-//       <Button onClick={this.handleReportClick} color="primary">
-//         Report
-//       </Button>
-//     </DialogActions>
-//   </Dialog>import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card';
-//
-//
-//   <Button
-//     raised
-//     onClick={this.handleClickOpen}
-//     color="primary"
-//     className="trust">Trust</Button>
-//
-//
-//
-//
-//
-//
-// <Dialog
-//     open={this.state.open}
-//     onClose={this.handleClose}
-//     aria-labelledby="form-dialog-title"
-//   >
-//     <DialogTitle id="form-dialog-title">Trust Post</DialogTitle>
-//     <DialogContent>
-//       <DialogContentText>
-//         To trust a post you need to fill in a source.
-//       </DialogContentText>
-//       <FormControl component="fieldset" required>
-//         <FormLabel component="legend">Source</FormLabel>
-//         <RadioGroup
-//           aria-label="source"
-//           name="source"
-//           value={this.state.source}
-//           onChange={this.handleChange}
-//         >
-//           <div className="radio-buttons">
-//             <FormControlLabel value="facebook" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="google" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="reddit" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="coinerd" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="twitter" disabled control={<Radio />} label={<img src='' alt='' />} />
-//           </div>
-//         </RadioGroup>
-//       </FormControl>
-//       <TextField
-//         onChange={this.handleChange('link')}
-//         autoFocus
-//         margin="dense"
-//         id="link"
-//         label="Link"
-//         type="link"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('screenshot')}
-//         autoFocus
-//         margin="dense"
-//         id="screenshot"
-//         label="Screenshot"
-//         type="screenshot"
-//         fullWidth
-//       />
-//     </DialogContent>
-//     <DialogActions>
-//       <Button onClick={this.handleClose} color="primary">
-//         Cancel
-//       </Button>
-//       <Button onClick={this.handleTrustClick} color="primary">
-//         Trust
-//       </Button>
-//     </DialogActions>
-//   </Dialog>
-//   </Paper>
-//
-//
-// </div>
+export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts, createComment })(PostPage)
