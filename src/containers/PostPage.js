@@ -182,7 +182,6 @@ class PostPage extends PureComponent {
   }
 
   renderComments = () => {
-    console.log(this.props.selectedPost)
     const { trusts, reports } = this.props.selectedPost
 
     const allComments = [trusts, reports]
@@ -191,7 +190,7 @@ class PostPage extends PureComponent {
       return a.created_at < b.created_at
     })
 
-    return sortedComments.map(comment => <div>{comment.reason || comment.comment}</div>)
+    return sortedComments.map(comment => <div key={comment.id}>{comment.reason || comment.comment}</div>)
   }
 
   render() {
@@ -291,149 +290,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
-
-
-
-// <div className="post-page">
-//   <Paper className="post-details" elevation={4}>
-//     <Typography type="headline" component="h3">
-//       Post# {id}
-//       {is_spam}
-//       Trust Count: {trusts && trusts.length}
-//       Report Count: {reports && reports.length}
-//     </Typography>
-//     <img src={images} alt="Something"/>
-//     <Typography component="p">
-//       {content}
-//       {link}
-//     </Typography>
-//
-//
-//     <Button
-//       raised
-//       onClick={this.handleClickOpen}
-//       color="secondary"
-//       className="report">Report</Button>
-//
-//
-//
-//
-//
-//
-//     <Dialog
-//       open={this.state.open}
-//       onClose={this.handleClose}
-//       aria-labelledby="form-dialog-title"
-//     >
-//     <DialogTitle id="form-dialog-title">Report Post</DialogTitle>
-//     <DialogContent>
-//       <DialogContentText>
-//         To report a post you need to fill in a reason.
-              //         onChange={this.handleChange('reason')}
-//         autoFocus
-//         margin="dense"
-//         id="reason"
-//         label="Reason"
-//         type="email"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('link')}
-//         autoFocus
-//         margin="dense"
-//         id="link"
-//         label="Link"
-//         type="link"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('screenshot')}
-//         autoFocus
-//         margin="dense"
-//         id="screenshot"
-//         label="Screenshot"
-//         type="screenshot"
-//         fullWidth
-//       />
-//     </DialogContent>
-//     <DialogActions>
-//       <Button onClick={this.handleClose} color="primary">
-//         Cancel
-//       </Button>
-//       <Button onClick={this.handleReportClick} color="primary">
-//         Report
-//       </Button>
-//     </DialogActions>
-//   </Dialog>import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card';
-//
-//
-//   <Button
-//     raised
-//     onClick={this.handleClickOpen}
-//     color="primary"
-//     className="trust">Trust</Button>
-//
-//
-//
-//
-//
-//
-// <Dialog
-//     open={this.state.open}
-//     onClose={this.handleClose}
-//     aria-labelledby="form-dialog-title"
-//   >
-//     <DialogTitle id="form-dialog-title">Trust Post</DialogTitle>
-//     <DialogContent>
-//       <DialogContentText>
-//         To trust a post you need to fill in a source.
-//       </DialogContentText>
-//       <FormControl component="fieldset" required>
-//         <FormLabel component="legend">Source</FormLabel>
-//         <RadioGroup
-//           aria-label="source"
-//           name="source"
-//           value={this.state.source}
-//           onChange={this.handleChange}
-//         >
-//           <div className="radio-buttons">
-//             <FormControlLabel value="facebook" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="google" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="reddit" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="coinerd" control={<Radio />} label={<img src='' alt='' />} />
-//             <FormControlLabel value="twitter" disabled control={<Radio />} label={<img src='' alt='' />} />
-//           </div>
-//         </RadioGroup>
-//       </FormControl>
-//       <TextField
-//         onChange={this.handleChange('link')}
-//         autoFocus
-//         margin="dense"
-//         id="link"
-//         label="Link"
-//         type="link"
-//         fullWidth
-//       />
-//       <TextField
-//         onChange={this.handleChange('screenshot')}
-//         autoFocus
-//         margin="dense"
-//         id="screenshot"
-//         label="Screenshot"
-//         type="screenshot"
-//         fullWidth
-//       />
-//     </DialogContent>
-//     <DialogActions>
-//       <Button onClick={this.handleClose} color="primary">
-//         Cancel
-//       </Button>
-//       <Button onClick={this.handleTrustClick} color="primary">
-//         Trust
-//       </Button>
-//     </DialogActions>
-//   </Dialog>
-//   </Paper>
-//
-//
-// </div>
