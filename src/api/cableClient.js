@@ -15,7 +15,8 @@ export default class cableClient {
       this.cable = ActionCable.createConsumer(`${WEBSOCKET_HOST}?token=${token}`);
     }
     else {
-      console.log("No user found");
+      this.cable = ActionCable.createConsumer(`${WEBSOCKET_HOST}`);
+      // console.log("No user found");
 
     }
     this.appearanceChannel = false
