@@ -89,7 +89,7 @@ class TrustForm extends PureComponent {
         </div>
 
         <div className="trust-buttons">
-          <Button onClick={this.props.setReportState} color="default">Cancel</Button>
+          <Button onClick={this.props.setTrustState} color="default">Cancel</Button>
           <Button onClick={this.props.handleTrustClick} color="primary">Trust</Button>
         </div>
 
