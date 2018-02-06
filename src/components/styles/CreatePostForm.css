@@ -6,6 +6,10 @@
   border-radius: 3px !important;
 }
 
+.MuiInput-inputSingleline-128 {
+  min-height: 28px;
+  height: auto !important;
+}
 
 .MuiInput-inputSingleline-140 {
   min-height: 28px;
@@ -25,10 +29,19 @@
   justify-content: flex-end;
 }
 
+.progress-circle {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}
 
 .post-form {
   display: flex;
   flex-wrap: wrap;
+}
+
+.link {
+  flex-grow: 1;
 }
 
 .link-input {
@@ -46,6 +59,13 @@
   width: 100%;
   /* min-width: 100px;
   max-width: 300px; */
+}
+
+.bottom-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .chips {

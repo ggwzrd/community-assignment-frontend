@@ -1,9 +1,13 @@
 import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
 import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
+
+import ReportForm from '../components/forms/ReportForm'
+import TrustForm from '../components/forms/TrustForm'
 
 // material-ui
 import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card';
@@ -21,11 +25,6 @@ import Tooltip from 'material-ui/Tooltip';
 //   DialogTitle,
 // } from 'material-ui/Dialog'
 
-// components
-import ReportForm from '../components/forms/ReportForm'
-import TrustForm from '../components/forms/TrustForm'
-
-// styles
 import './styles/PostPage.css'
 
 export const postShape = PropTypes.shape({
@@ -34,12 +33,12 @@ export const postShape = PropTypes.shape({
   link: PropTypes.string.isRequired,
   images: PropTypes.string.isRequired,
   is_spam: PropTypes.bool,
-  // user: PropTypes.arrayOf(userShape),
   trusts: PropTypes.array,
   reports: PropTypes.array
 })
 
 class PostPage extends PureComponent {
+
   static propTypes = {
     ...postShape.isRequired,
   }
@@ -51,9 +50,13 @@ class PostPage extends PureComponent {
 
   state = {
     open: false,
-    user_id: "1",
     trustFormIsOpen: false,
-    reportFormIsOpen: false
+    reportFormIsOpen: false,
+    reportReason: '',
+    trustReason: '',
+    trustLink: '',
+    trustScreenshot: '',
+    source_id: ''
   }
 
   handleClickOpen = () => {
@@ -74,32 +77,69 @@ class PostPage extends PureComponent {
     this.setState({ reportFormIsOpen: !this.state.reportFormIsOpen })
   }
 
-  handleReportClick = () => {
-    const postId = this.props.selectedPost.id
-    const newReport = {
-      reason: this.state.reason,
-      link: this.state.link,
-      screenshot: this.state.screenshot,
-      user_id: this.state.user_id,
-      post_id: postId
+  validateReportReason() {
+    const reason = this.state.reportReason
+
+    if (reason.length > 1) {
+      this.setState({
+        reportError: null
+      })
+
+      return true
     }
 
-    this.props.reportPost(newReport)
-    this.setReportState()
+    this.setState({
+      reportError: `You can't report a post without a reason`
+    })
+
+    return false
   }
 
-  handleTrustClick = () => {
-    const postId = this.props.selectedPost.id
-    const newTrust = {
-      source_id: "1",
-      link: this.state.link,
-      screenshot: this.state.screenshot,
-      user_id: this.state.user_id,
-      post_id: postId
+  handleReportClick = () => {
+    if (this.validateReportReason()) {
+      const postId = this.props.selectedPost.id
+
+      const newReport = {
+        reason: this.state.reportReason,
+        link: this.state.link,
+        screenshot: this.state.reportScreenshot || null,
+        user_id: this.state.user_id,
+        post_id: postId
+      }
+
+      this.props.reportPost(newReport)
+      this.setReportState()
     }
 
-    this.props.trustPost(newTrust)
-    this.setTrustState()
+    return false
+  }
+
+  validateTrust() {
+    const reason = this.state.trustReason
+    const link = this.state.trustLink
+
+    if (reason.length > 1 && link.length > 1) {
+      this.setState({
+        reportError: null
+      })
+
+      return true
+    }
+
+    if (reason.length <= 1) {
+      this.setState({
+        trustReasonError: `You can't trust a post without a reason`
+      })
+      return false
+    }
+
+    if (link.length <= 1) {
+      this.setState({
+        trustLinkError: `You can't trust a post without a link`
+      })
+
+      return false
+    }
   }
 
   handleChange = name => event => {
@@ -108,21 +148,60 @@ class PostPage extends PureComponent {
    })
   }
 
+  getSource = event => {
+    const sourceId = event.target.getAttribute('data-id')
+
+    this.setState({
+      source_id: sourceId
+    })
+  }
+
   renderPicture = () => {
     const { userProfilePic } = this.props
     return userProfilePic === null ? "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : userProfilePic
   }
 
-  render() {
-    console.log(this.props.selectedPost);
+  handleTrustClick = () => {
+    if (this.validateTrust()) {
+      const postId = this.props.selectedPost.id
 
-    if (!!this.props.selectedPost) {
-      var { user, content, trusts, reports, images, created_at } = this.props.selectedPost
-      var { trustiness, profile } = user
-      var { nickname } = profile
+      const newTrust = {
+        source_id: this.state.source_id,
+        comment: this.state.trustReason,
+        link: this.state.link,
+        screenshot: this.props.trustScreenshot,
+        user_id: this.state.user_id,
+        post_id: postId
+      }
+
+      this.props.trustPost(newTrust)
+      this.setTrustState()
     }
 
-    console.log(user);
+    return false
+  }
+
+  renderComments = () => {
+    console.log(this.props.selectedPost)
+    const { trusts, reports } = this.props.selectedPost
+
+    const allComments = [trusts, reports]
+    const mergedComments = [].concat.apply([], allComments)
+    const sortedComments = mergedComments.sort((a, b) => {
+      return a.created_at < b.created_at
+    })
+
+    return sortedComments.map(comment => <div>{comment.reason || comment.comment}</div>)
+  }
+
+  render() {
+    if (!!this.props.selectedPost) {
+      var { content, trusts, reports, images, created_at } = this.props.selectedPost
+    }
+
+    if (!!this.props.userTrustiness) {
+      var { userTrustiness } = this.props
+    }
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
@@ -136,62 +215,65 @@ class PostPage extends PureComponent {
         <CardMedia
           className="expanded-cover"
           image={images}
-          />
-        <div className="expanded-details">
+        />
 
+        <div className="expanded-details">
           <div className="formwrapper">
             {this.state.reportFormIsOpen ? <ReportForm
                                             handleChange={this.handleChange}
                                             setReportState={this.setReportState}
+                                            reportError={this.state.reportError}
                                             handleReportClick={this.handleReportClick}/> : null}
 
             {this.state.trustFormIsOpen ? <TrustForm
                                             handleChange={this.handleChange}
-                                            setReportState={this.setTrustState}
-                                            handleReportClick={this.handleTrustClick}
+                                            setTrustState={this.setTrustState}
+                                            handleTrustClick={this.handleTrustClick}
                                             sources={this.props.sources}
+                                            getSource={this.getSource}
+                                            trustScreenshotError={this.state.trustScreenshotError}
+                                            trustLinkError={this.state.trustLinkError}
+                                            trustReasonError={this.state.trustReasonError}
                                             sourceIdState={this.state.source_id}/> : null}
           </div>
 
           <CardHeader className="expanded-card-header"
+            title={this.props.userProfileName}
+            subheader={date}
             avatar={
-              <Badge className="expanded-badge" badgeContent={this.props.userTrustiness} color="default">
+              <Badge className="expanded-badge" badgeContent={userTrustiness} color="default">
               <Avatar
-                alt="Remy shape"
+                alt={this.props.userProfileName}
                 src={this.renderPicture()}
                 />
               </Badge>
             }
             action={
               <Fragment>
-              <IconButton onClick={this.setTrustState}>
-                <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
-                  <Badge className="badge trust" badgeContent={!!trusts ? trusts.length : 0} color="default">
-                    <VerifiedUserIcon fontSize="true"/>
-                  </Badge>
-              </Tooltip>
+                <IconButton onClick={this.setTrustState}>
+                  <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+                    <Badge className="badge trust" badgeContent={!!trusts ? trusts.length : 0} color="default">
+                      <VerifiedUserIcon fontSize="true"/>
+                    </Badge>
+                  </Tooltip>
+                </IconButton>
 
-              </IconButton>
-              <IconButton onClick={this.setReportState}>
-                <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
-                  <Badge className="badge report" badgeContent={!!reports ? reports.length : 0} color="default">
-                    <ReportIcon fontSize="true" className="badgeIcon"/>
-                  </Badge>
-              </Tooltip>
-
-              </IconButton>
-            </Fragment>
+                <IconButton onClick={this.setReportState}>
+                  <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+                    <Badge className="badge report" badgeContent={!!reports ? reports.length : 0} color="default">
+                      <ReportIcon fontSize="true" className="badgeIcon"/>
+                    </Badge>
+                  </Tooltip>
+                </IconButton>
+              </Fragment>
             }
-
-            title={this.props.userProfileName}
-            subheader={date}
           />
           <CardContent className="expanded-content">
-
-            <Typography type="body1" >
-              {content}
-            </Typography>
+            <Typography type="body1" >{content}</Typography>
           </CardContent>
+          <div className="comments">
+            {this.renderComments()}
+          </div>
         </div>
       </Card>
     )
@@ -205,10 +287,10 @@ const mapStateToProps = state => ({
   userTrustiness: state.posts.userTrustiness,
   userProfilePic: state.posts.userProfilePic,
   userProfileName: state.posts.userProfileName,
+  trustScreenshot: state.posts.trustScreenshot
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
-
 
 
 
@@ -247,9 +329,7 @@ export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost
 //     <DialogContent>
 //       <DialogContentText>
 //         To report a post you need to fill in a reason.
-//       </DialogContentText>
-//       <TextField
-//         onChange={this.handleChange('reason')}
+              //         onChange={this.handleChange('reason')}
 //         autoFocus
 //         margin="dense"
 //         id="reason"

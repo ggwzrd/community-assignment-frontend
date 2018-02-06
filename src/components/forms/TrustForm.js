@@ -1,98 +1,105 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+
+import Dropzone from 'react-dropzone'
+import { uploadImage } from '../../actions/upload'
+
 import TextField from 'material-ui/TextField'
-import { CardContent } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
+import { CardContent, CardMedia } from 'material-ui/Card'
+import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
-import Radio, { RadioGroup } from 'material-ui/Radio'
 import { FormControl } from 'material-ui/Form'
-import Avatar from 'material-ui/Avatar'
+
 import '../styles/TrustForm.css'
 
 
 class TrustForm extends PureComponent {
+
   state = {
-    link: [],
-    screenshot: []
+    trustScreenshot: '',
   }
 
-  addLinkField = () => {
-    this.setState({ link: ['link'] })
-  }
+  onDrop(files) {
+    this.setState({
+      uploadedFile: files[0]
+    })
 
-  addScreenshotField = () => {
-    this.setState({ screenshot: ['screenshot'] })
-  }
-
-  handleRemoveShareholder = (idx) => () => {
-    this.setState({ shareholders: this.state.shareholders.filter((s, sidx) => idx !== sidx) });
+    this.props.uploadImage('trustScreenshot', files[0])
   }
 
   render() {
     return (
-      <CardContent className="card-form" >
-        <Typography type="title" >
-          Trust this post
-        </Typography>
+      <CardContent className="card-form">
+
+        <Typography type="headline">Trust post</Typography>
+
         <FormControl component="fieldset" required>
-          <div className="sources">
-            {this.props.sources.map(source =>
-              <div className="source-buttons" onClick={this.addLinkField} style={{ borderRadius: '50%', overflow: 'hidden', background: `url(${source.logo})`, backgroundSize: "70% 70%", backgroundRepeat: "no-repeat", backgroundPosition: "center center"}}>
-              </div>
-            )}
-          </div>
-        </FormControl>
-        <div>
-          {this.state.link.map(link =>
+            <div className="sources">
+              {this.props.sources.map(source =>
+                <div className="source-buttons"
+                     data-id={source.id}
+                     onClick={this.props.getSource}
+                     style={{ background: `url(${source.logo})`,
+                              backgroundSize: '70% 70%',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundPosition: 'center center'
+                     }}>
+                </div>
+              )}
+            </div>
+          </FormControl>
+
+        <div className="trust-form">
+          <div className="trust-fields">
             <TextField
-              onChange={this.props.handleChange('link')}
+              onChange={this.props.handleChange('trustReason')}
+              autoFocus
+              margin="dense"
+              id="reason"
+              label="Why do you trust this post?"
+              type="text"
+              fullWidth
+            />
+            <p className="error">{this.props.trustReasonError}</p>
+
+            <TextField
+              onChange={this.props.handleChange('trustLink')}
               autoFocus
               margin="dense"
               id="link"
               label="Link"
-              type="link"
+              type="text"
               fullWidth
             />
-          )}
-        </div>
-        <div>
-          <button type="button" onClick={this.addScreenshotField} className="small">Add Link</button>
-            {this.state.screenshot.map(screenshot =>
-              <TextField
-                onChange={this.props.handleChange('screenshot')}
-                autoFocus
-                margin="dense"
-                id="screenshot"
-                label="Screenshot"
-                type="screenshot"
-                fullWidth
+            <p className="error">{this.props.trustLinkError}</p>
+          </div>
+
+          <Dropzone
+            id="photo"
+            multiple={false}
+            accept="image/*"
+            onDrop={this.onDrop.bind(this)}
+            style={{border: "none"}}>
+            <CardMedia
+              className="cover"
+              image={this.props.trustScreenshot || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
               />
-          )}
+          </Dropzone>
+          <p className="error">{this.props.trustScreenshotError}</p>
         </div>
-        <Button onClick={this.props.setReportState} color="default">Cancel</Button>
-        <Button onClick={this.props.handleTrustClick} color="primary">Trust</Button>
+
+        <div className="trust-buttons">
+          <Button onClick={this.props.setTrustState} color="default">Cancel</Button>
+          <Button onClick={this.props.handleTrustClick} color="primary">Trust</Button>
+        </div>
+
       </CardContent>
      )
    }
  }
 
- // <RadioGroup
- //   aria-label="source"
- //   name="source"
- //   row={true}
- //   onChange={this.props.handleChange('source_id')}>
- //   {this.props.sources.map(source =>
- //     <Fragment>
- //       <Avatar src={source.logo} />
- //       <Radio
- //         style={{display: 'block'}}
- //         checked={this.props.sourceIdState === source.id}
- //         onChange={this.props.handleChange('source_id')}
- //         value={source.id}
- //         name={source.name}
- //         aria-label="A"
- //         />
- //     </Fragment>
- //   )}
- // </RadioGroup>
+ const mapStateToProps = state => ({
+   trustScreenshot: state.posts.trustScreenshot
+ })
 
- export default TrustForm
+ export default connect(mapStateToProps, { uploadImage })(TrustForm)

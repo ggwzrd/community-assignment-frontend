@@ -9,18 +9,44 @@
   margin: 0.3rem;
   width: 50px;
   height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .source-buttons:hover {
   cursor: pointer;
 }
 
-/* .source-buttons {
-  width: 50px;
-  height: 50;
-  borderRadius: 10%;
-  overflow: hidden;
-  backgroundSize: 70% 70%;
-  backgroundRepeat: no-repeat;
-  backgroundPosition: center center;
-} */
+.trust-form {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+#photo {
+  width: 30%;
+}
+
+.trust-fields {
+  width: 70%;
+  margin-right: 2rem;
+}
+
+.trust-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.card-form {
+  padding: 2rem !important;
+}
+
+.error {
+  font-size: 11px;
+  color: red;
+}

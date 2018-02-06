@@ -5,6 +5,7 @@ import posts from './posts'
 import tags from './tags'
 import currentUser from './currentUser'
 import sources from './sources'
+import user from './user'
 
 export default {
   loading,
@@ -12,5 +13,6 @@ export default {
   posts,
   currentUser,
   tags,
-  sources
+  sources,
+  user
 }

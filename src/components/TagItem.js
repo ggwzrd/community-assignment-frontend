@@ -40,8 +40,8 @@ class TagItem extends PureComponent {
     const { id, name, description, todays_mentions, handleClick } = this.props
 
     return (
-        <div className="tag-details" style={{display: "inline-block", float: "left", width: 125, justifyContent: "center", alignItem: "center"}}>
-          <IconButton>
+        <div className="tag-details" style={{display: "flex"}}>
+          <IconButton style={{width: 'auto'}}>
             <Badge className="badge" badgeContent={todays_mentions} color="primary" children="">
               <Tooltip id="tooltip-top" title={description} placement="top-end">
                 <Chip

@@ -10,3 +10,8 @@ body {
   margin: 0 auto;
   padding: 60px;
 }
+
+.error-text {
+  font-size: 11px;
+  color: red;
+}
