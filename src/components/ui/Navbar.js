@@ -5,7 +5,7 @@ import signOut from '../../actions/user/sign-out'
 import signIn from '../../actions/user/sign-in'
 import signUp from '../../actions/user/sign-up'
 import SignUpForm from '../forms/SignUpForm'
-import SignInForm from '../forms/SignUpForm'
+import SignInForm from '../forms/SignInForm'
 //material-ui & styling
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
@@ -13,13 +13,12 @@ import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Avatar from 'material-ui/Avatar'
-import AddIcon from 'material-ui-icons/Add'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
-import HomeIcon from 'material-ui-icons/Home'
 import './Navbar.css'
 
 class Navbar extends React.Component {
+
   state = {
     anchorEl: null,
     open: false,
@@ -27,6 +26,8 @@ class Navbar extends React.Component {
     last_name: "",
     email: "",
     password: "",
+    signUpFormIsOpen: false,
+    signInFormIsOpen: false,
   }
 
   goHome = () => {
@@ -56,6 +57,20 @@ class Navbar extends React.Component {
 
   handleDialogClose = () => {
     this.setState({ open: false })
+  }
+
+  setSignInState = () => {
+    this.setState({
+      signInFormIsOpen: !this.state.signInFormIsOpen,
+      open: !this.state.open
+    })
+  }
+
+  setSignUpState = () => {
+    this.setState({
+      signUpFormIsOpen: !this.state.signUpFormIsOpen,
+      open: !this.state.open
+    })
   }
 
 //sign-out
@@ -91,7 +106,7 @@ class Navbar extends React.Component {
     }
     this.props.signIn( user )
 
-    this.handleSignInDialogClose()
+    this.handleDialogClose()
   }
 
 //sign-up
@@ -114,7 +129,7 @@ class Navbar extends React.Component {
       }
       this.props.signUp(user)
     }
-    this.handleSignUpDialogClose()
+    this.handleDialogClose()
   }
 
   setFirstName(event) {
@@ -245,41 +260,46 @@ class Navbar extends React.Component {
                         </div>
                         :
                         <div className="signUp-signIn">
-                          <Button color="primary" className="menuButton" onClick={this.handleDialogOpen}>Sign up</Button>
-                          <Button color="primary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
+                          <Button color="primary" className="menuButton" onClick={this.setSignUpState}>Sign up</Button>
+                          <Button color="primary" className="menuButton" onClick={this.setSignInState}>Sign in</Button>
                         </div>
                         }
           </Toolbar>
         </AppBar>
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleSignUpDialogClose}
-          aria-labelledby="form-dialog-title">
+        <div className="formwrapper">
+          <div>
+            {this.state.signUpFormIsOpen ?
+              <Dialog
+                open={this.state.open}
+                onClose={this.handleDialogClose}
+                aria-labelledby="signUp-form-dialog">
+              <SignUpForm
+                handleDialogClose={this.handleDialogClose}
+                submitForm={this.submitSignUpForm.bind(this)}
+                validateNickname={this.validateNickname.bind(this)}
+                validateEmail={this.validateEmail.bind(this)}
+                validatePassword={this.validatePassword.bind(this)}
+                validatePasswordConfirmation={this.validatePasswordConfirmation.bind(this)}/>
+              </Dialog>
+            : null}
+          </div>
 
-          <SignUpForm
-            handleDialogClose={this.handleDialogClose}
-            submitForm={this.submitSignUpForm.bind(this)}
-            validateNickname={this.validateNickname.bind(this)}
-            validateEmail={this.validateEmail.bind(this)}
-            validatePassword={this.validatePassword.bind(this)}
-            validatePasswordConfirmation={this.validatePasswordConfirmation.bind(this)}
-          />
-
-        </Dialog>
-
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleDialogClose}
-          aria-labelledby="form-dialog-title">
-
-          <SignInForm
-            handleDialogClose={this.handleDialogClose}
-            submitForm={this.submitSignInForm.bind(this)}
-            updatePassword={this.updatePassword.bind(this)}
-            updateEmail={this.updateEmail.bind(this)}/>
-
-        </Dialog>
+          <div>
+            {this.state.signInFormIsOpen ?
+              <Dialog
+                open={this.state.open}
+                onClose={this.handleDialogClose}
+                aria-labelledby="signIn-form-dialog">
+              <SignInForm
+                handleDialogClose={this.handleDialogClose}
+                submitForm={this.submitSignInForm.bind(this)}
+                updatePassword={this.updatePassword.bind(this)}
+                updateEmail={this.updateEmail.bind(this)} />
+              </Dialog>
+            : null}
+          </div>
+        </div>
 
       </div>
     )
@@ -292,3 +312,17 @@ const mapStateToProps = ({currentUser}) => ({
 })
 
 export default connect(mapStateToProps, { signUp, signIn, signOut, push })(Navbar)
+
+//
+// <Dialog
+//   open={this.state.open}
+//   onClose={this.handleDialogClose}
+//   aria-labelledby="signIn-form-dialog">
+//
+//   <SignInForm
+//     handleDialogClose={this.handleDialogClose}
+//     submitForm={this.submitSignInForm.bind(this)}
+//     updatePassword={this.updatePassword.bind(this)}
+//     updateEmail={this.updateEmail.bind(this)} />
+//
+// </Dialog>
