@@ -1,22 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+
 import signOut from '../../actions/user/sign-out'
 import signIn from '../../actions/user/sign-in'
-// import PropTypes from 'prop-types'
-import './Navbar.css'
-// import CreatePost from '../forms/createPost'
 import SignInForm from '../forms/SignInForm'
+
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Avatar from 'material-ui/Avatar'
-import AddIcon from 'material-ui-icons/Add'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
-import HomeIcon from 'material-ui-icons/Home'
+
+import './Navbar.css'
 
 class Navbar extends React.Component {
   state = {
@@ -97,8 +96,8 @@ class Navbar extends React.Component {
   render() {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { signedIn, user } = this.props
-    console.log(user)
+    const { signedIn } = this.props
+
     return (
       <div className="navbar">
         <AppBar position="static" style={{backgroundColor: "#3b7680", color:"#ffffff"}}>
@@ -160,11 +159,6 @@ class Navbar extends React.Component {
     )
   }
 }
-
-
-// const mapStateToProps = state => ({
-//   signedIn: !!state.currentUser
-// })
 
 const mapStateToProps = ({currentUser}) => ({
   signedIn: !!currentUser && !!currentUser.token,
