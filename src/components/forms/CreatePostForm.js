@@ -21,21 +21,6 @@ import Send from 'material-ui-icons/Send'
 import '../styles/CreatePostForm.css'
 
 const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end'
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 60,
-    maxWidth: 300,
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    fontSize: 10,
-  },
   progress: {
     margin: `0 ${theme.spacing.unit * 2}px`,
   }
@@ -182,7 +167,7 @@ export class CreatePostForm extends PureComponent {
           accept="image/*"
           onDrop={this.onDrop.bind(this)}
           style={{border: "none"}}>
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', height: '100%' }}>
             <CardMedia
               className="cover-upload"
               image={this.props.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
