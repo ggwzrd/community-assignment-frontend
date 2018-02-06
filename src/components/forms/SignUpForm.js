@@ -9,9 +9,29 @@ import {
 } from 'material-ui/Dialog'
 
 class SignUpForm extends PureComponent {
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    }, this.validateField(name))
+  }
+
+  validateField = name => _ => {
+  switch(name) {
+    case 'nickname' :
+      return this.validateNickname()
+    case 'email' :
+      return this.validateEmail()
+    case 'password' :
+      return this.validatePassword()
+    case 'passwordConfirmation' :
+      return this.validatePasswordConfirmation()
+    default :
+      return this.validateAll()
+  }
+}
 
   render() {
-  const { validateNickname, validateEmail, validatePassword, validatePasswordConfirmation, setFirstName, setLastName, handleDialogClose, submitSignUpForm } = this.props
+  const { validateNickname, validateEmail, validatePassword, validatePasswordConfirmation, setFirstName, setLastName, handleDialogClose, submitSignUpForm, nicknameError, emailError, passwordError, passwordConfirmationError} = this.props
 
   return (
     <Fragment>
@@ -25,15 +45,15 @@ class SignUpForm extends PureComponent {
           fullWidth
           margin="dense"
           id="firstName"
-          label="First Name"
-          type="firstName"
+          label="Your first Name"
+          type="text"
           onChange={setFirstName} />
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="lastName"
-          label="Last Name"
+          label="Your last Name"
           type="lastName"
           onChange={setLastName} />
         <TextField
@@ -41,33 +61,37 @@ class SignUpForm extends PureComponent {
           fullWidth
           margin="dense"
           id="nickname"
-          label="Nickname"
+          label={nicknameError || "Your nickname"}
           type="nickname"
-          onChange={validateNickname} />
+          onChange={this.handleChange('nickname')}
+          error={!!nicknameError} />
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="email"
-          label="Email Address"
+          label={emailError || "Email Address"}
           type="email"
-          onChange={validateEmail} />
+          onChange={this.handleChange('email')}
+          error={!!emailError} />
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="password"
-          label="Password"
+          label={passwordError || "Password"}
           type="password"
-          onChange={validatePassword} />
+          onChange={this.handleChange('password')}
+          error={!!passwordError} />
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="passwordConfirmation"
-          label="Repeat Password"
+          label={passwordConfirmationError || "Repeat Password"}
           type="password"
-          onChange={validatePasswordConfirmation} />
+          onChange={this.handleChange('passwordConfirmation')}
+          error={!!passwordConfirmationError} />
       </DialogContent>
 
       <DialogActions>

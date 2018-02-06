@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-
+import { fetchUser } from '../../actions/user/fetch'
 import signOut from '../../actions/user/sign-out'
 import signIn from '../../actions/user/sign-in'
 import signUp from '../../actions/user/sign-up'
@@ -19,16 +19,21 @@ import IconButton from 'material-ui/IconButton'
 import './Navbar.css'
 
 class Navbar extends React.Component {
-
   state = {
     anchorEl: null,
     open: false,
     first_name: "",
     last_name: "",
+    nickname: "",
     email: "",
     password: "",
+    passwordConfirmation: "",
     signUpFormIsOpen: false,
     signInFormIsOpen: false,
+  }
+
+  componentWillMount() {
+    this.props.fetchUser()
   }
 
   goHome = () => {
@@ -39,11 +44,6 @@ class Navbar extends React.Component {
     const { user } = this.props
     return user.picture === null ?
      "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : user.picture
-  }
-
-//still need this?
-  handleChange = (event, checked) => {
-    this.setState({ signedInSwitch: checked })
   }
 
 //handle menu items
@@ -124,11 +124,12 @@ class Navbar extends React.Component {
     event.preventDefault()
     if (this.validateAll()) {
       const user = {
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
-        nickname: this.refs.nickname.getValue(),
-        email: this.refs.email.getValue(),
-        password: this.refs.password.getValue()
+      user: { first_name: this.state.first_name,
+              last_name: this.state.last_name,
+              nickname: this.state.nickname,
+              email: this.state.email,
+              password: this.state.password
+            }
       }
       this.props.signUp(user)
     }
@@ -148,10 +149,11 @@ class Navbar extends React.Component {
   }
 
   validateNickname() {
-    const { nickname } = this.refs
-    if (nickname.getValue().length > 1) {
+    const { nickname } = this.state.nickname
+
+    if (nickname.length > 1) {
       this.setState({
-        nicknameError: null
+        nicknameError: null,
       })
       return true
     }
@@ -163,16 +165,16 @@ class Navbar extends React.Component {
   }
 
   validateEmail() {
-    const { email } = this.refs
+    const { email } = this.state.email
 
-    if (email.getValue().match(/^[a-z0-9._-]+@[a-z0-9._-]+.[a-z0-9._-]+$/)) {
+    if (email.match(/^[a-z0-9._-]+@[a-z0-9._-]+.[a-z0-9._-]+$/)) {
       this.setState({
         emailError: null
       })
       return true
     }
 
-    if (email.value === '') {
+    if (email === '') {
       this.setState({
         emailError: 'Please provide your email address'
       })
@@ -186,20 +188,20 @@ class Navbar extends React.Component {
   }
 
   validatePassword() {
-    const { password } = this.refs
+    const { password } = this.state.password
 
-    if (password.getValue().length < 6) {
+    if (password.length < 6) {
       this.setState({
         passwordError: 'Password is too short'
       })
       return false
     }
 
-    if (password.getValue().match(/[a-zA-Z]+/) && password.getValue().match(/[0-9]+/)) {
+    if (password.match(/[a-zA-Z]+/) && password.match(/[0-9]+/)) {
       this.setState({
         passwordError: null
       })
-      return true
+      return this.validatePasswordConfirmation()
     }
 
     this.setState({
@@ -209,9 +211,9 @@ class Navbar extends React.Component {
   }
 
   validatePasswordConfirmation() {
-    const { password, passwordConfirmation } = this.refs
+    const { password, passwordConfirmation } = this.state.passwordConfirmation
 
-    if (password.value === passwordConfirmation.value) {
+    if (password === passwordConfirmation) {
       this.setState({
         passwordConfirmationError: null
       })
@@ -226,6 +228,8 @@ class Navbar extends React.Component {
 
   render() {
     const { anchorEl } = this.state
+    console.log(this.state)
+
     const open = Boolean(anchorEl)
     const { signedIn } = this.props
     return (
@@ -279,6 +283,8 @@ class Navbar extends React.Component {
               <SignUpForm
                 handleDialogClose={this.handleDialogClose}
                 submitSignUpForm={this.submitSignUpForm.bind(this)}
+                setFirstName={this.setFirstName.bind(this)}
+                setLastName={this.setLastName.bind(this)}
                 validateNickname={this.validateNickname.bind(this)}
                 validateEmail={this.validateEmail.bind(this)}
                 validatePassword={this.validatePassword.bind(this)}
@@ -310,4 +316,4 @@ const mapStateToProps = ({currentUser}) => ({
   user: currentUser
 })
 
-export default connect(mapStateToProps, { signUp, signIn, signOut, push })(Navbar)
+export default connect(mapStateToProps, { signUp, signIn, signOut, push, fetchUser })(Navbar)
