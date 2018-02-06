@@ -4,30 +4,33 @@ import { CREATED_REPORT } from '../actions/posts/report'
 import { CREATED_TRUST } from '../actions/posts/trust'
 import { UPLOADED_IMAGE } from '../actions/upload'
 
-const INTIAL_STATE = {
+const INITIAL_STATE = {
   allPosts: [],
   selectedPost: {
-    content: 'Ops, I think we missed it.',
+    content: 'Oops, I think we missed it.',
     trusts: [],
     reports: [],
     images: 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
     created_at: new Date(),
     updated_at: new Date(),
   },
-};
+  userTrustiness: 10,
+  userProfilePic: "",
+  userProfileName: ""
+}
 
 const concatPostTrust = (post, trust) => {
-  return Object.assign({}, post, { trusts: [].concat(post.trusts, [trust])});
+  return Object.assign({}, post, { trusts: [].concat(post.trusts, [trust])})
 }
 
 const concatPostReport = (post, report) => {
-  return Object.assign({}, post, { reports: [].concat(post.reports, [report])});
+  return Object.assign({}, post, { reports: [].concat(post.reports, [report])})
 }
 
-export default (state = INTIAL_STATE, { type, payload } = {}) => {
+export default (state = INITIAL_STATE, { type, payload } = {}) => {
   switch (type) {
     case FETCHED_POSTS :
-      return Object.assign({}, state, { allPosts: payload});
+      return Object.assign({}, state, { allPosts: payload})
 
     case FETCHED_ONE_POST :
       return { ...state, selectedPost: payload, userTrustiness: payload.user.trustiness, userProfilePic: payload.user.profile.picture, userProfileName: payload.user.profile.nickname }
@@ -46,13 +49,13 @@ export default (state = INTIAL_STATE, { type, payload } = {}) => {
     // the two actions below were overwriting the full state with
     // either an array of trusts or reports! @NB I fixed this
     case CREATED_REPORT :
-      return Object.assign({}, state, { selectedPost: concatPostReport(state.selectedPost, payload), });
+      return Object.assign({}, state, { selectedPost: concatPostReport(state.selectedPost, payload), })
 
     case CREATED_TRUST :
-      return Object.assign({}, state, { selectedPost: concatPostTrust(state.selectedPost, payload), });
+      return Object.assign({}, state, { selectedPost: concatPostTrust(state.selectedPost, payload), })
 
     case UPLOADED_IMAGE :
-      return Object.assign({}, state, { [payload.name]: payload.image });
+      return Object.assign({}, state, { [payload.name]: payload.image })
 
     default :
       return state

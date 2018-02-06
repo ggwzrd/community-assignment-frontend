@@ -16,7 +16,6 @@ import Select from 'material-ui/Select'
 import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
-import Icon from 'material-ui/Icon'
 import Send from 'material-ui-icons/Send'
 
 import '../styles/CreatePostForm.css'
@@ -42,16 +41,16 @@ const styles = theme => ({
   }
 });
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      // width: 250,
-    },
-  },
-};
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       // width: 250,
+//     },
+//   },
+// };
 
 const tags = [
   'Analysis',
