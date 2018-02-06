@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
+import React, { PureComponent, Fragment } from "react"
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
-
 import {
   DialogActions,
   DialogContent,
@@ -9,8 +8,10 @@ import {
   DialogTitle,
 } from 'material-ui/Dialog'
 
-const SignInForm = props => {
-  const { updateEmail, updatePassword, handleDialogClose, submitForm } = props;
+class SignInForm extends PureComponent {
+  render() {
+  const { updateEmail, updatePassword, handleDialogClose, submitSignInForm } = this.props
+
   return (
     <Fragment>
       <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
@@ -21,12 +22,11 @@ const SignInForm = props => {
         <TextField
           autoFocus
           margin="dense"
-          id="name"
+          id="email"
           label="Email Address"
           type="email"
           onChange={updateEmail}
-          fullWidth
-        />
+          fullWidth />
         <TextField
           autoFocus
           margin="dense"
@@ -34,21 +34,20 @@ const SignInForm = props => {
           label="password"
           type="password"
           onChange={updatePassword}
-
-          fullWidth
-        />
+          fullWidth />
       </DialogContent>
 
       <DialogActions>
         <Button onClick={handleDialogClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={submitForm} color="primary">
+        <Button onClick={submitSignInForm} color="primary">
           Sign in
         </Button>
       </DialogActions>
     </Fragment>
-  );
-};
+  )
+ }
+}
 
-export default SignInForm;
+export default SignInForm
