@@ -99,7 +99,7 @@ export class CreatePostForm extends PureComponent {
   submitForm(event) {
     event.preventDefault()
 
-    if (this.validateContent() && this.validateLink() && this.validateTags()) {
+    if (this.validateContent() && this.validateTags() && this.validateLink()) {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
@@ -128,7 +128,7 @@ export class CreatePostForm extends PureComponent {
       })
 
       return false
-    } else if (content.length < 5000 ) {
+    } else if (content.length > 5000 ) {
       this.setState({
         contentError: 'Max 5000 characteres'
       })
@@ -155,8 +155,26 @@ export class CreatePostForm extends PureComponent {
     return false
   }
 
+  validateTags() {
+    const tags = this.state.tags
+
+    if (tags.length > 0) {
+      this.setState({
+        tagError: null
+      })
+
+      return true
+    }
+
+    this.setState({
+      tagError: 'Tag is required'
+    })
+
+    return false
+  }
+
   render() {
-    const { classes, loading } = this.props
+    const { loading } = this.props
 
     return (
       <Card className="card" elevation={0}>
@@ -169,13 +187,13 @@ export class CreatePostForm extends PureComponent {
             <CardMedia
               className="cover-upload"
               image={this.props.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
-              />
+            />
             <div className="progress-circle">{loading ? <CircularProgress /> : null }</div>
           </div>
         </Dropzone>
 
         <div>
-        <CardContent className="content">
+          <CardContent className="content">
             <form onSubmit={this.submitForm.bind(this)}>
               <div className="post-form">
                 <TextField
@@ -187,9 +205,8 @@ export class CreatePostForm extends PureComponent {
                   rowsMax="4"
                   margin="none"
                   onChange={this.handleChange('content')}
-                  helperText={this.state.contentError}
                 />
-                <p className="error-text">{this.state.contentError}</p>
+                <div className="error-text">{this.state.contentError}</div>
 
                 <FormControl className="formControl">
                   <InputLabel htmlFor="select-multiple-tags">Tags</InputLabel>
@@ -219,24 +236,28 @@ export class CreatePostForm extends PureComponent {
                       </MenuItem>
                     ))}
                   </Select>
+                  <div className="error-text">{this.state.tagError}</div>
                 </FormControl>
+                <div className="bottom-input">
+                  <div className="link">
+                    <TextField
+                       id="link"
+                       label="Link"
+                       margin="none"
+                       fullWidth={true}
+                       className="link-input"
+                       onChange={this.handleChange('link')}
+                    />
+                    <div className="error-text">{this.state.linkError}</div>
+                  </div>
 
-                <TextField
-                   id="link"
-                   label="Link"
-                   margin="none"
-                   fullWidth={false}
-                   className="link-input"
-                   onChange={this.handleChange('link')}
-                   helperText={this.state.linkError}
-                />
-                <p className="error-text">{this.state.linkError}</p>
-                <Button
-                  style={{height: 30, width: 30, marginTop: 'auto'}}
-                  color="default"
-                  onClick={this.submitForm.bind(this)} >
-                  <Send style={{ width: 20, height: 20}}/>
-                </Button>
+                  <Button
+                    style={{height: 30, width: 30, marginTop: 'auto'}}
+                    color="default"
+                    onClick={this.submitForm.bind(this)} >
+                    <Send style={{ width: 20, height: 20}}/>
+                  </Button>
+                </div>
               </div>
             </form>
           </CardContent>

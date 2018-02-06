@@ -50,7 +50,6 @@ class PostPage extends PureComponent {
 
   state = {
     open: false,
-    user_id: "1",
     trustFormIsOpen: false,
     reportFormIsOpen: false,
     reportReason: '',
@@ -174,7 +173,7 @@ class PostPage extends PureComponent {
         source_id: this.state.source_id,
         comment: this.state.trustReason,
         link: this.state.link,
-        screenshot: this.state.trustScreenshot,
+        screenshot: this.props.trustScreenshot,
         user_id: this.state.user_id,
         post_id: postId
       }
@@ -186,14 +185,17 @@ class PostPage extends PureComponent {
     return false
   }
 
+  renderComments = () => {
+    const { trusts, reports, comments } = this.props.selectedPost
+
+    const allComments = [].concat(trusts, reports, comments)
+    console.log(allComments)
+  }
+
   render() {
     if (!!this.props.selectedPost) {
       var { user, content, trusts, reports, images, created_at } = this.props.selectedPost
-      var { trustiness, profile } = user
-      var { nickname } = profile
     }
-
-    console.log(user);
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
@@ -207,9 +209,9 @@ class PostPage extends PureComponent {
         <CardMedia
           className="expanded-cover"
           image={images}
-          />
-        <div className="expanded-details">
+        />
 
+        <div className="expanded-details">
           <div className="formwrapper">
             {this.state.reportFormIsOpen ? <ReportForm
                                             handleChange={this.handleChange}
@@ -230,7 +232,7 @@ class PostPage extends PureComponent {
           </div>
 
           <CardHeader className="expanded-card-header"
-            title="Name Lastname"
+            title={this.props.userProfileName}
             subheader={date}
             avatar={
               <Badge className="expanded-badge" badgeContent={this.props.userTrustiness} color="default">
@@ -259,13 +261,13 @@ class PostPage extends PureComponent {
                 </IconButton>
               </Fragment>
             }
-
-            title={this.props.userProfileName}
-            subheader={date}
           />
           <CardContent className="expanded-content">
             <Typography type="body1" >{content}</Typography>
           </CardContent>
+          <div className="comments">
+            {this.renderComments()}
+          </div>
         </div>
       </Card>
     )
@@ -279,6 +281,7 @@ const mapStateToProps = state => ({
   userTrustiness: state.posts.userTrustiness,
   userProfilePic: state.posts.userProfilePic,
   userProfileName: state.posts.userProfileName,
+  trustScreenshot: state.posts.trustScreenshot
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
