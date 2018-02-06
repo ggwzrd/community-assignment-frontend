@@ -2,21 +2,28 @@ import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { fetchOnePost, fetchSources } from '../actions/posts/fetch'
+import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
 
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
-import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import Typography from 'material-ui/Typography'
+// material-ui
+import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
+import Typography from 'material-ui/Typography';
 import Avatar from 'material-ui/Avatar'
-import Badge from 'material-ui/Badge'
-import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
-import ReportIcon from 'material-ui-icons/Report'
-import Tooltip from 'material-ui/Tooltip'
+import Badge from 'material-ui/Badge';
+import VerifiedUserIcon from 'material-ui-icons/VerifiedUser';
+import ReportIcon from 'material-ui-icons/Report';
+import Tooltip from 'material-ui/Tooltip';
+// import Dialog, {
+//   DialogActions,
+//   DialogContent,
+//   DialogContentText,
+//   DialogTitle,
+// } from 'material-ui/Dialog'
 
 import './styles/PostPage.css'
 
@@ -149,6 +156,18 @@ class PostPage extends PureComponent {
       source_id: sourceId
     })
   }
+  
+  renderPicture = () => {
+    const { userProfilePic } = this.props
+    if (userProfilePic === null) {
+      return "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    } else {
+    return userProfilePic
+    }
+  }
+
+  render() {
+    console.log(this.props.selectedPost);
 
   handleTrustClick = () => {
     if (this.validateTrust()) {
@@ -172,8 +191,12 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { user, content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { trustiness, profile } = user
+      var { nickname } = profile
     }
+
+    console.log(user);
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
@@ -213,10 +236,10 @@ class PostPage extends PureComponent {
             title="Name Lastname"
             subheader={date}
             avatar={
-              <Badge className="expanded-badge" badgeContent={100} color="default">
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
+              <Badge className="expanded-badge" badgeContent={this.props.userTrustiness} color="default">
+              <Avatar
+                alt="Remy shape"
+                src={this.renderPicture()}
                 />
               </Badge>
             }
@@ -239,6 +262,9 @@ class PostPage extends PureComponent {
                 </IconButton>
               </Fragment>
             }
+
+            title={this.props.userProfileName}
+            subheader={date}
           />
           <CardContent className="expanded-content">
             <Typography type="body1" >{content}</Typography>
@@ -253,7 +279,158 @@ const mapStateToProps = state => ({
   selectedPost: state.posts.selectedPost,
   sources: state.sources,
   loading: state.loading,
-  userTrustiness: state.posts.user
+  userTrustiness: state.posts.userTrustiness,
+  userProfilePic: state.posts.userProfilePic,
+  userProfileName: state.posts.userProfileName,
 })
 
-export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost })(PostPage)
+export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts })(PostPage)
+
+
+
+
+// <div className="post-page">
+//   <Paper className="post-details" elevation={4}>
+//     <Typography type="headline" component="h3">
+//       Post# {id}
+//       {is_spam}
+//       Trust Count: {trusts && trusts.length}
+//       Report Count: {reports && reports.length}
+//     </Typography>
+//     <img src={images} alt="Something"/>
+//     <Typography component="p">
+//       {content}
+//       {link}
+//     </Typography>
+//
+//
+//     <Button
+//       raised
+//       onClick={this.handleClickOpen}
+//       color="secondary"
+//       className="report">Report</Button>
+//
+//
+//
+//
+//
+//
+//     <Dialog
+//       open={this.state.open}
+//       onClose={this.handleClose}
+//       aria-labelledby="form-dialog-title"
+//     >
+//     <DialogTitle id="form-dialog-title">Report Post</DialogTitle>
+//     <DialogContent>
+//       <DialogContentText>
+//         To report a post you need to fill in a reason.
+//       </DialogContentText>
+//       <TextField
+//         onChange={this.handleChange('reason')}
+//         autoFocus
+//         margin="dense"
+//         id="reason"
+//         label="Reason"
+//         type="email"
+//         fullWidth
+//       />
+//       <TextField
+//         onChange={this.handleChange('link')}
+//         autoFocus
+//         margin="dense"
+//         id="link"
+//         label="Link"
+//         type="link"
+//         fullWidth
+//       />
+//       <TextField
+//         onChange={this.handleChange('screenshot')}
+//         autoFocus
+//         margin="dense"
+//         id="screenshot"
+//         label="Screenshot"
+//         type="screenshot"
+//         fullWidth
+//       />
+//     </DialogContent>
+//     <DialogActions>
+//       <Button onClick={this.handleClose} color="primary">
+//         Cancel
+//       </Button>
+//       <Button onClick={this.handleReportClick} color="primary">
+//         Report
+//       </Button>
+//     </DialogActions>
+//   </Dialog>import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card';
+//
+//
+//   <Button
+//     raised
+//     onClick={this.handleClickOpen}
+//     color="primary"
+//     className="trust">Trust</Button>
+//
+//
+//
+//
+//
+//
+// <Dialog
+//     open={this.state.open}
+//     onClose={this.handleClose}
+//     aria-labelledby="form-dialog-title"
+//   >
+//     <DialogTitle id="form-dialog-title">Trust Post</DialogTitle>
+//     <DialogContent>
+//       <DialogContentText>
+//         To trust a post you need to fill in a source.
+//       </DialogContentText>
+//       <FormControl component="fieldset" required>
+//         <FormLabel component="legend">Source</FormLabel>
+//         <RadioGroup
+//           aria-label="source"
+//           name="source"
+//           value={this.state.source}
+//           onChange={this.handleChange}
+//         >
+//           <div className="radio-buttons">
+//             <FormControlLabel value="facebook" control={<Radio />} label={<img src='' alt='' />} />
+//             <FormControlLabel value="google" control={<Radio />} label={<img src='' alt='' />} />
+//             <FormControlLabel value="reddit" control={<Radio />} label={<img src='' alt='' />} />
+//             <FormControlLabel value="coinerd" control={<Radio />} label={<img src='' alt='' />} />
+//             <FormControlLabel value="twitter" disabled control={<Radio />} label={<img src='' alt='' />} />
+//           </div>
+//         </RadioGroup>
+//       </FormControl>
+//       <TextField
+//         onChange={this.handleChange('link')}
+//         autoFocus
+//         margin="dense"
+//         id="link"
+//         label="Link"
+//         type="link"
+//         fullWidth
+//       />
+//       <TextField
+//         onChange={this.handleChange('screenshot')}
+//         autoFocus
+//         margin="dense"
+//         id="screenshot"
+//         label="Screenshot"
+//         type="screenshot"
+//         fullWidth
+//       />
+//     </DialogContent>
+//     <DialogActions>
+//       <Button onClick={this.handleClose} color="primary">
+//         Cancel
+//       </Button>
+//       <Button onClick={this.handleTrustClick} color="primary">
+//         Trust
+//       </Button>
+//     </DialogActions>
+//   </Dialog>
+//   </Paper>
+//
+//
+// </div>
