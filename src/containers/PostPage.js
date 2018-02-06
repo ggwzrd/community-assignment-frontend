@@ -198,12 +198,54 @@ class PostPage extends PureComponent {
     const { trusts, reports, comments } = this.props.selectedPost
     const allComments = [trusts, reports, comments]
     const mergedComments = [].concat.apply([], allComments)
+
     const sortedComments = mergedComments.sort((a, b) => {
       return a.created_at < b.created_at
     })
 
     if (trusts && reports && comments) {
-      return sortedComments.map(comment => <div>{comment.text || comment.reason || comment.comment}</div>)
+      return sortedComments.map(comment => this.renderComment(comment))
+    }
+  }
+
+  renderComment(comment) {
+    const placeholder = "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+    const user = comment.user
+
+    if (comment.text) {
+      return <div className="comment">
+              <Badge className="badge" badgeContent={user.trustiness} color="default">
+                <Avatar
+                  alt={user.profile.nickname}
+                  src={user.profile.picture || placeholder }
+                />
+              </Badge>
+              <p className="comment-text"><b>{user.profile.nickname} says: </b>{comment.text}</p>
+            </div>
+    }
+
+    if (comment.comment) {
+      return <div className="trust">
+              <Badge className="badge" badgeContent={user.trustiness} color="default">
+                <Avatar
+                  alt={user.profile.nickname}
+                  src={user.profile.picture || placeholder }
+                />
+              </Badge>
+              <p className="comment-text"><b>{user.profile.nickname} <span className="bold-green">trusts</span> this post: </b><i>{comment.comment}</i></p>
+            </div>
+    }
+    
+    if (comment.reason) {
+      return <div className="report">
+              <Badge className="badge" badgeContent={user.trustiness} color="default">
+                <Avatar
+                  alt={user.profile.nickname}
+                  src={user.profile.picture || placeholder }
+                />
+              </Badge>
+              <p className="comment-text"><b>{user.profile.nickname} <span className="bold-red">reported</span> this post: </b><i>{comment.reason}</i></p>
+            </div>
     }
   }
 
