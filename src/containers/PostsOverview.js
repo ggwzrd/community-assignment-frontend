@@ -10,9 +10,11 @@ import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
 import PostPage from './PostPage'
 import CreatePostForm from '../components/forms/CreatePostForm'
-import API from '../api/client'
+// import API from '../api/client'
+import cableAPI from '../api/cableClient'
 
-const api = new API()
+const cable = new cableAPI()
+// const api = new API()
 
 class PostsOverview extends PureComponent {
   state = {
@@ -98,6 +100,11 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
+        <button onClick={cable.subscribePosts}>subPosts</button>
+        <button onClick={cable.unsubscribePosts}>unsubPosts</button>
+        <button onClick={cable.subscribeAppearance}>subApp</button>
+        <button onClick={cable.unsubscribeAppearance}>unsubApp</button>
+        <button onClick={cable.broadCastPosts( "ohh haai" )}>broadcast</button>
 
 
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
@@ -134,8 +141,6 @@ class PostsOverview extends PureComponent {
         <PostPage postId={this.state.postId}/>
 
         </Dialog>
-        <button onClick={api.subscribePosts}>sub</button>
-        <button onClick={api.broadCast}>go</button>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 // src/api/client.js
 
 import request from 'superagent'
-import ActionCable from 'actioncable'
+// import ActionCable from 'actioncable'
 
 export default class ApiClient {
   defaultOptions = {
@@ -15,9 +15,7 @@ export default class ApiClient {
 
     this.options = { ...this.defaultOptions, ...options }
 
-    const token = this.getToken()
-    this.cable = ActionCable.createConsumer(`http://localhost:3030/cable?token=${token}`)
-    this.subscription = false
+
     // this.subscribePosts()
   }
 
@@ -30,31 +28,31 @@ export default class ApiClient {
   //    .catch(err => console.log(err))
   //
   // Returns: Promise
+  //
+  // subscribePosts = ( ) => {
+  //   this.subscription = this.cable.subscriptions.create({channel:"PostsChannel"},
+  //     {
+  //       connected: this.connected,
+  //       received: this.received
+  //     }
+  //
+  //   )
+  // }
 
-  subscribePosts = ( ) => {
-    this.subscription = this.cable.subscriptions.create({channel:"PostsChannel"},
-      {
-        connected: this.connected,
-        received: this.received
-      }
+  // connected = () => {
+  //   console.log("eomone connected");
+  // }
+  // received = (data) => {
+  //   const dat = JSON.stringify(data)
+  //   console.log(`Received Data: ${dat}`);
+  //
+  // };
 
-    )
-  }
-
-  connected = () => {
-    console.log("eomone connected");
-  }
-  received = (data) => {
-    const dat = JSON.stringify(data)
-    console.log(`Received Data: ${dat}`);
-
-  };
-
-  broadCast = () => {
-    // console.log(this.subscription);
-    this.subscription.send({ sent_by: "Paul", body: "This is a cool chat app." })
-    // ActionCable.server.broadCast( "PostsChannel", { sent_by: 'Paul', body: 'This is a cool chat app.' } )
-  }
+  // broadCast = () => {
+  //   // console.log(this.subscription);
+  //   this.subscription.send({ sent_by: "Paul", body: "This is a cool chat app." })
+  //   // ActionCable.server.broadCast( "PostsChannel", { sent_by: 'Paul', body: 'This is a cool chat app.' } )
+  // }
   //
   // cableConnect = (callback) => {
   //   const token = this.getToken()
