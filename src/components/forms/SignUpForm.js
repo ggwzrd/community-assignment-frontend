@@ -11,13 +11,16 @@ import {
 } from 'material-ui/Dialog'
 
 class SignUpForm extends PureComponent {
-  state = {
-    first_name: "",
-    last_name: "",
-    nickname: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
+  constructor() {
+    super()
+    this.state = {
+      first_name: "",
+      last_name: "",
+      nickname: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+    }
   }
 
   validateAll() {
@@ -30,15 +33,8 @@ class SignUpForm extends PureComponent {
   submitSignUpForm(event) {
     event.preventDefault()
     if (this.validateAll()) {
-      const user = {
-      user: { first_name: this.state.first_name,
-              last_name: this.state.last_name,
-              nickname: this.state.nickname,
-              email: this.state.email,
-              password: this.state.password
-            }
-      }
-      this.props.signUp(user)
+      const { first_name, last_name, nickname, email, password } = this.state
+      this.props.signUp({ first_name, last_name, nickname, email, password })
     }
     this.props.handleDialogClose()
   }
@@ -155,7 +151,7 @@ class SignUpForm extends PureComponent {
 }
 
   render() {
-  const { nicknameError, emailError, passwordError, passwordConfirmationError} = this.state
+  const { first_name, last_name, nickname, email, password, passwordConfirmation, nicknameError, emailError, passwordError, passwordConfirmationError} = this.state
 
   const { handleDialogClose } = this.props
 
@@ -173,6 +169,7 @@ class SignUpForm extends PureComponent {
           id="firstName"
           label="Your first Name"
           type="text"
+          value={first_name}
           onChange={this.setFirstName.bind(this)} />
         <TextField
           autoFocus
@@ -181,6 +178,7 @@ class SignUpForm extends PureComponent {
           id="lastName"
           label="Your last Name"
           type="lastName"
+          value={last_name}
           onChange={this.setLastName.bind(this)} />
         <TextField
           autoFocus
@@ -189,6 +187,7 @@ class SignUpForm extends PureComponent {
           id="nickname"
           label={nicknameError || "Your nickname"}
           type="nickname"
+          value={nickname}
           onChange={this.handleChange('nickname').bind(this)}
           error={!!nicknameError} />
         <TextField
@@ -198,6 +197,7 @@ class SignUpForm extends PureComponent {
           id="email"
           label={emailError || "Email Address"}
           type="email"
+          value={email}
           onChange={this.handleChange('email')}
           error={!!emailError} />
         <TextField
@@ -207,6 +207,7 @@ class SignUpForm extends PureComponent {
           id="password"
           label={passwordError || "Password"}
           type="password"
+          value={password}
           onChange={this.handleChange('password')}
           error={!!passwordError} />
         <TextField
@@ -216,6 +217,7 @@ class SignUpForm extends PureComponent {
           id="passwordConfirmation"
           label={passwordConfirmationError || "Repeat Password"}
           type="password"
+          value={passwordConfirmation}
           onChange={this.handleChange('passwordConfirmation')}
           error={!!passwordConfirmationError} />
       </DialogContent>

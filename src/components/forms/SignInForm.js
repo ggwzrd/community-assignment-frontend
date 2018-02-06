@@ -11,6 +11,14 @@ import {
 } from 'material-ui/Dialog'
 
 class SignInForm extends PureComponent {
+  constructor() {
+    super()
+    this.state = {
+      email: "",
+      password: "",
+    }
+  }
+
   updateEmail(event) {
     this.setState({
       email: event.target.value

@@ -81,8 +81,6 @@ class Navbar extends React.Component {
 
   render() {
     const { anchorEl } = this.state
-    console.log(this.state)
-
     const open = Boolean(anchorEl)
     const { signedIn } = this.props
     return (
@@ -148,7 +146,7 @@ class Navbar extends React.Component {
               </Dialog>
           </div>
         </div>
-
+        console.log(this.state)
       </div>
     )
   }
