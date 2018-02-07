@@ -166,7 +166,7 @@ export class EditProfile extends PureComponent {
             <div className='profile-form'>
 
             <TextField
-              InputLabelProps={{ shrink: !!this.props.first_name }}
+              InputLabelProps={{ shrink: !!this.props.first_name || this.state.firstname }}
               autoFocus={true}
               id="firstname"
               label="First name"
@@ -181,7 +181,7 @@ export class EditProfile extends PureComponent {
             />
 
             <TextField
-              InputLabelProps={{ shrink: !!this.props.last_name }}
+              InputLabelProps={{ shrink: !!this.props.last_name || this.state.lastname }}
               id="lastname"
               label="Last name"
               margin="normal"
@@ -195,7 +195,7 @@ export class EditProfile extends PureComponent {
             />
 
             <TextField
-              InputLabelProps={{ shrink: !!this.props.bio }}
+              InputLabelProps={{ shrink: !!this.props.bio || this.state.bio }}
               multiline
               id="bio"
               label="Bio"
