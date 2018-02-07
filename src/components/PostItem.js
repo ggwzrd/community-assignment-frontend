@@ -51,7 +51,7 @@ class PostItem extends PureComponent {
         <div className="details">
           <CardHeader className="card-header" onClick={onProfileClick}
             avatar={
-              <Badge className="badge" badgeContent={trustiness} color="default">
+              <Badge className="badge" badgeContent={trustiness || ""} color="default">
                 <Avatar
                   alt={nickname}
                   src={this.renderPicture()}
