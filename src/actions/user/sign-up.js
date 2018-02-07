@@ -33,7 +33,7 @@ export default (user) => {
         const profileData = {
           nickname: user.nickname,
         }
-        
+
         api.post(`/users/${result.body.id}/profiles`, profileData)
         .then((result) => {
           dispatch({ type: APP_DONE_LOADING })

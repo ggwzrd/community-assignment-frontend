@@ -32,7 +32,6 @@ export class EditProfile extends PureComponent {
 
   static propTypes = {
     createPost: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired,
   }
 
 
