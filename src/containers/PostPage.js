@@ -20,6 +20,7 @@ import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
 import ReportIcon from 'material-ui-icons/Report'
 import Tooltip from 'material-ui/Tooltip'
 import Input from 'material-ui/Input'
+import Button from 'material-ui/Button'
 // import Dialog, {
 //   DialogActions,
 //   DialogContent,
@@ -184,7 +185,8 @@ class PostPage extends PureComponent {
     return false
   }
 
-  submitComment = () => {
+  submitComment = (event) => {
+    event.preventDefault()
     const postId = this.props.selectedPost.id
     const newComment = {
       post_id: postId,
@@ -235,7 +237,7 @@ class PostPage extends PureComponent {
               <p className="comment-text"><b>{user.profile.nickname} <span className="bold-green">trusts</span> this post: </b><i>{comment.comment}</i></p>
             </div>
     }
-    
+
     if (comment.reason) {
       return <div className="report">
               <Badge className="badge" badgeContent={user.trustiness} color="default">
@@ -326,14 +328,22 @@ class PostPage extends PureComponent {
           <CardContent className="expanded-content">
             <Typography type="body1" >{content}</Typography>
           </CardContent>
-          <Input
-            placeholder="Placeholder"
-            inputProps={{
-              'aria-label': 'Description',
-            }}
-            onChange={this.handleChange('comment')}
-          />
-        <button onClick={this.submitComment} color="primary">comment</button>
+          <div className="comment-field">
+            <div className="comment-input">
+              <Input
+                placeholder="Add a comment..."
+                fullWidth={true}
+                inputProps={{
+                  'aria-label': 'Description',
+                }}
+                onChange={this.handleChange('comment')}
+              />
+            </div>
+            <Button
+              flat
+              onClick={this.submitComment.bind(this)}
+              color="primary">comment</Button>
+          </div>
           <div className="comments">
             {this.renderComments()}
           </div>
