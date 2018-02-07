@@ -14,8 +14,6 @@ class SignUpForm extends PureComponent {
   constructor() {
     super()
     this.state = {
-      first_name: "",
-      last_name: "",
       nickname: "",
       email: "",
       password: "",
@@ -33,23 +31,11 @@ class SignUpForm extends PureComponent {
   submitSignUpForm(event) {
     event.preventDefault()
     if (this.validateAll()) {
-      const { first_name, last_name, nickname, email, password } = this.state
-      this.props.signUp({ first_name, last_name, nickname, email, password  })
+      const { nickname, email, password, passwordConfirmation } = this.state
+      this.props.signUp({ nickname, email, password, passwordConfirmation })
     }
-    this.props.handleDialogClose()
   }
 
-  setFirstName(event) {
-    this.setState({
-      first_name: event.target.value
-    })
-  }
-
-  setLastName(event) {
-    this.setState({
-      last_name: event.target.value
-    })
-  }
 
   validateNickname() {
     const { nickname } = this.state
@@ -151,7 +137,7 @@ class SignUpForm extends PureComponent {
 }
 
   render() {
-  const { first_name, last_name, nickname, email, password, passwordConfirmation, nicknameError, emailError, passwordError, passwordConfirmationError} = this.state
+  const { nickname, email, password, passwordConfirmation, nicknameError, emailError, passwordError, passwordConfirmationError} = this.state
 
   const { handleDialogClose } = this.props
 
@@ -162,64 +148,55 @@ class SignUpForm extends PureComponent {
         <DialogContentText>
           Please fill in your sign up information.
         </DialogContentText>
-        <TextField
-          autoFocus
-          fullWidth
-          margin="dense"
-          id="firstName"
-          label="Your first Name"
-          type="text"
-          value={first_name}
-          onChange={this.setFirstName.bind(this)} />
-        <TextField
-          autoFocus
-          fullWidth
-          margin="dense"
-          id="lastName"
-          label="Your last Name"
-          type="lastName"
-          value={last_name}
-          onChange={this.setLastName.bind(this)} />
+
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="nickname"
-          label={nicknameError || "Your nickname"}
+          label="Your nickname"
           type="nickname"
           value={nickname}
           onChange={this.handleChange('nickname').bind(this)}
+          helperText={nicknameError}
           error={!!nicknameError} />
+
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="email"
-          label={emailError || "Email Address"}
+          label="Email Address"
           type="email"
           value={email}
           onChange={this.handleChange('email')}
+          helperText={emailError}
           error={!!emailError} />
+
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="password"
-          label={passwordError || "Password"}
+          label="Password"
           type="password"
           value={password}
           onChange={this.handleChange('password')}
+          helperText={passwordError}
           error={!!passwordError} />
+
         <TextField
           autoFocus
           fullWidth
           margin="dense"
           id="passwordConfirmation"
-          label={passwordConfirmationError || "Repeat Password"}
+          label="Password confirmation"
           type="password"
           value={passwordConfirmation}
           onChange={this.handleChange('passwordConfirmation')}
+          helperText={passwordConfirmationError}
           error={!!passwordConfirmationError} />
+
       </DialogContent>
 
       <DialogActions>
