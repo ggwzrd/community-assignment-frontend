@@ -20,7 +20,8 @@ export default (user) => {
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        dispatch(signIn(user)) // Sign in when sign up succeeded
+        
+        // dispatch(signIn(user)) // Sign in when sign up succeeded
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
