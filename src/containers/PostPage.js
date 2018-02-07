@@ -40,6 +40,8 @@ export const postShape = PropTypes.shape({
   reports: PropTypes.array
 })
 
+export const placeholder = "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
+
 class PostPage extends PureComponent {
 
   static propTypes = {
@@ -162,7 +164,7 @@ class PostPage extends PureComponent {
 
   renderPicture = () => {
     const { userProfilePic } = this.props
-    return userProfilePic === null ? "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : userProfilePic
+    return userProfilePic === null ? placeholder : userProfilePic
   }
 
   handleTrustClick = () => {
@@ -211,7 +213,6 @@ class PostPage extends PureComponent {
   }
 
   renderComment(comment) {
-    const placeholder = "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
     const user = comment.user
 
     if (comment.text) {
