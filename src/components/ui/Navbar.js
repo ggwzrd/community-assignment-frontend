@@ -133,10 +133,8 @@ class Navbar extends React.Component {
                         </div>
                         }
           </Toolbar>
-        </AppBar>
+          </AppBar>
 
-        <div className="formwrapper">
-          <div>
             <Dialog
               open={this.state.signUpFormIsOpen}
               onClose={this.handleDialogClose}
@@ -144,9 +142,7 @@ class Navbar extends React.Component {
                 <SignUpForm
                   handleDialogClose={this.handleDialogClose.bind(this)}/>
             </Dialog>
-          </div>
 
-          <div>
             <Dialog
               open={this.state.signInFormIsOpen}
               onClose={this.handleDialogClose}
@@ -154,8 +150,6 @@ class Navbar extends React.Component {
             <SignInForm
               handleDialogClose={this.handleDialogClose.bind(this)} />
             </Dialog>
-          </div>
-        </div>
       </div>
     )
   }
