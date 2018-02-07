@@ -13,33 +13,43 @@ export const USER_SIGNED_UP = 'USER_SIGNED_UP'
 const api = new API()
 
 export default (user) => {
-  console.log(user);
+  const signupUser = {
+    user:
+    {
+      email:user.email,
+      nickname: user.nickname,
+      password:user.password,
+      password_confirmation: user.passwordConfirmation
+    }
+  }
+
+  const profileData = {
+    nickname: user.nickname
+  }
+
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
-    const signupUser = {
-      user:
-      {
-        email:user.email,
-        password:user.password,
-        password_confirmation: user.passwordConfirmation
-      }
-    }
 
     api.post('/users', signupUser)
+
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
+        console.log(user);
 
-        const profileData = {
-          nickname: user.nickname,
-        }
+        api.storeToken(result.body.token)
 
-        api.post(`/users/${result.body.id}/profiles`, profileData)
+        api.post('/profiles', profileData)
+        //
         .then((result) => {
           dispatch({ type: APP_DONE_LOADING })
           dispatch({type: USER_SIGNED_UP, payload: user})
+
+          dispatch(signIn(signupUser)) // Sign in when sign up succeeded
+
         })
         .catch((error) => {
+          console.log();
           dispatch({ type: APP_DONE_LOADING })
           dispatch({
             type: LOAD_ERROR,
@@ -47,7 +57,7 @@ export default (user) => {
           })
         })
 
-        dispatch(signIn(signupUser)) // Sign in when sign up succeeded
+
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
@@ -56,5 +66,6 @@ export default (user) => {
           payload: error.message
         })
       })
+
   }
 }
