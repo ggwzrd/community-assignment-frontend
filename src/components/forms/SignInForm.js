@@ -1,4 +1,6 @@
 import React, { PureComponent, Fragment } from "react"
+import { connect } from 'react-redux'
+import signIn from '../../actions/user/sign-in'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import {
@@ -9,8 +11,40 @@ import {
 } from 'material-ui/Dialog'
 
 class SignInForm extends PureComponent {
+  constructor() {
+    super()
+    this.state = {
+      email: "",
+      password: "",
+    }
+  }
+
+  updateEmail(event) {
+    this.setState({
+      email: event.target.value
+    })
+ }
+
+  updatePassword(event) {
+    this.setState({
+      password: event.target.value
+    })
+  }
+
+  submitSignInForm(event) {
+    event.preventDefault()
+    const user = {
+      user: { email: this.state.email,
+              password: this.state.password
+            }
+    }
+    this.props.signIn( user )
+
+    this.props.handleDialogClose()
+  }
+
   render() {
-  const { updateEmail, updatePassword, handleDialogClose, submitSignInForm } = this.props
+  const { handleDialogClose } = this.props
 
   return (
     <Fragment>
@@ -25,7 +59,7 @@ class SignInForm extends PureComponent {
           id="email"
           label="Email Address"
           type="email"
-          onChange={updateEmail}
+          onChange={this.updateEmail.bind(this)}
           fullWidth />
         <TextField
           autoFocus
@@ -33,7 +67,7 @@ class SignInForm extends PureComponent {
           id="password"
           label="password"
           type="password"
-          onChange={updatePassword}
+          onChange={this.updatePassword.bind(this)}
           fullWidth />
       </DialogContent>
 
@@ -41,7 +75,7 @@ class SignInForm extends PureComponent {
         <Button onClick={handleDialogClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={submitSignInForm} color="primary">
+        <Button onClick={this.submitSignInForm.bind(this)} color="primary">
           Sign in
         </Button>
       </DialogActions>
@@ -50,4 +84,8 @@ class SignInForm extends PureComponent {
  }
 }
 
-export default SignInForm
+const mapStateToProps = ({currentUser}) => ({
+  signedIn: !!currentUser && !!currentUser.token,
+})
+
+export default connect(mapStateToProps, {signIn})(SignInForm)
