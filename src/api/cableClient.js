@@ -11,14 +11,16 @@ export default class cableClient {
   // 2. Define our constructor
   constructor() {
     const token = api.getToken()
-    if (token){
+    // if (token){
       this.cable = ActionCable.createConsumer(`${WEBSOCKET_HOST}?token=${token}`);
-    }
-    else {
-      this.cable = ActionCable.createConsumer(`${WEBSOCKET_HOST}`);
-      // console.log("No user found");
-
-    }
+      console.log("consumer created");
+      console.log(this.cable);
+    // }
+    // else {
+    //   this.cable = ActionCable.createConsumer(`${WEBSOCKET_HOST}`);
+    //   // console.log("No user found");
+    //
+    // }
     this.appearanceChannel = false
     this.postsChannel = false
   }
@@ -34,7 +36,7 @@ export default class cableClient {
           connected: this.connected,
           disconnected: this.disconnected,
           received: this.received,
-          rejected: this.rejected,
+          rejected: this.rejectedAppearance,
         }
       )
     }
@@ -49,10 +51,20 @@ export default class cableClient {
           connected: this.connected,
           disconnected: this.disconnected,
           received: this.received,
-          rejected: this.rejected,
+          rejected: this.rejectedPosts,
         }
       )
     }
+  }
+
+  findCons = () => {
+    console.log(ActionCable.server);
+  }
+
+  findSub = (sub) => (event) => {
+
+    console.log(this.cable.subscriptions.subscriptions[0]);
+    console.log(ActionCable.subscriptions.subscriptions);
   }
 
   unsubscribePosts = () => {
@@ -68,6 +80,7 @@ export default class cableClient {
       this.appearanceChannel.unsubscribe()
       // this.cable.subscriptions.remove(this.appearanceChannel)
       this.appearanceChannel = false
+      // console.log(this.appearanceChannel);
     }
   }
 
@@ -87,8 +100,17 @@ export default class cableClient {
     console.warn(`User disconnected.`)
   };
 
-  rejected = () => {
+  rejectedAppearance = () => {
     console.warn(`I was rejected! :( `)
+    // console.log(this.appearanceChannel);
+    // this.unsubscribeAppearance()
+    this.appearanceChannel = false
+
+  };
+  rejectedPosts = () => {
+    console.warn(`I was rejected! :( `)
+    // this.unsubscribePosts()
+    this.postsChannel = false
   };
 
   broadCastPosts = (text) => (event) => {

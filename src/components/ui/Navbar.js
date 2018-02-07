@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchUser } from '../../actions/user/fetch'
+// import { fetchUser } from '../../actions/user/fetch'
 import signOut from '../../actions/user/sign-out'
 import SignUpForm from '../forms/SignUpForm'
 import SignInForm from '../forms/SignInForm'
@@ -24,7 +24,7 @@ class Navbar extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchUser()
+    // this.props.fetchUser()
   }
 
   goHome = () => {
@@ -166,4 +166,4 @@ const mapStateToProps = ({currentUser}) => ({
   user: currentUser
 })
 
-export default connect(mapStateToProps, { signOut, push, fetchUser })(Navbar)
+export default connect(mapStateToProps, { signOut, push })(Navbar)

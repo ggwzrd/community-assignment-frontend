@@ -34,7 +34,7 @@ class SignUpForm extends PureComponent {
     event.preventDefault()
     if (this.validateAll()) {
       const { first_name, last_name, nickname, email, password } = this.state
-      this.props.signUp({ first_name, last_name, nickname, email, password })
+      this.props.signUp({ first_name, last_name, nickname, email, password  })
     }
     this.props.handleDialogClose()
   }

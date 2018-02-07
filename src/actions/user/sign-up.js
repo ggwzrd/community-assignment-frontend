@@ -6,7 +6,7 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 } from '../loading'
-import signIn from './sign-in'
+// import signIn from './sign-in'
 
 export const USER_SIGNED_UP = 'USER_SIGNED_UP'
 
@@ -20,7 +20,11 @@ export default (user) => {
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        dispatch(signIn(user)) // Sign in when sign up succeeded
+        console.log("signup succesful");
+        // dispatch(signIn(user)) // Sign in when sign up succeeded
+        // api.authenticate(result.body).then((res) =>{
+        //   console.log(res)
+        // })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
