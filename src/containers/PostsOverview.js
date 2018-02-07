@@ -11,8 +11,12 @@ import { fetchPosts } from '../actions/posts/fetch'
 import { fetchTags } from '../actions/tags/fetch'
 
 import Dialog from 'material-ui/Dialog'
-
+// import uuid4 from 'uuid4'
+// import PostPage from './PostPage'
+// import CreatePostForm from '../components/forms/CreatePostForm'
+// import API from '../api/client'
 import './styles/PostsOverview.css'
+// const api = new API()
 
 class PostsOverview extends PureComponent {
   state = {
@@ -95,6 +99,9 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
+
+
+
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
             post.tags && post.tags.some(tag => {
 
@@ -115,7 +122,6 @@ class PostsOverview extends PureComponent {
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
               comments={post.comments}
-              trustiness={post.user.trustiness}
               onClick={this.handleDialogOpen(post.id)}
               onProfileClick={this.goToUser(post.user_id)}
               />)}

@@ -81,6 +81,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   submitForm(event) {
+
     event.preventDefault()
 
     if (this.validateContent() && this.validateTags() && this.validateLink()) {
@@ -158,6 +159,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
+
     const { loading } = this.props
 
     return (
