@@ -204,7 +204,7 @@ class PostPage extends PureComponent {
     const mergedComments = [].concat.apply([], allComments)
 
     const sortedComments = mergedComments.sort((a, b) => {
-      return a.created_at < b.created_at
+      return new Date(a.created_at) < new Date(b.created_at)
     })
 
     if (trusts && reports && comments) {
