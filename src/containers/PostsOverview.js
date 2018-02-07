@@ -1,18 +1,22 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
+import uuid4 from 'uuid4'
+import { push } from 'react-router-redux'
 import PostItem from '../components/PostItem'
 import TagItem from '../components/TagItem'
+import PostPage from './PostPage'
+import CreatePostForm from '../components/forms/CreatePostForm'
 import { fetchPosts } from '../actions/posts/fetch'
 import { fetchTags } from '../actions/tags/fetch'
-import './styles/PostsOverview.css'
+
 import Dialog from 'material-ui/Dialog'
 import uuid4 from 'uuid4'
 import PostPage from './PostPage'
 import CreatePostForm from '../components/forms/CreatePostForm'
 // import API from '../api/client'
 import cableAPI from '../api/cableClient'
-
+import './styles/PostsOverview.css'
 const cable = new cableAPI()
 // const api = new API()
 
@@ -23,6 +27,7 @@ class PostsOverview extends PureComponent {
     postId: null
 
   }
+
   // static propTypes = {
   //   posts: PropTypes.array.isRequired,
   //   tags: PropTypes.array.isRequired
@@ -63,18 +68,14 @@ class PostsOverview extends PureComponent {
     this.setState({ tag: event.target.value });
   }
 
+  goToUser = userId => event => {
+    this.props.push(`/users/${userId}`)
+  }
 
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
-
-    // console.log(this.props)
-
-    // var sub = api.cableConnect()
-
-
-    // console.log(sub);
 
     return (
       <div className="container">
@@ -125,9 +126,11 @@ class PostsOverview extends PureComponent {
               createdAt={post.created_at}
               trustiness={post.user.trustiness}
               picture={ post.user.profile.picture}
-
               nickname={post.user.profile.nickname}
+              comments={post.comments}
+              trustiness={post.user.trustiness}
               onClick={this.handleDialogOpen(post.id)}
+              onProfileClick={this.goToUser(post.user_id)}
               />)}
         </div>
 
@@ -151,4 +154,4 @@ const mapStateToProps = state => ({
   tags: state.tags
 })
 
-export default connect(mapStateToProps, { fetchPosts, fetchTags })(PostsOverview)
+export default connect(mapStateToProps, { fetchPosts, fetchTags, push })(PostsOverview)

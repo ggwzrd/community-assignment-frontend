@@ -1,4 +1,3 @@
-// import { replace } from 'react-router-redux'
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -7,29 +6,23 @@ import {
   LOAD_SUCCESS
 } from '../loading'
 
-export const USER_SIGNED_IN = 'USER_SIGNED_IN'
+export const FETCHED_USER = 'FETCHED_USER'
 
 const api = new API()
 
-export default ( user ) => {
+export const fetchUser = (userId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
-    api.authenticate(user)
+
+    api.get(`/users/${userId}`)
       .then((res) => {
+
+        dispatch({
+          type: FETCHED_USER,
+          payload: res.body
+        })
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        const jwt = res.body.token
-
-        api.storeToken(jwt)
-
-        return res.body
-
-      })
-      .then((res) => {
-        dispatch({
-          type: USER_SIGNED_IN,
-          payload: res
-        })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })

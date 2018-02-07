@@ -1,18 +1,15 @@
 import React, { PureComponent, Fragment } from 'react'
-// import { Link } from 'react-router-dom'
 import './styles/PostItem.css'
 import Card, { CardHeader, CardContent, CardMedia } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import Typography from 'material-ui/Typography'
-// import SkipPreviousIcon from 'material-ui-icons/SkipPrevious'
-// import PlayArrowIcon from 'material-ui-icons/PlayArrow'
-// import SkipNextIcon from 'material-ui-icons/SkipNext'
 import Avatar from 'material-ui/Avatar'
 import Badge from 'material-ui/Badge'
 import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
 import ReportIcon from 'material-ui-icons/Report'
 import Tooltip from 'material-ui/Tooltip'
 import './styles/PostItem.css'
+import ModeCommentIcon from 'material-ui-icons/ModeComment'
 
 class PostItem extends PureComponent {
 
@@ -26,8 +23,17 @@ class PostItem extends PureComponent {
   }
 
   render() {
-    const { summary, images, trusts, reports, createdAt, onClick, picture, nickname, trustiness } = this.props
-    // console.log(this.props)
+    const { summary,
+            images,
+            trusts,
+            reports,
+            createdAt,
+            onClick,
+            nickname,
+            trustiness,
+            comments,
+            onProfileClick } = this.props
+
     const date = new Date(createdAt).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',
@@ -36,17 +42,18 @@ class PostItem extends PureComponent {
                                                              minute: 'numeric' })
 
     return (
-      <Card className="post-item"  elevation={0} onClick={onClick}>
+      <Card className="post-item"  elevation={0}>
         <CardMedia
+          onClick={onClick}
           className="cover"
           image={images}
           />
         <div className="details">
-          <CardHeader className="card-header"
+          <CardHeader className="card-header" onClick={onProfileClick}
             avatar={
               <Badge className="badge" badgeContent={trustiness} color="default">
                 <Avatar
-                  alt="Remy Sharp"
+                  alt={nickname}
                   src={this.renderPicture()}
                   />
               </Badge>
@@ -54,28 +61,36 @@ class PostItem extends PureComponent {
             }
             action={
               <Fragment>
-              <IconButton>
-                <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+                <IconButton>
                   <Badge className="badge trust" badgeContent={trusts && trusts.length} color="default">
                     <VerifiedUserIcon fontSize="true"/>
                   </Badge>
+                </IconButton>
               </Tooltip>
 
-              </IconButton>
-              <IconButton>
-                <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+                <IconButton>
                   <Badge className="badge report" badgeContent={reports && reports.length} color="default">
                     <ReportIcon fontSize="true" className="badgeIcon"/>
                   </Badge>
+                </IconButton>
               </Tooltip>
 
-              </IconButton>
+              <Tooltip id="tooltip-top" title="Comment on this post" placement="top" className="tooltip">
+                <IconButton>
+                  <Badge className="badge comment" badgeContent={comments && comments.length} color="default">
+                    <ModeCommentIcon fontSize="true" className="badgeIcon"/>
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+
             </Fragment>
             }
             title={nickname}
             subheader={date}
           />
-          <CardContent className="content">
+          <CardContent className="content" onClick={onClick}>
 
             <Typography type="body1" >
               {summary}
@@ -88,21 +103,3 @@ class PostItem extends PureComponent {
 }
 
 export default PostItem
-
-
-
-//
-//
-// <div className="post-item">
-//   <div className="post-info">
-//     <p>Trusts: {trusts.length}</p>
-//     <p>Reports: {reports.length}</p>
-//   </div>
-//   <p>{content}</p>
-//   <div className="post-img">
-//     <img src={images} alt='' />
-//   </div>
-//   <Link to={ `/posts/${id}` }>
-//     <div className="read-more-box"><p className="read-more">Read more</p></div>
-//   </Link>
-// </div>

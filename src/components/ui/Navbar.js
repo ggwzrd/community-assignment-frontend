@@ -1,177 +1,169 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { fetchUser } from '../../actions/user/fetch'
 import signOut from '../../actions/user/sign-out'
-import signIn from '../../actions/user/sign-in'
-// import PropTypes from 'prop-types'
-import './Navbar.css'
-// import CreatePost from '../forms/createPost'
+import SignUpForm from '../forms/SignUpForm'
 import SignInForm from '../forms/SignInForm'
-
+//material-ui & styling
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Avatar from 'material-ui/Avatar'
-import AddIcon from 'material-ui-icons/Add'
 import Dialog from 'material-ui/Dialog'
-import IconButton from 'material-ui/IconButton'
-import HomeIcon from 'material-ui-icons/Home'
+import './Navbar.css'
 
 class Navbar extends React.Component {
   state = {
     anchorEl: null,
     open: false,
-    email: "",
-    password: "",
+    signUpFormIsOpen: false,
+    signInFormIsOpen: false,
   }
 
-  handleChange = (event, checked) => {
-    this.setState({ signedInSwitch: checked })
-  }
-
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
-
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  handleDialogOpen = () => {
-    this.setState({ open: true })
-  }
-
-  handleDialogClose = () => {
-    this.setState({ open: false })
-  }
-
-  signOut = (event) => {
-    event.preventDefault()
-    this.props.signOut()
-    this.handleClose()
-  }
-
-  updateEmail(event) {
-    this.setState({
-      email: event.target.value
-    })
-  }
-
-  updatePassword(event) {
-    this.setState({
-      password: event.target.value
-    })
-  }
-
-  signUp = () => {
-    this.props.push('/sign-up')
+  componentWillMount() {
+    this.props.fetchUser()
   }
 
   goHome = () => {
     this.props.push('/')
   }
 
+  goToUser = userId => event => {
+    this.handleClose()
+    this.props.push(`/users/${userId}`)
+  }
 
-  submitForm(event) {
+  renderPicture = () => {
+    const { user } = this.props
+    return user.picture === null ?
+     "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : user.picture
+  }
+
+//handle menu items
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget })
+  }
+
+//handle dialogs
+  handleDialogOpen = () => {
+    !this.state.signUpFormIsOpen ? this.setState({ signUpFormIsOpen: true }) : null
+    !this.state.signInFormIsOpen ? this.setState({ signInFormIsOpen: true }) : null
+  }
+
+  handleDialogClose = () => {
+    this.state.signUpFormIsOpen ? this.setState({ signUpFormIsOpen: false }) : null
+    this.state.signInFormIsOpen ? this.setState({ signInFormIsOpen: false }) : null
+  }
+
+  setSignInState = () => {
+    this.state.signInFormIsOpen && this.setState({ signInFormIsOpen: false})
+    this.setState({
+      signInFormIsOpen: !this.state.signInFormIsOpen,
+    })
+  }
+
+  setSignUpState = () => {
+    this.state.signOutFormIsOpen && this.setState({ signOutFormIsOpen: false})
+    this.setState({
+      signUpFormIsOpen: !this.state.signUpFormIsOpen,
+    })
+  }
+
+//sign-out
+  signOut = (event) => {
     event.preventDefault()
+    this.props.signOut()
+    this.handleClose()
+  }
 
-    const user = {
-      user: { email: this.state.email,
-              password: this.state.password
-            }
-    }
-    this.props.signIn( user )
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  }
 
-    this.handleDialogClose()
+  renderFullname = () => {
+    return this.props.user === undefined
+      ? null
+      : <span className="username">Hi, {this.props.user.nickname}</span>
   }
 
   render() {
-
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { signedIn } = this.props
-    // console.log(this.props.signedIn);
-    // console.log(this.props.currentUser);
+    const { signedIn, user } = this.props
     return (
       <div className="navbar">
-        <AppBar position="static">
+        <AppBar position="static" style={{backgroundColor: "#3b7680"}}>
           <Toolbar>
-            <Typography type="title" color="inherit" className="navbar logo">
-              <IconButton onClick={this.goHome}><HomeIcon /></IconButton>
+            <Typography onClick={this.goHome} type="title" color="inherit" className="title">
+              <img onClick={this.goHome} className="home-logo" src="http://res.cloudinary.com/dyyxiefx5/image/upload/v1517396145/coinmunity-logos/logo.svg" alt="Coinmunity" />
               Coinmunity
             </Typography>
             {signedIn ?
                         <div className="user-menu">
-                          <Button fab mini
-                            color="primary"
-                            aria-label="add"
-                            className="button add"
-                            onClick={this.handleDialogOpen}
-                            >
-                            <AddIcon />
-                          </Button>
-
+                             {this.renderFullname()}
                           <Avatar
                             alt="Remy Sharp"
-                            src="https://cdn2.f-cdn.com/files/download/24619452/natural+background.png"
-                            onMouseEnter={this.handleMenu}
-                            />
-
+                            src={this.renderPicture()}
+                            onClick={this.handleMenu}
+                          />
                           <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}
                             anchorOrigin={{
-                              vertical: 'top',
+                              vertical: 'bottom',
                               horizontal: 'right',
                             }}
                             transformOrigin={{
-                              vertical: 'top',
+                              vertical: -74,
                               horizontal: 'right',
                             }}
                             open={open}
-                            onClose={this.handleClose}
-                          >
-                            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                            onClose={this.handleClose}>
+                            <MenuItem onClick={this.goToUser(user.id)}>Profile</MenuItem>
                             <MenuItem onClick={this.signOut.bind(this)}>Sign out</MenuItem>
                           </Menu>
                         </div>
                         :
-                          // <Button color="secondary" className="menuButton" onClick={this.signUp}>Sign up</Button>
-                          <Button color="secondary" className="menuButton" onClick={this.handleDialogOpen}>Sign in</Button>
+                        <div className="signUp-signIn">
+                          <Button color="primary" className="menuButton" onClick={this.setSignUpState}>Sign up</Button>
+                          <Button color="primary" className="menuButton" onClick={this.setSignInState}>Sign in</Button>
+                        </div>
                         }
-
           </Toolbar>
         </AppBar>
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleDialogClose}
-          aria-labelledby="form-dialog-title"
-        >
+        <div className="formwrapper">
+          <div>
+            <Dialog
+              open={this.state.signUpFormIsOpen}
+              onClose={this.handleDialogClose}
+              aria-labelledby="signUp-form-dialog">
+                <SignUpForm
+                  handleDialogClose={this.handleDialogClose.bind(this)}/>
+            </Dialog>
+          </div>
 
-        <SignInForm
-          handleDialogClose={this.handleDialogClose}
-          submitForm={this.submitForm.bind(this)}
-          updatePassword={this.updatePassword.bind(this)}
-          updateEmail={this.updateEmail.bind(this)}
-          />
-
-        </Dialog>
-
+          <div>
+            <Dialog
+              open={this.state.signInFormIsOpen}
+              onClose={this.handleDialogClose}
+              aria-labelledby="signIn-form-dialog">
+            <SignInForm
+              handleDialogClose={this.handleDialogClose.bind(this)} />
+            </Dialog>
+          </div>
+        </div>
       </div>
     )
   }
 }
 
-
-// const mapStateToProps = state => ({
-//   signedIn: !!state.currentUser
-// })
-
 const mapStateToProps = ({currentUser}) => ({
-  signedIn: !!currentUser && !!currentUser.token
+  signedIn: !!currentUser && !!currentUser.token,
+  user: currentUser
 })
 
-export default connect(mapStateToProps, { signIn, signOut, push })(Navbar)
+export default connect(mapStateToProps, { signOut, push, fetchUser })(Navbar)

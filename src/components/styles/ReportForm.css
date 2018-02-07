@@ -1,0 +1,30 @@
+.report-form {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+#photo {
+  width: 30%;
+}
+
+.report-fields {
+  width: 70%;
+  margin-right: 2rem;
+}
+
+.report-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.card-form {
+  padding: 2rem !important;
+}
+
+.error {
+  font-size: 11px;
+  color: red;
+}
