@@ -146,7 +146,6 @@ class Navbar extends React.Component {
               </Dialog>
           </div>
         </div>
-        console.log(this.state)
       </div>
     )
   }
