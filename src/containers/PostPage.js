@@ -254,7 +254,7 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { content, trusts, reports, images, created_at, user } = this.props.selectedPost
     }
 
     if (!!this.props.userTrustiness) {
@@ -277,13 +277,13 @@ class PostPage extends PureComponent {
 
         <div className="expanded-details">
           <div className="formwrapper">
-            {this.state.reportFormIsOpen ? <ReportForm
+            {this.state.reportFormIsOpen && (this.props.currentUser.id !== user.id) ? <ReportForm
                                             handleChange={this.handleChange}
                                             setReportState={this.setReportState}
                                             reportError={this.state.reportError}
                                             handleReportClick={this.handleReportClick}/> : null}
 
-            {this.state.trustFormIsOpen ? <TrustForm
+            {this.state.trustFormIsOpen && (this.props.currentUser.id !== user.id) ? <TrustForm
                                             handleChange={this.handleChange}
                                             setTrustState={this.setTrustState}
                                             handleTrustClick={this.handleTrustClick}
@@ -361,7 +361,8 @@ const mapStateToProps = state => ({
   userTrustiness: state.posts.userTrustiness,
   userProfilePic: state.posts.userProfilePic,
   userProfileName: state.posts.userProfileName,
-  trustScreenshot: state.posts.trustScreenshot
+  trustScreenshot: state.posts.trustScreenshot,
+  currentUser: state.currentUser
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts, createComment })(PostPage)
