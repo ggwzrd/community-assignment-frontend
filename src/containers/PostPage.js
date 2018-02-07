@@ -20,6 +20,7 @@ import VerifiedUserIcon from 'material-ui-icons/VerifiedUser'
 import ReportIcon from 'material-ui-icons/Report'
 import Tooltip from 'material-ui/Tooltip'
 import Input from 'material-ui/Input'
+import Button from 'material-ui/Button'
 // import Dialog, {
 //   DialogActions,
 //   DialogContent,
@@ -38,6 +39,8 @@ export const postShape = PropTypes.shape({
   trusts: PropTypes.array,
   reports: PropTypes.array
 })
+
+export const placeholder = "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
 
 class PostPage extends PureComponent {
 
@@ -161,7 +164,7 @@ class PostPage extends PureComponent {
 
   renderPicture = () => {
     const { userProfilePic } = this.props
-    return userProfilePic === null ? "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : userProfilePic
+    return userProfilePic === null ? placeholder : userProfilePic
   }
 
   handleTrustClick = () => {
@@ -184,7 +187,8 @@ class PostPage extends PureComponent {
     return false
   }
 
-  submitComment = () => {
+  submitComment = (event) => {
+    event.preventDefault()
     const postId = this.props.selectedPost.id
     const newComment = {
       post_id: postId,
@@ -209,7 +213,6 @@ class PostPage extends PureComponent {
   }
 
   renderComment(comment) {
-    const placeholder = "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png"
     const user = comment.user
 
     if (comment.text) {
@@ -235,7 +238,7 @@ class PostPage extends PureComponent {
               <p className="comment-text"><b>{user.profile.nickname} <span className="bold-green">trusts</span> this post: </b><i>{comment.comment}</i></p>
             </div>
     }
-    
+
     if (comment.reason) {
       return <div className="report">
               <Badge className="badge" badgeContent={user.trustiness} color="default">
@@ -326,14 +329,22 @@ class PostPage extends PureComponent {
           <CardContent className="expanded-content">
             <Typography type="body1" >{content}</Typography>
           </CardContent>
-          <Input
-            placeholder="Placeholder"
-            inputProps={{
-              'aria-label': 'Description',
-            }}
-            onChange={this.handleChange('comment')}
-          />
-        <button onClick={this.submitComment} color="primary">comment</button>
+          <div className="comment-field">
+            <div className="comment-input">
+              <Input
+                placeholder="Add a comment..."
+                fullWidth={true}
+                inputProps={{
+                  'aria-label': 'Description',
+                }}
+                onChange={this.handleChange('comment')}
+              />
+            </div>
+            <Button
+              flat
+              onClick={this.submitComment.bind(this)}
+              color="primary">comment</Button>
+          </div>
           <div className="comments">
             {this.renderComments()}
           </div>
