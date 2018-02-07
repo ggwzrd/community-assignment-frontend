@@ -9,10 +9,10 @@ export default class ApiClient {
   }
 
   constructor(host, options = {}) {
-    this.host = 'https://api-coinmunity.herokuapp.com'
-    // this.host = process.env.NODE_ENV === 'production'
-    //   ? 'https://api-coinmunity.herokuapp.com' // WITHOUT the / !!!
-    //   : (host || 'http://localhost:3030')
+    // this.host = 'https://api-coinmunity.herokuapp.com'
+    this.host = process.env.NODE_ENV === 'production'
+      ? 'https://api-coinmunity.herokuapp.com'
+      : 'http://localhost:3030'
 
     this.options = { ...this.defaultOptions, ...options }
 
