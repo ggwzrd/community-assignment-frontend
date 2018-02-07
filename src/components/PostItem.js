@@ -43,11 +43,11 @@ class PostItem extends PureComponent {
 
     return (
       <Card className="post-item"  elevation={0}>
-        <CardMedia
+        {images && <CardMedia
           onClick={onClick}
           className="cover"
           image={images}
-          />
+        />}
         <div className="details">
           <CardHeader className="card-header" onClick={onProfileClick}
             avatar={
@@ -55,9 +55,8 @@ class PostItem extends PureComponent {
                 <Avatar
                   alt={nickname}
                   src={this.renderPicture()}
-                  />
+                />
               </Badge>
-
             }
             action={
               <Fragment>

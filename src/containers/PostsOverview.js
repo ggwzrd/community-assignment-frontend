@@ -26,11 +26,6 @@ class PostsOverview extends PureComponent {
 
   }
 
-  // static propTypes = {
-  //   posts: PropTypes.array.isRequired,
-  //   tags: PropTypes.array.isRequired
-  // }
-
   selectTag(tagId) {
     if (tagId === this.state.selectedTagId) {
       this.setState({ selectedTagId: null })
@@ -77,9 +72,7 @@ class PostsOverview extends PureComponent {
 
     return (
       <div className="container">
-        <div className="">
-          <CreatePostForm />
-        </div>
+        { this.props.currentUser && <CreatePostForm /> }
         <div className="tags-container">
           <TagItem
             id={null}
@@ -99,9 +92,6 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-
-
-
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
             post.tags && post.tags.some(tag => {
 
@@ -112,6 +102,7 @@ class PostsOverview extends PureComponent {
             <PostItem
               id={post.id}
               key={uuid4()}
+              tags={post.tags}
               content={post.content}
               summary={post.summary}
               images={post.images}
@@ -133,9 +124,7 @@ class PostsOverview extends PureComponent {
           aria-labelledby="form-dialog-title"
           style={{ overflowY: "scroll" }}
         >
-
-        <PostPage postId={this.state.postId}/>
-
+          <PostPage postId={this.state.postId}/>
         </Dialog>
       </div>
     )
@@ -144,7 +133,8 @@ class PostsOverview extends PureComponent {
 
 const mapStateToProps = state => ({
   posts: state.posts.allPosts,
-  tags: state.tags
+  tags: state.tags,
+  currentUser: state.currentUser
 })
 
 export default connect(mapStateToProps, { fetchPosts, fetchTags, push })(PostsOverview)
