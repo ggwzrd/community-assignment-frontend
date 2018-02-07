@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchUser } from '../../actions/user/fetch'
 import signOut from '../../actions/user/sign-out'
 import SignUpForm from '../forms/SignUpForm'
 import SignInForm from '../forms/SignInForm'
@@ -21,10 +20,6 @@ class Navbar extends React.Component {
     open: false,
     signUpFormIsOpen: false,
     signInFormIsOpen: false,
-  }
-
-  componentWillMount() {
-    this.props.fetchUser()
   }
 
   goHome = () => {
@@ -133,10 +128,8 @@ class Navbar extends React.Component {
                         </div>
                         }
           </Toolbar>
-        </AppBar>
+          </AppBar>
 
-        <div className="formwrapper">
-          <div>
             <Dialog
               open={this.state.signUpFormIsOpen}
               onClose={this.handleDialogClose}
@@ -144,9 +137,7 @@ class Navbar extends React.Component {
                 <SignUpForm
                   handleDialogClose={this.handleDialogClose.bind(this)}/>
             </Dialog>
-          </div>
 
-          <div>
             <Dialog
               open={this.state.signInFormIsOpen}
               onClose={this.handleDialogClose}
@@ -154,8 +145,6 @@ class Navbar extends React.Component {
             <SignInForm
               handleDialogClose={this.handleDialogClose.bind(this)} />
             </Dialog>
-          </div>
-        </div>
       </div>
     )
   }
@@ -166,4 +155,4 @@ const mapStateToProps = ({currentUser}) => ({
   user: currentUser
 })
 
-export default connect(mapStateToProps, { signOut, push, fetchUser })(Navbar)
+export default connect(mapStateToProps, { signOut, push })(Navbar)

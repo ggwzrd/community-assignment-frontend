@@ -26,6 +26,9 @@ import { fetchUserPosts } from '../../actions/posts/fetch'
 import { fetchUser } from '../../actions/user/fetch'
 import '../styles/ProfilePage.css'
 
+
+import EditProfile from '../../components/forms/EditProfile'
+
 class ProfilePage extends PureComponent {
   state = {
     open: false,
@@ -97,11 +100,36 @@ class ProfilePage extends PureComponent {
       : null
   }
 
+  renderFirstname = () => {
+    return this.props.user.profile === undefined
+      ? ""
+      : this.props.user.profile.first_name
+  }
+
+  renderLastname = () => {
+    return this.props.user.profile === undefined
+      ? ""
+      : this.props.user.profile.last_name
+  }
+
+  renderBio = () => {
+    return this.props.user.profile === undefined
+      ? ""
+      : this.props.user.profile.bio
+  }
+
 
   render() {
     const { user, userPosts } = this.props
+    const firstName = this.renderFirstname()
     return (
       <Fragment>
+        <EditProfile
+        first_name={this.renderFirstname()}
+        last_name={this.renderLastname()}
+        bio={this.renderBio()}
+        />
+
         <Paper className='profile-info'>
 
           <div className="profile-content">
