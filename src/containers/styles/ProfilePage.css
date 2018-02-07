@@ -14,6 +14,7 @@
 .profile-details {
   margin-left: 20px;
   align-self: center;
+  flex: 1;
 }
 
 .nickname {
@@ -61,5 +62,6 @@
   flex-wrap: wrap;
   margin: 20px;
   justify-content: center;
-
+  flex: 1;
+  justify-content: flex-start;
 }
