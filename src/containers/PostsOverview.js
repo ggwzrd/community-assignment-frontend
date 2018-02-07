@@ -15,9 +15,7 @@ import Dialog from 'material-ui/Dialog'
 // import PostPage from './PostPage'
 // import CreatePostForm from '../components/forms/CreatePostForm'
 // import API from '../api/client'
-import cableAPI from '../api/cableClient'
 import './styles/PostsOverview.css'
-const cable = new cableAPI()
 // const api = new API()
 
 class PostsOverview extends PureComponent {
@@ -101,12 +99,7 @@ class PostsOverview extends PureComponent {
         </div>
 
         <div className="posts-container">
-        <button onClick={cable.subscribePosts}>subPosts</button>
-        <button onClick={cable.unsubscribePosts}>unsubPosts</button>
-        <button onClick={cable.subscribeAppearance}>subApp</button>
-        <button onClick={cable.unsubscribeAppearance}>unsubApp</button>
-        <button onClick={cable.broadCastPosts( "ohh haai" )}>broadcast</button>
-        <button onClick={cable.findCons}>find</button>
+
 
 
           {posts && (selectedTagId === null ? posts : posts.filter(post =>
@@ -129,7 +122,6 @@ class PostsOverview extends PureComponent {
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
               comments={post.comments}
-              // trustiness={post.user.trustiness}
               onClick={this.handleDialogOpen(post.id)}
               onProfileClick={this.goToUser(post.user_id)}
               />)}
