@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import uuid4 from 'uuid4'
-
+import { push } from 'react-router-redux'
 import PostItem from '../components/PostItem'
 import TagItem from '../components/TagItem'
 import PostPage from './PostPage'
@@ -62,6 +62,10 @@ class PostsOverview extends PureComponent {
     this.setState({ tag: event.target.value });
   }
 
+  goToUser = userId => event => {
+    this.props.push(`/users/${userId}`)
+  }
+
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
@@ -110,7 +114,10 @@ class PostsOverview extends PureComponent {
               trustiness={post.user.trustiness}
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
+              comments={post.comments}
+              trustiness={post.user.trustiness}
               onClick={this.handleDialogOpen(post.id)}
+              onProfileClick={this.goToUser(post.user_id)}
               />)}
         </div>
 
@@ -134,4 +141,4 @@ const mapStateToProps = state => ({
   tags: state.tags
 })
 
-export default connect(mapStateToProps, { fetchPosts, fetchTags })(PostsOverview)
+export default connect(mapStateToProps, { fetchPosts, fetchTags, push })(PostsOverview)

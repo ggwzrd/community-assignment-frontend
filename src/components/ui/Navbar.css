@@ -2,8 +2,12 @@
   width: 100%;
 }
 
-.navbar.logo {
+.title {
   flex: 1;
+  cursor: pointer;
+  align-items: center;
+  display: flex !important;
+  color: #FFF !important;
 }
 
 .menuButton {
@@ -19,22 +23,35 @@
 }
 
 .nav-avatar:hover{
-  box-shadow: 2px 2px 10px 2px #8B8982;
   transform: scale(1.05, 1.05);
 }
 
 .user-menu {
   display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #FFF;
+  transition: all ease-in 0.2s;
+}
+
+.user-menu:hover {
+  color: #fdd835;
+}
+
+.username {
+  margin-right: 10px;
 }
 
 .button.add {
   margin-right: 20px;
 }
 
-#menu-appbar {
+/* #menu-appbar {
   margin-top: 75px;
-}
+} */
 
 .home-logo {
-  width: 45px;
+  height: 60px;
+  margin: 10px 10px 10px 0;
+
 }

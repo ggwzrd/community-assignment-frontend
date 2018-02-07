@@ -161,7 +161,7 @@ export class CreatePostForm extends PureComponent {
     const { loading } = this.props
 
     return (
-      <Card className="card" elevation={0}>
+      <Card className="card" elevation={2}>
         <Dropzone
           multiple={false}
           accept="image/*"
