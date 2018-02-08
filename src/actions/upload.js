@@ -12,7 +12,7 @@ export const UPLOADED_IMAGE = 'UPLOADED_IMAGE'
 // const api = new API()
 
 const CLOUDINARY_UPLOAD_PRESET = 'hhstyojs'
-const CLOUDINARY_UPLOAD_URL = '	https://api.cloudinary.com/v1_1/dyyxiefx5/upload'
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dyyxiefx5/upload'
 
 export const uploadImage = (stateName, file) => {
   return (dispatch) => {
