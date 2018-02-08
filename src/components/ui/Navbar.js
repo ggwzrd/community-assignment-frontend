@@ -135,6 +135,7 @@ class Navbar extends React.Component {
               onClose={this.handleDialogClose}
               aria-labelledby="signUp-form-dialog">
                 <SignUpForm
+                  handleDialogSignIn={this.handleDialogOpen.bind(this)}
                   handleDialogClose={this.handleDialogClose.bind(this)}/>
             </Dialog>
 
@@ -143,6 +144,7 @@ class Navbar extends React.Component {
               onClose={this.handleDialogClose}
               aria-labelledby="signIn-form-dialog">
             <SignInForm
+              handleDialogSignUp={this.handleDialogOpen.bind(this)}
               handleDialogClose={this.handleDialogClose.bind(this)} />
             </Dialog>
       </div>
