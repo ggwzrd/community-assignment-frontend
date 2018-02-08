@@ -1,0 +1,17 @@
+.switchText {
+  text-align: center;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.54);
+  transition: all ease-in 0.2s;
+}
+
+.switchText:hover {
+  color: #000000;
+}
+.switchText:active {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.switchText:visited {
+  color: rgba(0, 0, 0, 0.54);
+}

@@ -9,6 +9,7 @@
     margin-bottom: 0;
     border-radius: 3px !important;
     transition: all ease-in 0.2s;
+    min-width: 600px;
 }
 
 

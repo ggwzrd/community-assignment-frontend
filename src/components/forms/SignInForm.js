@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from "react"
 import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
 import signIn from '../../actions/user/sign-in'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
@@ -10,6 +11,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog'
+
+import '../styles/SignForms.css'
 
 class SignInForm extends PureComponent {
   constructor() {
@@ -45,7 +48,7 @@ class SignInForm extends PureComponent {
   }
 
   render() {
-  const { handleDialogClose } = this.props
+  const { handleDialogClose, handleDialogSignUp } = this.props
 
   return (
     <Fragment>
@@ -73,21 +76,26 @@ class SignInForm extends PureComponent {
           fullWidth
           />
 
-          <Typography onClick={handleDialogClose}
-                      style={{textAlign: 'center',
-                              cursor: 'pointer',}}>
-            No account yet? Sign up here!
-          </Typography>
+
       </DialogContent>
 
-      <DialogActions style={{justifyContent: 'center', padding: 24}}>
+      <DialogActions style={{justifyContent: 'center'}}>
 
-        <Button onClick={handleDialogClose}>
+        <Button onClick={handleDialogClose} style={{marginRight: 20}}>
           Cancel
         </Button>
         <Button raised onClick={this.submitSignInForm.bind(this)} color="primary">
           Sign in
         </Button>
+      </DialogActions>
+
+      <DialogActions style={{justifyContent: 'center'}}>
+
+        <div style={{width: '100%', textAlign: 'center', marginBottom: 24}}>
+          <Link to="" onClick={handleDialogSignUp}
+                      className="switchText"
+                      >No account yet? Sign up here!</Link>
+        </div>
       </DialogActions>
     </Fragment>
   )
