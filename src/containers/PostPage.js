@@ -163,7 +163,6 @@ class PostPage extends PureComponent {
    this.setState({
      [name]: event.target.value
    })
-   console.log(this.state)
   }
 
   getSource = event => {
