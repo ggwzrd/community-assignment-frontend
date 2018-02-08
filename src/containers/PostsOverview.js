@@ -72,7 +72,7 @@ class PostsOverview extends PureComponent {
 
     return (
       <div className="container">
-        { this.props.currentUser && <CreatePostForm /> }
+        { this.props.currentUser && <CreatePostForm tags={tags}/> }
         <div className="tags-container">
           <TagItem
             id={null}

@@ -16,9 +16,9 @@ export default (user) => {
   const signupUser = {
     user:
     {
-      email:user.email,
+      email: user.email,
       nickname: user.nickname,
-      password:user.password,
+      password: user.password,
       password_confirmation: user.passwordConfirmation
     }
   }

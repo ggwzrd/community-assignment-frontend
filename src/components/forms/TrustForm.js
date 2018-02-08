@@ -52,6 +52,7 @@ class TrustForm extends PureComponent {
         <div className="trust-form">
           <div className="trust-fields">
             <TextField
+              value={this.state.trustReason}
               onChange={this.props.handleChange('trustReason')}
               autoFocus
               margin="dense"
@@ -63,6 +64,7 @@ class TrustForm extends PureComponent {
             <p className="error">{this.props.trustReasonError}</p>
 
             <TextField
+              value={this.state.trustLink}
               onChange={this.props.handleChange('trustLink')}
               autoFocus
               margin="dense"
