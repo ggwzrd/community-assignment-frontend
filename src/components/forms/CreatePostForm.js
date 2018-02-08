@@ -55,6 +55,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   handleTagChange = event => {
+    console.log(event.target);
     this.setState({
       tags: event.target.value
     })
@@ -205,9 +206,9 @@ export class CreatePostForm extends PureComponent {
                     >
                     {tagItems.map(tag => (
                       <MenuItem
-                        key={tag[0]}
-                        value={tag[1]}>
-                        {tag[1]}
+                        key={tag.name}
+                        value={tag.name}
+                        {tag.name}
                       </MenuItem>
                     ))}
                   </Select>
