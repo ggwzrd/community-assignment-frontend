@@ -95,7 +95,7 @@ export class CreatePostForm extends PureComponent {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tag: tags || [],
+        tag_ids: tags.map(tag => tag.id) || [],
         images: this.props.uploadedFileCloudinaryUrl
       }
 
@@ -168,7 +168,7 @@ export class CreatePostForm extends PureComponent {
 
   render() {
     const { loading, tags } = this.props
-    const tagItems = tags.map(tag => [tag.id, tag.name])
+    const tagArray = tags.map(tag => [tag.id, tag.name])
 
     return (
       <Card className="card" elevation={2}>
@@ -224,7 +224,7 @@ export class CreatePostForm extends PureComponent {
                       </div>
                     )}
                     >
-                    {tagItems.map(tag => (
+                    {tagArray.map(tag => (
                       <MenuItem
                         key={tag[0]}
                         value={tag[1]}>
