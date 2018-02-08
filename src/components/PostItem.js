@@ -60,7 +60,7 @@ class PostItem extends PureComponent {
             }
             action={
               <Fragment>
-              <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Trusts" placement="top" className="tooltip">
                 <IconButton>
                   <Badge className="badge trust" badgeContent={trusts ? trusts.length : 0} color="default">
                     <VerifiedUserIcon fontSize="true"/>
@@ -68,7 +68,7 @@ class PostItem extends PureComponent {
                 </IconButton>
               </Tooltip>
 
-              <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Reports" placement="top" className="tooltip">
                 <IconButton>
                   <Badge className="badge report" badgeContent={reports ? reports.length : 0} color="default">
                     <ReportIcon fontSize="true" className="badgeIcon"/>
@@ -76,7 +76,7 @@ class PostItem extends PureComponent {
                 </IconButton>
               </Tooltip>
 
-              <Tooltip id="tooltip-top" title="Comment on this post" placement="top" className="tooltip">
+              <Tooltip id="tooltip-top" title="Comments" placement="top" className="tooltip">
                 <IconButton>
                   <Badge className="badge comment" badgeContent={comments && comments.length } color="default">
                     <ModeCommentIcon fontSize="true" className="badgeIcon"/>
