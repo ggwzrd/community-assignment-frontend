@@ -145,7 +145,7 @@ class SignUpForm extends PureComponent {
   return (
     <Fragment>
       <DialogTitle id="form-dialog-title">Sign up</DialogTitle>
-      <DialogContent>
+      <DialogContent style={{width: 350}}>
         <DialogContentText>
           Please fill in your sign up information.
         </DialogContentText>
@@ -163,7 +163,6 @@ class SignUpForm extends PureComponent {
           error={!!nicknameError} />
 
         <TextField
-          autoFocus
           fullWidth
           margin="dense"
           id="email"
@@ -175,7 +174,6 @@ class SignUpForm extends PureComponent {
           error={!!emailError} />
 
         <TextField
-          autoFocus
           fullWidth
           margin="dense"
           id="password"
@@ -187,7 +185,6 @@ class SignUpForm extends PureComponent {
           error={!!passwordError} />
 
         <TextField
-          autoFocus
           fullWidth
           margin="dense"
           id="passwordConfirmation"
@@ -200,11 +197,11 @@ class SignUpForm extends PureComponent {
 
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={handleDialogClose} color="primary">
+      <DialogActions style={{justifyContent: 'center', padding: 24}}>
+        <Button onClick={handleDialogClose} color="default">
           Cancel
         </Button>
-        <Button onClick={this.submitSignUpForm.bind(this)} color="primary">
+        <Button raised onClick={this.submitSignUpForm.bind(this)} color="primary">
           Sign up
         </Button>
       </DialogActions>
