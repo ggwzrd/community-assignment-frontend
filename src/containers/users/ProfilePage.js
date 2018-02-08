@@ -1,4 +1,3 @@
-//renders ProfileInfo, Button, PostItems
 import React, { PureComponent, Fragment} from 'react'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
@@ -33,9 +32,11 @@ class ProfilePage extends PureComponent {
   state = {
     open: false,
     selectedTagId: null,
-    postId: null
-
+    postId: null,
+    showEditProfile: false,
+    showProfile: true
   }
+
   componentWillMount() {
     let userId = this.props.match.params.userId
 
@@ -118,25 +119,39 @@ class ProfilePage extends PureComponent {
       : this.props.user.profile.bio
   }
 
+  setEditProfileState = () => {
+    this.setState({
+      showEditProfile: !this.state.showEditProfile,
+      showProfile: !this.state.showProfile
+    })
+  }
+  //
+  // setShowProfileState = () => {
+  //   this.setState({
+  //     showProfile: !this.state.showProfile,
+  //     })
+  // }
 
   render() {
-    const { user, userPosts } = this.props
+    const { currentUser, user, userPosts } = this.props
+    const userId = this.props.match.params.userId
+
     return (
       <Fragment>
-        <EditProfile
-        first_name={this.renderFirstname()}
-        last_name={this.renderLastname()}
-        bio={this.renderBio()}
-        />
-
         <Paper className='profile-info'>
+              {this.state.showEditProfile ? <EditProfile
+                                              setEditProfileState={this.setEditProfileState}
+                                              first_name={this.renderFirstname()}
+                                              last_name={this.renderLastname()}
+                                              bio={this.renderBio()}
+                                            /> : null }
 
-          <div className="profile-content">
-            <Avatar
-              alt={this.renderNickname()}
-              src={this.renderPicture()}
-              className="profile-avatar"
-            />
+             {this.state.showProfile ? <Fragment> <div className="profile-content">
+                                          <Avatar
+                                              alt={this.renderNickname()}
+                                              src={this.renderPicture()}
+                                              className="profile-avatar"
+                                            />
             <div className='profile-details'>
               <Typography type='display1' style={{fontWeight: 700, color: "black"}}className='nickname'>
                 {this.renderNickname()}
@@ -153,11 +168,11 @@ class ProfilePage extends PureComponent {
             </div>
           </div>
 
-          <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
-            <IconButton className="profile-edit">
+          {currentUser.id.toString() === userId.toString() ? <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
+            <IconButton className="profile-edit" onClick={this.setEditProfileState}>
               <Edit className="profile-edit"/>
             </IconButton>
-          </Tooltip>
+          </Tooltip> : null }
 
           <ExpansionPanel style={{width: '100%'}} disabled={!!user.profile && user.profile.bio === null}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -168,10 +183,9 @@ class ProfilePage extends PureComponent {
                 {this.renderBio()}
               </Typography>
             </ExpansionPanelDetails>
-          </ExpansionPanel>
-
+          </ExpansionPanel></Fragment>
+          : null }
         </Paper>
-
 
         <div className="posts-container">
           {!!userPosts && userPosts.map(post =>
@@ -183,9 +197,10 @@ class ProfilePage extends PureComponent {
               images={post.images}
               trusts={post.trusts}
               reports={post.reports}
+              comments={post.comments}
               createdAt={post.created_at}
               trustiness={post.user.trustiness}
-              picture={ post.user.profile.picture}
+              picture={post.user.profile.picture}
               nickname={post.user.profile.nickname}
               onClick={this.handleDialogOpen(post.id)}
               />)}
@@ -197,9 +212,7 @@ class ProfilePage extends PureComponent {
           aria-labelledby="form-dialog-title"
           style={{ overflowY: "scroll" }}
         >
-
-        <PostPage postId={this.state.postId}/>
-
+          <PostPage postId={this.state.postId}/>
         </Dialog>
 
       </Fragment>

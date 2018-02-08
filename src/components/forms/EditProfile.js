@@ -1,9 +1,8 @@
 import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
 
-import { createPost } from '../../actions/posts/create'
+import { updateProfile } from '../../actions/user/updateProfile'
 import { uploadImage } from '../../actions/upload'
 import Dropzone from 'react-dropzone'
 
@@ -22,17 +21,18 @@ export class EditProfile extends PureComponent {
   }
 
   state = {
-      firstname: '',
-      lastname: '',
-      bio: '',
-    }
+    firstname: '',
+    lastname: '',
+    bio: '',
+    openEditProfile: false
+  }
 
   onDrop(files) {
     this.setState({
       uploadedFile: files[0]
     })
 
-    this.props.uploadImage('uploadedFileCloudinaryUrl', files[0])
+    this.props.uploadImage('newProfilePicture', files[0])
   }
 
   handleChange = name => event => {
@@ -48,36 +48,45 @@ export class EditProfile extends PureComponent {
   }
 
   validateField = name => _ => {
-  switch(name) {
-    case 'firstname' :
-      return this.validateFirstname()
-    case 'lastname' :
-      return this.validateLastname()
-    case 'bio' :
-      return this.validateBio()
-    default :
-      return this.validateAll()
+    switch(name) {
+      case 'firstname' :
+        return this.validateFirstname()
+      case 'lastname' :
+        return this.validateLastname()
+      case 'bio' :
+        return this.validateBio()
+      default :
+        return this.validateAll()
+    }
   }
-}
 
+  clearInputFields() {
+    this.setState({
+      firstname: '',
+      lastname: '',
+      bio: '',
+      images: ''
+    })
+  }
 
   submitForm(event) {
     event.preventDefault()
 
     if (this.validateFirstname() && this.validateLastname() && this.validateBio()) {
-      const newPost = {
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        bio: this.state.bio,
-        images: this.props.uploadedFileCloudinaryUrl
+      const profileId = this.props.profile.id
+      const updatedProfile = {
+        first_name: this.state.firstname || this.props.first_name,
+        last_name: this.state.lastname || this.props.last_name,
+        bio: this.state.bio || this.props.bio,
+        picture: this.props.newProfilePicture || this.props.picture
       }
-
-      // this.props.createPost(newPost)
+      this.props.updateProfile(updatedProfile, profileId)
+      this.clearInputFields()
+      this.props.setEditProfileState()
     }
 
     return false
   }
-
 
   validateFirstname() {
     const firstname = this.state.firstname
@@ -124,15 +133,16 @@ export class EditProfile extends PureComponent {
     return false
   }
 
+  openEditProfile = () => {
+    this.state.trustFormIsOpen && this.setState({ trustFormIsOpen: false})
+    this.setState({ reportFormIsOpen: !this.state.reportFormIsOpen })
+  }
 
   render() {
     const { loading } = this.props
     return (
       <Fragment>
-        <Paper className='profile-info'>
-
           <div className="profile-content">
-
             <Dropzone
               multiple={false}
               accept="image/*"
@@ -142,57 +152,56 @@ export class EditProfile extends PureComponent {
                 <CardMedia
                 className="profile-avatar"
                 style={{ borderRadius: '50%', backgroundPosition: 'center center' }}
-                image={this.props.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
+                image={this.props.newProfilePicture || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
                 />
                 <div className="progress-circle">{loading ? <CircularProgress /> : null }</div>
               </div>
             </Dropzone>
 
-            <div className='profile-form'>
+              <div className='profile-form'>
+              <TextField
+                InputLabelProps={{ shrink: !!this.props.first_name || this.state.firstname }}
+                autoFocus={true}
+                id="firstname"
+                label="First name"
+                margin="normal"
+                fullWidth={false}
+                className="firstname-input"
+                onChange={this.handleChange('firstname')}
+                placeholder={this.props.first_name}
+                value={this.state.firstname}
+                helperText={this.state.firstnameError}
+                error={!!this.state.firstnameError}
+              />
 
-            <TextField
-              InputLabelProps={{ shrink: !!this.props.first_name || this.state.firstname }}
-              autoFocus={true}
-              id="firstname"
-              label="First name"
-              margin="normal"
-              fullWidth={false}
-              className="firstname-input"
-              onChange={this.handleChange('firstname')}
-              placeholder={this.props.first_name}
-              value={this.state.firstname}
-              helperText={this.state.firstnameError}
-              error={!!this.state.firstnameError}
-            />
+              <TextField
+                InputLabelProps={{ shrink: !!this.props.last_name || this.state.lastname }}
+                id="lastname"
+                label="Last name"
+                margin="normal"
+                fullWidth={false}
+                className="lastname-input"
+                onChange={this.handleChange('lastname')}
+                placeholder={this.props.last_name}
+                value={this.state.lastname}
+                helperText={this.state.lastnameError}
+                error={!!this.state.lastnameError}
+              />
 
-            <TextField
-              InputLabelProps={{ shrink: !!this.props.last_name || this.state.lastname }}
-              id="lastname"
-              label="Last name"
-              margin="normal"
-              fullWidth={false}
-              className="lastname-input"
-              onChange={this.handleChange('lastname')}
-              placeholder={this.props.last_name}
-              value={this.state.lastname}
-              helperText={this.state.lastnameError}
-              error={!!this.state.lastnameError}
-            />
-
-            <TextField
-              InputLabelProps={{ shrink: !!this.props.bio || this.state.bio }}
-              multiline
-              id="bio"
-              label="Bio"
-              margin="dense"
-              fullWidth={false}
-              className="bio-input"
-              onChange={this.handleChange('bio')}
-              placeholder={this.props.bio}
-              value={this.state.bio}
-              helperText={this.state.bioError}
-              error={!!this.state.bioError}
-            />
+              <TextField
+                InputLabelProps={{ shrink: !!this.props.bio || this.state.bio }}
+                multiline
+                id="bio"
+                label="Bio"
+                margin="dense"
+                fullWidth={false}
+                className="bio-input"
+                onChange={this.handleChange('bio')}
+                placeholder={this.props.bio}
+                value={this.state.bio}
+                helperText={this.state.bioError}
+                error={!!this.state.bioError}
+              />
 
             <Button
               style={{
@@ -209,7 +218,6 @@ export class EditProfile extends PureComponent {
 
             </div>
           </div>
-        </Paper>
       </Fragment>
     )
   }
@@ -217,98 +225,9 @@ export class EditProfile extends PureComponent {
 
 
 const mapStateToProps = state => ({
-  uploadedFileCloudinaryUrl: state.posts.uploadedFileCloudinaryUrl,
-  loading: state.loading
+  newProfilePicture: state.posts.newProfilePicture,
+  loading: state.loading,
+  profile: state.user.profile
 })
 
-export default connect(mapStateToProps, { createPost, uploadImage })(EditProfile)
-
-
-
-
-// <Card className="card" elevation={2}>
-// <Dropzone
-// multiple={false}
-// accept="image/*"
-// onDrop={this.onDrop.bind(this)}
-// style={{border: "none"}}>
-// <div style={{ position: 'relative', height: '100%' }}>
-// <CardMedia
-// className="cover-upload"
-// image={this.props.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
-// />
-// <div className="progress-circle">{loading ? <CircularProgress /> : null }</div>
-// </div>
-// </Dropzone>
-//
-// <div>
-// <CardContent className="content">
-// <form onSubmit={this.submitForm.bind(this)}>
-// <div className="post-form">
-// <TextField
-// style={{marginBottom: 10}}
-// id="multiline-flex"
-// label="Your post here"
-// fullWidth={true}
-// multiline
-// rowsMax="4"
-// margin="none"
-// onChange={this.handleChange('content')}
-// />
-// <div className="error-text">{this.state.contentError}</div>
-//
-// <FormControl className="formControl">
-// <InputLabel htmlFor="select-multiple-tags">Tags</InputLabel>
-// <Select
-// style={{marginBottom: 10}}
-// margin="none"
-// multiple
-// value={this.state.tags}
-// onChange={this.handleTagChange}
-// input={<Input id="select-multiple-tags" />}
-// renderValue={selected => (
-//   <div className="chips">
-//   {selected.map(value => <Chip
-//     key={value}
-//     label={value}
-//     className="chip"
-//     style={{height: 20}}
-//     />)}
-//     </div>
-//   )}
-//   >
-//   {tags.map(tag => (
-//     <MenuItem
-//     key={tag}
-//     value={tag}>
-//     {tag}
-//     </MenuItem>
-//   ))}
-//   </Select>
-//   <div className="error-text">{this.state.tagError}</div>
-//   </FormControl>
-//   <div className="bottom-input">
-//   <div className="link">
-//   <TextField
-//   id="link"
-//   label="Link"
-//   margin="none"
-//   fullWidth={true}
-//   className="link-input"
-//   onChange={this.handleChange('link')}
-//   />
-//   <div className="error-text">{this.state.linkError}</div>
-//   </div>
-//
-//   <Button
-//   style={{height: 30, width: 30, marginTop: 'auto'}}
-//   color="default"
-//   onClick={this.submitForm.bind(this)} >
-//   <Send style={{ width: 20, height: 20}}/>
-//   </Button>
-//   </div>
-//   </div>
-//   </form>
-//   </CardContent>
-//   </div>
-//   </Card>
+export default connect(mapStateToProps, { updateProfile, uploadImage })(EditProfile)

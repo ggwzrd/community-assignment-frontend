@@ -35,7 +35,6 @@ export default (user) => {
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        console.log(user);
 
         api.storeToken(result.body.token)
 
@@ -49,7 +48,6 @@ export default (user) => {
 
         })
         .catch((error) => {
-          console.log();
           dispatch({ type: APP_DONE_LOADING })
           dispatch({
             type: LOAD_ERROR,

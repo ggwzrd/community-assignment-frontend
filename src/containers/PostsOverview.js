@@ -68,8 +68,11 @@ class PostsOverview extends PureComponent {
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
-    const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
-    console.log(tags);
+    const todays_posts = posts ? posts.filter(post =>
+      new Date(post.created_at).getFullYear() === new Date().getFullYear() &&
+      new Date(post.created_at).getMonth() === new Date().getMonth() &&
+      new Date(post.created_at).getDate() === new Date().getDate()
+    ).length : null
     return (
       <div className="container">
         { this.props.currentUser && <CreatePostForm tags={tags}/> }

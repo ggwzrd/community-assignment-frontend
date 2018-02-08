@@ -18,6 +18,12 @@
 
 .source-buttons:hover {
   cursor: pointer;
+  box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, .3);
+}
+
+.source-buttons:active {
+  box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, .3);
+  border: 1px solid #fdd835;
 }
 
 .trust-form {
