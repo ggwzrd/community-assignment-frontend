@@ -18,7 +18,6 @@ import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
 import Send from 'material-ui-icons/Send'
-import request from 'superagent'
 
 import '../styles/CreatePostForm.css'
 
@@ -168,7 +167,6 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-
     const { loading, tags } = this.props
     const tagItems = tags.map(tag => [tag.id, tag.name])
 
