@@ -1,4 +1,3 @@
-//renders ProfileInfo, Button, PostItems
 import React, { PureComponent, Fragment} from 'react'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
@@ -134,8 +133,8 @@ class ProfilePage extends PureComponent {
   // }
 
   render() {
-    const { user, userPosts } = this.props
-    console.log(this.props)
+    const { currentUser, user, userPosts } = this.props
+    const userId = this.props.match.params.userId
 
     return (
       <Fragment>
@@ -148,7 +147,7 @@ class ProfilePage extends PureComponent {
                                             /> : null }
 
              {this.state.showProfile ? <Fragment> <div className="profile-content">
-<Avatar
+                                          <Avatar
                                               alt={this.renderNickname()}
                                               src={this.renderPicture()}
                                               className="profile-avatar"
@@ -169,11 +168,11 @@ class ProfilePage extends PureComponent {
             </div>
           </div>
 
-          <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
+          {currentUser.id.toString() === userId.toString() ? <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
             <IconButton className="profile-edit" onClick={this.setEditProfileState}>
               <Edit className="profile-edit"/>
             </IconButton>
-          </Tooltip>
+          </Tooltip> : null }
 
           <ExpansionPanel style={{width: '100%'}} disabled={!!user.profile && user.profile.bio === null}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
