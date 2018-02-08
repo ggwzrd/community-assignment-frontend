@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { createPost } from '../../actions/posts/create'
 import { uploadImage } from '../../actions/upload'
+import { fetchTags } from '../../actions/tags/fetch'
 import Dropzone from 'react-dropzone'
 
 import Button from 'material-ui/Button'
@@ -91,9 +92,11 @@ export class CreatePostForm extends PureComponent {
   submitForm(event) {
     event.preventDefault()
     if (this.validateContent() && this.validateTags() && this.validateLink()) {
+      const tags = this.props.tags.filter(tag => this.state.tags.includes(tag.name))
       const newPost = {
         content: this.state.content,
         link: this.state.link,
+        tag: tags || [],
         tags: this.props.tags[0],
         images: this.props.uploadedFileCloudinaryUrl
       }
@@ -166,8 +169,8 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-    console.log(this.state);
-    const { loading } = this.props
+    const { loading, tags } = this.props
+    const tagItems = tags.map(tag => [tag.id, tag.name])
 
     return (
       <Card className="card" elevation={2}>
@@ -221,13 +224,13 @@ export class CreatePostForm extends PureComponent {
                                                   style={{height: 20}}
                                                 />)}
                       </div>
-                    )}>
-                    {this.props.tags.map(tag => (
+                    )}
+                    >
+                    {tagItems.map(tag => (
                       <MenuItem
-                        data-id={tag.id}
-                        key={tag.name}
-                        value={tag.name}>
-                        {tag.name}
+                        key={tag[0]}
+                        value={tag[1]}>
+                        {tag[1]}
                       </MenuItem>
                     ))}
                   </Select>
@@ -266,10 +269,12 @@ export class CreatePostForm extends PureComponent {
 
 const mapStateToProps = state => ({
   uploadedFileCloudinaryUrl: state.posts.uploadedFileCloudinaryUrl,
-  loading: state.loading,
+  tags: state.tags,
+  loading: state.loading
   currentUser: state.currentUser
+
 })
 
 CreatePostForm = withStyles(styles, { name: 'CreatePostForm' })(CreatePostForm)
 
-export default connect(mapStateToProps, { createPost, uploadImage })(CreatePostForm)
+export default connect(mapStateToProps, { fetchTags, createPost, uploadImage })(CreatePostForm)

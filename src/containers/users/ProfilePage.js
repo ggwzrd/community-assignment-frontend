@@ -121,7 +121,6 @@ class ProfilePage extends PureComponent {
 
   render() {
     const { user, userPosts } = this.props
-    const firstName = this.renderFirstname()
     return (
       <Fragment>
         <EditProfile
