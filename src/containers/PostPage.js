@@ -297,13 +297,13 @@ class PostPage extends PureComponent {
 
           <div className="expanded-details">
             <div className="formwrapper">
-              {this.state.reportFormIsOpen && (this.props.currentUser.id !== user.id) ? <ReportForm
+              {this.state.reportFormIsOpen && (this.props.currentUser.id !== user.id) && !this.props.currentUser.silenced ? <ReportForm
                                               handleChange={this.handleChange}
                                               setReportState={this.setReportState}
                                               reportError={this.state.reportError}
                                               handleReportClick={this.handleReportClick}/> : null}
 
-              {this.state.trustFormIsOpen && (this.props.currentUser.id !== user.id) ? <TrustForm
+              {this.state.trustFormIsOpen && (this.props.currentUser.id !== user.id) && !this.props.currentUser.silenced ? <TrustForm
                                               handleChange={this.handleChange}
                                               setTrustState={this.setTrustState}
                                               handleTrustClick={this.handleTrustClick}
@@ -368,7 +368,7 @@ class PostPage extends PureComponent {
                 <Input
                   placeholder="Add a comment..."
                   fullWidth={true}
-                  disabled={!currentUser}
+                  disabled={!currentUser || currentUser.silenced}
                   inputProps={{
                     'aria-label': 'Description',
                   }}
@@ -377,6 +377,7 @@ class PostPage extends PureComponent {
               </div>
               <Button
                 flat
+                disabled={!currentUser || currentUser.silenced}
                 onClick={this.submitComment.bind(this)}
                 color="primary">comment</Button>
             </div>
