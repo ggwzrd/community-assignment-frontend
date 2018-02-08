@@ -66,7 +66,6 @@ class TrustForm extends PureComponent {
             <TextField
               value={this.state.trustLink}
               onChange={this.props.handleChange('trustLink')}
-              autoFocus
               margin="dense"
               id="link"
               label="Link"

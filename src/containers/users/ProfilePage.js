@@ -168,7 +168,7 @@ class ProfilePage extends PureComponent {
             </div>
           </div>
 
-          {currentUser.id.toString() === userId.toString() ? <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
+          {currentUser && (currentUser.id.toString() === userId.toString()) ? <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
             <IconButton className="profile-edit" onClick={this.setEditProfileState}>
               <Edit className="profile-edit"/>
             </IconButton>

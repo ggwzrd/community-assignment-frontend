@@ -47,7 +47,6 @@ class ReportForm extends PureComponent {
 
              <TextField
                onChange={this.props.handleChange('reportLink')}
-               autoFocus
                margin="dense"
                id="link"
                label="Link"
