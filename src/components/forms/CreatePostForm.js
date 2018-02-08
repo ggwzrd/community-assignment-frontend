@@ -55,7 +55,6 @@ export class CreatePostForm extends PureComponent {
   }
 
   handleTagChange = event => {
-    console.log(event.target);
     this.setState({
       tags: event.target.value
     })
@@ -75,7 +74,7 @@ export class CreatePostForm extends PureComponent {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tag: tags || [],
+        tag_ids: tags.map(tag => tag.id) || [],
         images: this.props.uploadedFileCloudinaryUrl
       }
 
@@ -148,7 +147,7 @@ export class CreatePostForm extends PureComponent {
 
   render() {
     const { loading, tags } = this.props
-    const tagItems = tags.map(tag => [tag.id, tag.name])
+    const tagArray = tags.map(tag => [tag.id, tag.name])
 
     return (
       <Card className="card" elevation={2}>
@@ -204,11 +203,11 @@ export class CreatePostForm extends PureComponent {
                       </div>
                     )}
                     >
-                    {this.props.tags.map(tag => (
+                    {tagArray.map(tag => (
                       <MenuItem
-                        key={tag.name}
-                        value={tag.name}>
-                        {tag.name}
+                        key={tag[0]}
+                        value={tag[1]}>
+                        {tag[1]}
                       </MenuItem>
                     ))}
                   </Select>
