@@ -60,27 +60,6 @@ export class CreatePostForm extends PureComponent {
     })
   }
 
-//   submitMyForm = (e) => {
-//   e.preventDefault();
-//
-//   const data = new FormData();
-//   data.append('post[content]', this.state.content);
-//   data.append('post[tags]', this.state.tags);
-//   data.append('post[link]', this.state.link);
-//
-//   let headers = new Headers()
-//   headers.append('Content-Type', 'multipart/form-data')
-//   headers.append('Accept', 'application/json')
-//   headers.append('Authorization', `Bearer ${this.props.currentUser.token}`)
-//
-//   request.post('http://localhost:3030/posts', data, headers).then((response) => {
-//     this.setState({
-//       status: 'success',
-//       postId: response.body.id
-//     });
-//   });
-// }
-
   clearInputFields() {
     this.setState({
       content: '',
