@@ -58,9 +58,10 @@ class PostPage extends PureComponent {
     trustFormIsOpen: false,
     reportFormIsOpen: false,
     reportReason: '',
+    reportLink: '',
     trustReason: '',
     trustLink: '',
-    trustScreenshot: '',
+    trustScreenshot: this.props.trustScreenshot || placeholder,
     source_id: ''
   }
 
@@ -106,7 +107,7 @@ class PostPage extends PureComponent {
 
       const newReport = {
         reason: this.state.reportReason,
-        link: this.state.link,
+        link: this.state.reportLink,
         screenshot: this.state.reportScreenshot || null,
         user_id: this.state.user_id,
         post_id: postId
@@ -114,6 +115,7 @@ class PostPage extends PureComponent {
 
       this.props.reportPost(newReport)
       this.setReportState()
+      this.clearInputFields()
     }
 
     return false
@@ -145,6 +147,16 @@ class PostPage extends PureComponent {
 
       return false
     }
+  }
+
+  clearInputFields() {
+    this.setState({
+        reportReason: '',
+        trustReason: '',
+        trustLink: '',
+        trustScreenshot: placeholder,
+        source_id: '',
+    })
   }
 
   handleChange = name => event => {
@@ -182,9 +194,16 @@ class PostPage extends PureComponent {
 
       this.props.trustPost(newTrust)
       this.setTrustState()
+      this.clearInputFields()
     }
 
     return false
+  }
+
+  clearCommentInput() {
+    this.setState({
+      comment: ''
+    })
   }
 
   submitComment = (event) => {
@@ -196,6 +215,7 @@ class PostPage extends PureComponent {
     }
 
     this.props.createComment(newComment)
+    this.clearCommentInput()
   }
 
   renderComments = () => {
@@ -290,6 +310,7 @@ class PostPage extends PureComponent {
                                             sources={this.props.sources}
                                             getSource={this.getSource}
                                             trustScreenshotError={this.state.trustScreenshotError}
+                                            trustScreenshot={this.state.trustScreenshot}
                                             trustLinkError={this.state.trustLinkError}
                                             trustReasonError={this.state.trustReasonError}
                                             sourceIdState={this.state.source_id}/> : null}
