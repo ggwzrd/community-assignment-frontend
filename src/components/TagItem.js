@@ -52,8 +52,6 @@ class TagItem extends PureComponent {
                     }
                     label={name}
                     id={id}
-                    onClick={
-                      () => handleClick(id)}
                     className="tag-info"
                   />
               </div>

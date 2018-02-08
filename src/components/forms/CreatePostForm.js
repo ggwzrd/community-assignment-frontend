@@ -27,6 +27,8 @@ const styles = theme => ({
   }
 })
 
+const placeholder = 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'
+
 export class CreatePostForm extends PureComponent {
 
   static propTypes = {
@@ -38,6 +40,7 @@ export class CreatePostForm extends PureComponent {
       content: '',
       link: '',
       tags: [],
+      images: this.props.uploadedFileCloudinaryUrl,
     }
 
   onDrop(files) {
@@ -64,7 +67,8 @@ export class CreatePostForm extends PureComponent {
     this.setState({
       content: '',
       link: '',
-      tags: []
+      tags: [],
+      images: ''
     })
   }
   submitForm(event) {
@@ -159,7 +163,7 @@ export class CreatePostForm extends PureComponent {
           <div style={{ position: 'relative', height: '100%' }}>
             <CardMedia
               className="cover-upload"
-              image={this.props.uploadedFileCloudinaryUrl || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png'}
+              image={this.props.uploadedFileCloudinaryUrl || placeholder}
             />
             <div className="progress-circle">{loading ? <CircularProgress /> : null }</div>
           </div>
