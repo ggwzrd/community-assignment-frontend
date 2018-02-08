@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import signUp from '../../actions/user/sign-up'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
+import {Link} from 'react-router-dom'
+
 import {
   DialogActions,
   DialogContent,
@@ -140,7 +142,7 @@ class SignUpForm extends PureComponent {
   render() {
   const { nickname, email, password, passwordConfirmation, nicknameError, emailError, passwordError, passwordConfirmationError} = this.state
 
-  const { handleDialogClose } = this.props
+  const { handleDialogClose, handleDialogSignIn } = this.props
 
   return (
     <Fragment>
@@ -197,13 +199,23 @@ class SignUpForm extends PureComponent {
 
       </DialogContent>
 
-      <DialogActions style={{justifyContent: 'center', padding: 24}}>
-        <Button onClick={handleDialogClose} color="default">
+      <DialogActions style={{justifyContent: 'center'}}>
+
+        <Button onClick={handleDialogClose} style={{marginRight: 20}}>
           Cancel
         </Button>
         <Button raised onClick={this.submitSignUpForm.bind(this)} color="primary">
-          Sign up
+          Sign in
         </Button>
+      </DialogActions>
+
+      <DialogActions style={{justifyContent: 'center'}}>
+
+        <div style={{width: '100%', textAlign: 'center', marginBottom: 24}}>
+          <Link to="" onClick={handleDialogSignIn}
+                      className="switchText"
+                      >Already have an account? Sign in here!</Link>
+        </div>
       </DialogActions>
 
     </Fragment>

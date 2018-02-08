@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { createPost } from '../../actions/posts/create'
 import { uploadImage } from '../../actions/upload'
+import { fetchTags } from '../../actions/tags/fetch'
 import Dropzone from 'react-dropzone'
 
 import Button from 'material-ui/Button'
@@ -17,7 +18,6 @@ import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
 import Send from 'material-ui-icons/Send'
-// import request from 'superagent'
 
 import '../styles/CreatePostForm.css'
 
@@ -61,27 +61,6 @@ export class CreatePostForm extends PureComponent {
     })
   }
 
-//   submitMyForm = (e) => {
-//   e.preventDefault();
-//
-//   const data = new FormData();
-//   data.append('post[content]', this.state.content);
-//   data.append('post[tags]', this.state.tags);
-//   data.append('post[link]', this.state.link);
-//
-//   let headers = new Headers()
-//   headers.append('Content-Type', 'multipart/form-data')
-//   headers.append('Accept', 'application/json')
-//   headers.append('Authorization', `Bearer ${this.props.currentUser.token}`)
-//
-//   request.post('http://localhost:3030/posts', data, headers).then((response) => {
-//     this.setState({
-//       status: 'success',
-//       postId: response.body.id
-//     });
-//   });
-// }
-
   clearInputFields() {
     this.setState({
       content: '',
@@ -92,10 +71,11 @@ export class CreatePostForm extends PureComponent {
   submitForm(event) {
     event.preventDefault()
     if (this.validateContent() && this.validateTags() && this.validateLink()) {
+      const tags = this.props.tags.filter(tag => this.state.tags.includes(tag.name))
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tags: this.props.tags[0],
+        tag: tags || [],
         images: this.props.uploadedFileCloudinaryUrl
       }
 
@@ -167,8 +147,8 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-    console.log(this.state);
-    const { loading } = this.props
+    const { loading, tags } = this.props
+    const tagItems = tags.map(tag => [tag.id, tag.name])
 
     return (
       <Card className="card" elevation={2}>
@@ -222,12 +202,12 @@ export class CreatePostForm extends PureComponent {
                                                   style={{height: 20}}
                                                 />)}
                       </div>
-                    )}>
-                    {this.props.tags.map(tag => (
+                    )}
+                    >
+                    {tagItems.map(tag => (
                       <MenuItem
                         key={tag.name}
                         value={tag.name}
-                      >
                         {tag.name}
                       </MenuItem>
                     ))}
@@ -267,10 +247,11 @@ export class CreatePostForm extends PureComponent {
 
 const mapStateToProps = state => ({
   uploadedFileCloudinaryUrl: state.posts.uploadedFileCloudinaryUrl,
+  tags: state.tags,
   loading: state.loading,
   currentUser: state.currentUser
 })
 
 CreatePostForm = withStyles(styles, { name: 'CreatePostForm' })(CreatePostForm)
 
-export default connect(mapStateToProps, { createPost, uploadImage })(CreatePostForm)
+export default connect(mapStateToProps, { fetchTags, createPost, uploadImage })(CreatePostForm)
