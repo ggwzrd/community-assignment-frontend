@@ -34,7 +34,7 @@ class Navbar extends React.Component {
   renderPicture = () => {
     const { user } = this.props
     return user.picture === null ?
-     "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : user.picture
+     "https://weareworldchallenge.com/wp-content/themes/world-challenge/img/avatar-placeholder.png" : user.profile.picture
   }
 
 //handle menu items
@@ -88,7 +88,7 @@ class Navbar extends React.Component {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn, user } = this.props
-    
+
     return (
       <div className="navbar">
         <AppBar position="static" style={{backgroundColor: "#3b7680"}}>
