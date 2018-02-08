@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import signIn from '../../actions/user/sign-in'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
+import Typography from 'material-ui/Typography';
 import {
   DialogActions,
   DialogContent,
@@ -49,7 +50,7 @@ class SignInForm extends PureComponent {
   return (
     <Fragment>
       <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
-      <DialogContent>
+      <DialogContent style={{width: 350}}>
         <DialogContentText>
           Please fill in your sign in information.
         </DialogContentText>
@@ -60,22 +61,31 @@ class SignInForm extends PureComponent {
           label="Email Address"
           type="email"
           onChange={this.updateEmail.bind(this)}
-          fullWidth />
+          fullWidth
+          />
+
         <TextField
-          autoFocus
           margin="dense"
           id="password"
           label="password"
           type="password"
           onChange={this.updatePassword.bind(this)}
-          fullWidth />
+          fullWidth
+          />
+
+          <Typography onClick={handleDialogClose}
+                      style={{textAlign: 'center',
+                              cursor: 'pointer',}}>
+            No account yet? Sign up here!
+          </Typography>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={handleDialogClose} color="primary">
+      <DialogActions style={{justifyContent: 'center', padding: 24}}>
+
+        <Button onClick={handleDialogClose}>
           Cancel
         </Button>
-        <Button onClick={this.submitSignInForm.bind(this)} color="primary">
+        <Button raised onClick={this.submitSignInForm.bind(this)} color="primary">
           Sign in
         </Button>
       </DialogActions>
