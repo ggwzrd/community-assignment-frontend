@@ -70,9 +70,10 @@ class PostsOverview extends PureComponent {
     const { posts, tags } = this.props
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
 
+    console.log(posts);
     return (
       <div className="container">
-        { this.props.currentUser && <CreatePostForm /> }
+        { this.props.currentUser && <CreatePostForm tags={tags}/> }
         <div className="tags-container">
           <TagItem
             id={null}
