@@ -116,6 +116,7 @@ class PostsOverview extends PureComponent {
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
               comments={post.comments}
+              tags={post.tags}
               onClick={this.handleDialogOpen(post.id)}
               onProfileClick={this.goToUser(post.user_id)}
               />)}
