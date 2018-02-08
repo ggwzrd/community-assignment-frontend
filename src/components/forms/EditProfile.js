@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
 
 import { updateProfile } from '../../actions/user/updateProfile'
 import { uploadImage } from '../../actions/upload'
