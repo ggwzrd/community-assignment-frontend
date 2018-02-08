@@ -17,7 +17,7 @@ import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
 import Send from 'material-ui-icons/Send'
-import request from 'superagent'
+// import request from 'superagent'
 
 import '../styles/CreatePostForm.css'
 
@@ -55,6 +55,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   handleTagChange = event => {
+    console.log(event.target);
     this.setState({
       tags: event.target.value
     })
@@ -224,9 +225,9 @@ export class CreatePostForm extends PureComponent {
                     )}>
                     {this.props.tags.map(tag => (
                       <MenuItem
-                        data-id={tag.id}
                         key={tag.name}
-                        value={tag.name}>
+                        value={tag.name}
+                      >
                         {tag.name}
                       </MenuItem>
                     ))}

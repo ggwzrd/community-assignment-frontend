@@ -33,9 +33,11 @@ class ProfilePage extends PureComponent {
   state = {
     open: false,
     selectedTagId: null,
-    postId: null
-
+    postId: null,
+    showEditProfile: false,
+    showProfile: true
   }
+
   componentWillMount() {
     let userId = this.props.match.params.userId
 
@@ -118,26 +120,38 @@ class ProfilePage extends PureComponent {
       : this.props.user.profile.bio
   }
 
+  setEditProfileState = () => {
+    this.setState({
+      showEditProfile: !this.state.showEditProfile,
+      showProfile: !this.state.showProfile
+    })
+  }
+  //
+  // setShowProfileState = () => {
+  //   this.setState({
+  //     showProfile: !this.state.showProfile,
+  //     })
+  // }
 
   render() {
     const { user, userPosts } = this.props
-    const firstName = this.renderFirstname()
+
     return (
       <Fragment>
-        <EditProfile
-        first_name={this.renderFirstname()}
-        last_name={this.renderLastname()}
-        bio={this.renderBio()}
-        />
-
         <Paper className='profile-info'>
+              {this.state.showEditProfile ? <EditProfile
+                                              setEditProfileState={this.setEditProfileState}
+                                              first_name={this.renderFirstname()}
+                                              last_name={this.renderLastname()}
+                                              bio={this.renderBio()}
+                                            /> : null }
 
-          <div className="profile-content">
-            <Avatar
-              alt={this.renderNickname()}
-              src={this.renderPicture()}
-              className="profile-avatar"
-            />
+             {this.state.showProfile ? <Fragment> <div className="profile-content">
+<Avatar
+                                              alt={this.renderNickname()}
+                                              src={this.renderPicture()}
+                                              className="profile-avatar"
+                                            />
             <div className='profile-details'>
               <Typography type='display1' style={{fontWeight: 700, color: "black"}}className='nickname'>
                 {this.renderNickname()}
@@ -155,7 +169,7 @@ class ProfilePage extends PureComponent {
           </div>
 
           <Tooltip id="tooltip-edit" title="Edit your profile" placement="top" className="tooltip">
-            <IconButton className="profile-edit">
+            <IconButton className="profile-edit" onClick={this.setEditProfileState}>
               <Edit className="profile-edit"/>
             </IconButton>
           </Tooltip>
@@ -169,10 +183,9 @@ class ProfilePage extends PureComponent {
                 {this.renderBio()}
               </Typography>
             </ExpansionPanelDetails>
-          </ExpansionPanel>
-
+          </ExpansionPanel></Fragment>
+          : null }
         </Paper>
-
 
         <div className="posts-container">
           {!!userPosts && userPosts.map(post =>
@@ -198,9 +211,7 @@ class ProfilePage extends PureComponent {
           aria-labelledby="form-dialog-title"
           style={{ overflowY: "scroll" }}
         >
-
-        <PostPage postId={this.state.postId}/>
-
+          <PostPage postId={this.state.postId}/>
         </Dialog>
 
       </Fragment>
