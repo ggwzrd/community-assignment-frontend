@@ -18,7 +18,6 @@ import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
 import Send from 'material-ui-icons/Send'
-import request from 'superagent'
 
 import '../styles/CreatePostForm.css'
 
@@ -97,7 +96,6 @@ export class CreatePostForm extends PureComponent {
         content: this.state.content,
         link: this.state.link,
         tag: tags || [],
-        tags: this.props.tags[0],
         images: this.props.uploadedFileCloudinaryUrl
       }
 
@@ -270,9 +268,8 @@ export class CreatePostForm extends PureComponent {
 const mapStateToProps = state => ({
   uploadedFileCloudinaryUrl: state.posts.uploadedFileCloudinaryUrl,
   tags: state.tags,
-  loading: state.loading
+  loading: state.loading,
   currentUser: state.currentUser
-
 })
 
 CreatePostForm = withStyles(styles, { name: 'CreatePostForm' })(CreatePostForm)
