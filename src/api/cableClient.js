@@ -1,9 +1,8 @@
 import ActionCable from 'actioncable';
 import API from './client'
-
 // 1. Configure your websocket address
 const WEBSOCKET_HOST = process.env.NODE_ENV === 'production'
-                         ? 'wss://<YOUR_SERVER_SITE>/cable'
+                         ? 'wss://api-coinmunity.herokuapp.com/cable'
                          : 'ws://localhost:3030/cable';
 const api = new API()
 

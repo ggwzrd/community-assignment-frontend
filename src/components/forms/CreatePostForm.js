@@ -17,6 +17,7 @@ import Chip from 'material-ui/Chip'
 import { withStyles } from 'material-ui/styles'
 import { CircularProgress } from 'material-ui/Progress'
 import Send from 'material-ui-icons/Send'
+import request from 'superagent'
 
 import '../styles/CreatePostForm.css'
 
@@ -24,28 +25,7 @@ const styles = theme => ({
   progress: {
     margin: `0 ${theme.spacing.unit * 2}px`,
   }
-});
-
-// const ITEM_HEIGHT = 48;
-// const ITEM_PADDING_TOP = 8;
-// const MenuProps = {
-//   PaperProps: {
-//     style: {
-//       // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-//       // width: 250,
-//     },
-//   },
-// };
-
-const tags = [
-  'Analysis',
-  'News',
-  'Technical',
-  'Political',
-  'Business',
-  'Random',
-  'Social'
-]
+})
 
 export class CreatePostForm extends PureComponent {
 
@@ -80,19 +60,46 @@ export class CreatePostForm extends PureComponent {
     })
   }
 
+//   submitMyForm = (e) => {
+//   e.preventDefault();
+//
+//   const data = new FormData();
+//   data.append('post[content]', this.state.content);
+//   data.append('post[tags]', this.state.tags);
+//   data.append('post[link]', this.state.link);
+//
+//   let headers = new Headers()
+//   headers.append('Content-Type', 'multipart/form-data')
+//   headers.append('Accept', 'application/json')
+//   headers.append('Authorization', `Bearer ${this.props.currentUser.token}`)
+//
+//   request.post('http://localhost:3030/posts', data, headers).then((response) => {
+//     this.setState({
+//       status: 'success',
+//       postId: response.body.id
+//     });
+//   });
+// }
+
+  clearInputFields() {
+    this.setState({
+      content: '',
+      link: '',
+      tags: []
+    })
+  }
   submitForm(event) {
-
     event.preventDefault()
-
     if (this.validateContent() && this.validateTags() && this.validateLink()) {
       const newPost = {
         content: this.state.content,
         link: this.state.link,
-        tags: this.state.tags || [],
+        tags: this.props.tags[0],
         images: this.props.uploadedFileCloudinaryUrl
       }
 
       this.props.createPost(newPost)
+      this.clearInputFields()
     }
 
     return false
@@ -159,7 +166,7 @@ export class CreatePostForm extends PureComponent {
   }
 
   render() {
-
+    console.log(this.state);
     const { loading } = this.props
 
     return (
@@ -190,6 +197,8 @@ export class CreatePostForm extends PureComponent {
                   multiline
                   rowsMax="4"
                   margin="none"
+                  autoFocus
+                  value={this.state.content}
                   onChange={this.handleChange('content')}
                 />
                 <div className="error-text">{this.state.contentError}</div>
@@ -212,13 +221,13 @@ export class CreatePostForm extends PureComponent {
                                                   style={{height: 20}}
                                                 />)}
                       </div>
-                    )}
-                    >
-                    {tags.map(tag => (
+                    )}>
+                    {this.props.tags.map(tag => (
                       <MenuItem
-                        key={tag}
-                        value={tag}>
-                        {tag}
+                        data-id={tag.id}
+                        key={tag.name}
+                        value={tag.name}>
+                        {tag.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -232,6 +241,7 @@ export class CreatePostForm extends PureComponent {
                        margin="none"
                        fullWidth={true}
                        className="link-input"
+                       value={this.state.link}
                        onChange={this.handleChange('link')}
                     />
                     <div className="error-text">{this.state.linkError}</div>
@@ -256,7 +266,8 @@ export class CreatePostForm extends PureComponent {
 
 const mapStateToProps = state => ({
   uploadedFileCloudinaryUrl: state.posts.uploadedFileCloudinaryUrl,
-  loading: state.loading
+  loading: state.loading,
+  currentUser: state.currentUser
 })
 
 CreatePostForm = withStyles(styles, { name: 'CreatePostForm' })(CreatePostForm)

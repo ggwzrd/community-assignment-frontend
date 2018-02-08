@@ -58,9 +58,10 @@ class PostPage extends PureComponent {
   state = {
     open: false,
     reportReason: '',
+    reportLink: '',
     trustReason: '',
     trustLink: '',
-    trustScreenshot: '',
+    trustScreenshot: this.props.trustScreenshot || placeholder,
     source_id: ''
   }
 
@@ -106,7 +107,7 @@ class PostPage extends PureComponent {
 
       const newReport = {
         reason: this.state.reportReason,
-        link: this.state.link,
+        link: this.state.reportLink,
         screenshot: this.state.reportScreenshot || null,
         user_id: this.state.user_id,
         post_id: postId
@@ -114,6 +115,7 @@ class PostPage extends PureComponent {
 
       this.props.reportPost(newReport)
       this.setReportState()
+      this.clearInputFields()
     }
 
     return false
@@ -145,6 +147,16 @@ class PostPage extends PureComponent {
 
       return false
     }
+  }
+
+  clearInputFields() {
+    this.setState({
+        reportReason: '',
+        trustReason: '',
+        trustLink: '',
+        trustScreenshot: placeholder,
+        source_id: '',
+    })
   }
 
   handleChange = name => event => {
@@ -182,8 +194,15 @@ class PostPage extends PureComponent {
 
       this.props.trustPost(newTrust)
       this.setTrustState()
+      this.clearInputFields()
     }
     return false
+  }
+
+  clearCommentInput() {
+    this.setState({
+      comment: ''
+    })
   }
 
   submitComment = (event) => {
@@ -195,6 +214,7 @@ class PostPage extends PureComponent {
     }
 
     this.props.createComment(newComment)
+    this.clearCommentInput()
   }
 
   renderComments = () => {
@@ -203,7 +223,7 @@ class PostPage extends PureComponent {
     const mergedComments = [].concat.apply([], allComments)
 
     const sortedComments = mergedComments.sort((a, b) => {
-      return a.created_at < b.created_at
+      return new Date(a.created_at) < new Date(b.created_at)
     })
 
     if (trusts && reports && comments) {
@@ -253,7 +273,7 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { content, trusts, reports, images, created_at } = this.props.selectedPost
+      var { content, trusts, reports, images, created_at, user } = this.props.selectedPost
     }
 
     if (!!this.props.userTrustiness) {
@@ -277,19 +297,20 @@ class PostPage extends PureComponent {
 
           <div className="expanded-details">
             <div className="formwrapper">
-              {this.state.reportFormIsOpen ? <ReportForm
+              {this.state.reportFormIsOpen && (this.props.currentUser.id !== user.id) ? <ReportForm
                                               handleChange={this.handleChange}
                                               setReportState={this.setReportState}
                                               reportError={this.state.reportError}
                                               handleReportClick={this.handleReportClick}/> : null}
 
-              {this.state.trustFormIsOpen ? <TrustForm
+              {this.state.trustFormIsOpen && (this.props.currentUser.id !== user.id) ? <TrustForm
                                               handleChange={this.handleChange}
                                               setTrustState={this.setTrustState}
                                               handleTrustClick={this.handleTrustClick}
                                               sources={this.props.sources}
                                               getSource={this.getSource}
                                               trustScreenshotError={this.state.trustScreenshotError}
+                                              trustScreenshot={this.state.trustScreenshot}
                                               trustLinkError={this.state.trustLinkError}
                                               trustReasonError={this.state.trustReasonError}
                                               sourceIdState={this.state.source_id}/> : null}
@@ -375,7 +396,7 @@ const mapStateToProps = state => ({
   userProfilePic: state.posts.userProfilePic,
   userProfileName: state.posts.userProfileName,
   trustScreenshot: state.posts.trustScreenshot,
-  currentuser: state.currentUser
+  currentUser: state.currentUser
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts, createComment })(PostPage)
