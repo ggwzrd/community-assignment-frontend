@@ -277,7 +277,7 @@ class PostPage extends PureComponent {
     }
 
     if (!!this.props.userTrustiness) {
-      var { userTrustiness, currentuser } = this.props
+      var { userTrustiness, currentUser } = this.props
     }
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
@@ -329,7 +329,7 @@ class PostPage extends PureComponent {
               }
               action={
                 <Fragment>
-                  <IconButton onClick={!!currentuser ? this.setTrustState : this.handleClickOpen}>
+                  <IconButton onClick={!!currentUser ? this.setTrustState : this.handleClickOpen}>
                     <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
                       <Badge className="badge trust" badgeContent={!!trusts ? trusts.length : 0} color="default">
                         <VerifiedUserIcon fontSize="true"/>
@@ -337,7 +337,7 @@ class PostPage extends PureComponent {
                     </Tooltip>
                   </IconButton>
 
-                  <IconButton onClick={!!currentuser ? this.setReportState : this.handleClickOpen}>
+                  <IconButton onClick={!!currentUser ? this.setReportState : this.handleClickOpen}>
                     <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
                       <Badge className="badge report" badgeContent={!!reports ? reports.length : 0} color="default">
                         <ReportIcon fontSize="true" className="badgeIcon"/>
@@ -355,6 +355,7 @@ class PostPage extends PureComponent {
                 <Input
                   placeholder="Add a comment..."
                   fullWidth={true}
+                  disabled={!currentUser}
                   inputProps={{
                     'aria-label': 'Description',
                   }}
