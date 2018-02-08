@@ -37,29 +37,47 @@ class TagItem extends PureComponent {
   }
 
   render() {
-    const { id, name, description, todays_mentions, handleClick } = this.props
+    const { id, name, description, todays_mentions, handleClick, small } = this.props
 
     return (
-        <div className="tag-details" style={{display: "flex"}}>
-          <IconButton style={{width: 'auto'}}>
-            <Badge className="badge" badgeContent={todays_mentions} color="primary" children="">
-              <Tooltip id="tooltip-top" title={description} placement="top-end">
-                <Chip
-                  avatar={
-                    <Avatar>
-                      {this.renderIcon()}
-                    </Avatar>
-                  }
-                  label={name}
-                  id={id}
-                  onClick={
-                    () => handleClick(id)}
-                  className="tag-info"
-                />
-              </Tooltip>
-            </Badge>
-          </IconButton>
-      </div>
+
+
+      small ? <div className="tag-post-detail" style={{display: "flex"}}>
+                  <Chip
+                    style={{marginRight:10}}
+                    avatar={
+                      <Avatar>
+                        {this.renderIcon()}
+                      </Avatar>
+                    }
+                    label={name}
+                    id={id}
+                    onClick={
+                      () => handleClick(id)}
+                    className="tag-info"
+                  />
+              </div>
+              :
+              <div className="tag-details" style={{display: "flex"}}>
+                <IconButton style={{width: 'auto'}}>
+                  <Badge className="badge" badgeContent={todays_mentions} color="primary" children="">
+                    <Tooltip id="tooltip-top" title={description} placement="top-end">
+                      <Chip
+                        avatar={
+                          <Avatar>
+                            {this.renderIcon()}
+                          </Avatar>
+                        }
+                        label={name}
+                        id={id}
+                        onClick={
+                          () => handleClick(id)}
+                        className="tag-info"
+                      />
+                    </Tooltip>
+                  </Badge>
+                </IconButton>
+              </div>
     )
   }
 }

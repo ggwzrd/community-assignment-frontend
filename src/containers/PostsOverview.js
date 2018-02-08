@@ -69,7 +69,7 @@ class PostsOverview extends PureComponent {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
     const todays_posts = tags ? tags.reduce((subTotal, tag) => subTotal + tag.todays_mentions, 0) : null
-
+    console.log(tags);
     return (
       <div className="container">
         { this.props.currentUser && <CreatePostForm tags={tags}/> }
@@ -113,6 +113,7 @@ class PostsOverview extends PureComponent {
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
               comments={post.comments}
+              tags={post.tags}
               onClick={this.handleDialogOpen(post.id)}
               onProfileClick={this.goToUser(post.user_id)}
               />)}

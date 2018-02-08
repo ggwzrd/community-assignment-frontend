@@ -1,12 +1,14 @@
 import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import TagItem from '../components/TagItem'
 
 import { fetchOnePost, fetchSources, fetchUserPosts } from '../actions/posts/fetch'
 import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
 import { createComment } from '../actions/posts/comment'
-
+import uuid4 from 'uuid4'
+import {Link} from 'react-router-dom'
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
@@ -272,13 +274,13 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { content, trusts, reports, images, created_at, user } = this.props.selectedPost
+      var { content, trusts, reports, images, created_at, user, tags, link } = this.props.selectedPost
     }
 
     if (!!this.props.userTrustiness) {
       var { userTrustiness, currentUser } = this.props
     }
-
+    console.log(tags);
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',
@@ -347,8 +349,21 @@ class PostPage extends PureComponent {
               }
             />
             <CardContent className="expanded-content">
-              <Typography type="body1" >{content}</Typography>
+              <Typography type="body1" style={{marginBottom: 10}}>{content}</Typography>
+              <a href={`http://${link}`} target="_blank" className="switchText">{link}</a>
+
             </CardContent>
+
+            <div className="tags-container" style={{margin: 0, padding: 16, justifyContent: 'flex-start'}}>
+              {tags && tags.map(tag =>
+                <TagItem
+                  small={true}
+                  key={uuid4()}
+                  id={tag.id}
+                  name={tag.name}
+                  />)}
+            </div>
+
             <div className="comment-field">
               <div className="comment-input">
                 <Input
