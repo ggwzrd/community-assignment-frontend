@@ -204,10 +204,10 @@ export class CreatePostForm extends PureComponent {
                       </div>
                     )}
                     >
-                    {tagItems.map(tag => (
+                    {this.props.tags.map(tag => (
                       <MenuItem
                         key={tag.name}
-                        value={tag.name}
+                        value={tag.name}>
                         {tag.name}
                       </MenuItem>
                     ))}
