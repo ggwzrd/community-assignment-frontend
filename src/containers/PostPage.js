@@ -273,13 +273,13 @@ class PostPage extends PureComponent {
 
   render() {
     if (!!this.props.selectedPost) {
-      var { content, trusts, reports, images, created_at, user, tags, link } = this.props.selectedPost
+      var { content, trusts, reports, images, created_at, user, tags, link, handleClick } = this.props.selectedPost
     }
 
     if (!!this.props.userTrustiness) {
       var { userTrustiness, currentUser } = this.props
     }
-    console.log(tags);
+
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
                                                              year:   'numeric',
                                                              month:  'numeric',
@@ -349,7 +349,7 @@ class PostPage extends PureComponent {
             />
             <CardContent className="expanded-content">
               <Typography type="body1" style={{marginBottom: 10}}>{content}</Typography>
-              <a href={`http://${link}`} target="_blank" className="switchText">{link}</a>
+              <a href={link} target="_blank" className="switchText">{link}</a>
 
             </CardContent>
 
