@@ -21,6 +21,8 @@ import ReportIcon from 'material-ui-icons/Report'
 import Tooltip from 'material-ui/Tooltip'
 import Input from 'material-ui/Input'
 import Button from 'material-ui/Button'
+import Dialog from 'material-ui/Dialog'
+import SignInForm from '../components/forms/SignInForm'
 // import Dialog, {
 //   DialogActions,
 //   DialogContent,
@@ -55,8 +57,6 @@ class PostPage extends PureComponent {
 
   state = {
     open: false,
-    trustFormIsOpen: false,
-    reportFormIsOpen: false,
     reportReason: '',
     trustReason: '',
     trustLink: '',
@@ -183,7 +183,6 @@ class PostPage extends PureComponent {
       this.props.trustPost(newTrust)
       this.setTrustState()
     }
-
     return false
   }
 
@@ -258,7 +257,7 @@ class PostPage extends PureComponent {
     }
 
     if (!!this.props.userTrustiness) {
-      var { userTrustiness } = this.props
+      var { userTrustiness, currentuser } = this.props
     }
 
     const date = new Date(created_at).toLocaleString("UTC", { hour12: false,
@@ -269,87 +268,101 @@ class PostPage extends PureComponent {
                                                              minute: 'numeric' })
 
     return (
-      <Card className="expanded-post-item"  elevation={0}>
-        <CardMedia
-          className="expanded-cover"
-          image={images}
-        />
-
-        <div className="expanded-details">
-          <div className="formwrapper">
-            {this.state.reportFormIsOpen ? <ReportForm
-                                            handleChange={this.handleChange}
-                                            setReportState={this.setReportState}
-                                            reportError={this.state.reportError}
-                                            handleReportClick={this.handleReportClick}/> : null}
-
-            {this.state.trustFormIsOpen ? <TrustForm
-                                            handleChange={this.handleChange}
-                                            setTrustState={this.setTrustState}
-                                            handleTrustClick={this.handleTrustClick}
-                                            sources={this.props.sources}
-                                            getSource={this.getSource}
-                                            trustScreenshotError={this.state.trustScreenshotError}
-                                            trustLinkError={this.state.trustLinkError}
-                                            trustReasonError={this.state.trustReasonError}
-                                            sourceIdState={this.state.source_id}/> : null}
-          </div>
-
-          <CardHeader className="expanded-card-header"
-            title={this.props.userProfileName}
-            subheader={date}
-            avatar={
-              <Badge className="expanded-badge" badgeContent={userTrustiness} color="default">
-              <Avatar
-                alt={this.props.userProfileName}
-                src={this.renderPicture()}
-                />
-              </Badge>
-            }
-            action={
-              <Fragment>
-                <IconButton onClick={this.setTrustState}>
-                  <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
-                    <Badge className="badge trust" badgeContent={!!trusts ? trusts.length : 0} color="default">
-                      <VerifiedUserIcon fontSize="true"/>
-                    </Badge>
-                  </Tooltip>
-                </IconButton>
-
-                <IconButton onClick={this.setReportState}>
-                  <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
-                    <Badge className="badge report" badgeContent={!!reports ? reports.length : 0} color="default">
-                      <ReportIcon fontSize="true" className="badgeIcon"/>
-                    </Badge>
-                  </Tooltip>
-                </IconButton>
-              </Fragment>
-            }
+      <Fragment>
+        <Card className="expanded-post-item"  elevation={0}>
+          <CardMedia
+            className="expanded-cover"
+            image={images}
           />
-          <CardContent className="expanded-content">
-            <Typography type="body1" >{content}</Typography>
-          </CardContent>
-          <div className="comment-field">
-            <div className="comment-input">
-              <Input
-                placeholder="Add a comment..."
-                fullWidth={true}
-                inputProps={{
-                  'aria-label': 'Description',
-                }}
-                onChange={this.handleChange('comment')}
-              />
+
+          <div className="expanded-details">
+            <div className="formwrapper">
+              {this.state.reportFormIsOpen ? <ReportForm
+                                              handleChange={this.handleChange}
+                                              setReportState={this.setReportState}
+                                              reportError={this.state.reportError}
+                                              handleReportClick={this.handleReportClick}/> : null}
+
+              {this.state.trustFormIsOpen ? <TrustForm
+                                              handleChange={this.handleChange}
+                                              setTrustState={this.setTrustState}
+                                              handleTrustClick={this.handleTrustClick}
+                                              sources={this.props.sources}
+                                              getSource={this.getSource}
+                                              trustScreenshotError={this.state.trustScreenshotError}
+                                              trustLinkError={this.state.trustLinkError}
+                                              trustReasonError={this.state.trustReasonError}
+                                              sourceIdState={this.state.source_id}/> : null}
             </div>
-            <Button
-              flat
-              onClick={this.submitComment.bind(this)}
-              color="primary">comment</Button>
+
+            <CardHeader className="expanded-card-header"
+              title={this.props.userProfileName}
+              subheader={date}
+              avatar={
+                <Badge className="expanded-badge" badgeContent={userTrustiness} color="default">
+                <Avatar
+                  alt={this.props.userProfileName}
+                  src={this.renderPicture()}
+                  />
+                </Badge>
+              }
+              action={
+                <Fragment>
+                  <IconButton onClick={!!currentuser ? this.setTrustState : this.handleClickOpen}>
+                    <Tooltip id="tooltip-top" title="Trust this post" placement="top" className="tooltip">
+                      <Badge className="badge trust" badgeContent={!!trusts ? trusts.length : 0} color="default">
+                        <VerifiedUserIcon fontSize="true"/>
+                      </Badge>
+                    </Tooltip>
+                  </IconButton>
+
+                  <IconButton onClick={!!currentuser ? this.setReportState : this.handleClickOpen}>
+                    <Tooltip id="tooltip-top" title="Report this post" placement="top" className="tooltip">
+                      <Badge className="badge report" badgeContent={!!reports ? reports.length : 0} color="default">
+                        <ReportIcon fontSize="true" className="badgeIcon"/>
+                      </Badge>
+                    </Tooltip>
+                  </IconButton>
+                </Fragment>
+              }
+            />
+            <CardContent className="expanded-content">
+              <Typography type="body1" >{content}</Typography>
+            </CardContent>
+            <div className="comment-field">
+              <div className="comment-input">
+                <Input
+                  placeholder="Add a comment..."
+                  fullWidth={true}
+                  inputProps={{
+                    'aria-label': 'Description',
+                  }}
+                  onChange={this.handleChange('comment')}
+                />
+              </div>
+              <Button
+                flat
+                onClick={this.submitComment.bind(this)}
+                color="primary">comment</Button>
+            </div>
+            <div className="comments">
+              {this.renderComments()}
+            </div>
           </div>
-          <div className="comments">
-            {this.renderComments()}
-          </div>
-        </div>
-      </Card>
+        </Card>
+
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+          style={{ overflowY: "scroll" }}
+        >
+
+        <SignInForm
+          handleDialogClose={this.handleClose.bind(this)} />
+
+        </Dialog>
+      </Fragment>
     )
   }
 }
@@ -361,7 +374,8 @@ const mapStateToProps = state => ({
   userTrustiness: state.posts.userTrustiness,
   userProfilePic: state.posts.userProfilePic,
   userProfileName: state.posts.userProfileName,
-  trustScreenshot: state.posts.trustScreenshot
+  trustScreenshot: state.posts.trustScreenshot,
+  currentuser: state.currentUser
 })
 
 export default connect(mapStateToProps, { fetchOnePost, fetchSources, reportPost, trustPost, fetchUserPosts, createComment })(PostPage)
