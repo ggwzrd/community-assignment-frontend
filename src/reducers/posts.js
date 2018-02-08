@@ -50,7 +50,7 @@ export default (state = INITIAL_STATE, { type, payload } = {}) => {
 
     case CREATED_POST :
     console.log(payload);
-      return Object.assign({}, state, { allPosts: [...payload].concat(state.allPosts) })
+      return Object.assign({}, state, { allPosts: [payload].concat(state.allPosts) })
 
     // the two actions below were overwriting the full state with
     // either an array of trusts or reports! @NB I fixed this
@@ -61,6 +61,7 @@ export default (state = INITIAL_STATE, { type, payload } = {}) => {
       return Object.assign({}, state, { selectedPost: concatPostTrust(state.selectedPost, payload), })
 
     case CREATED_COMMENT :
+    console.log(payload);
       return Object.assign({}, state, { selectedPost: concatPostComment(state.selectedPost, payload), })
 
     case UPLOADED_IMAGE :

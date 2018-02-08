@@ -78,7 +78,7 @@ class PostItem extends PureComponent {
 
               <Tooltip id="tooltip-top" title="Comment on this post" placement="top" className="tooltip">
                 <IconButton>
-                  <Badge className="badge comment" badgeContent={comments ? comments.length : 0} color="default">
+                  <Badge className="badge comment" badgeContent={comments && comments.length } color="default">
                     <ModeCommentIcon fontSize="true" className="badgeIcon"/>
                   </Badge>
                 </IconButton>
@@ -100,5 +100,11 @@ class PostItem extends PureComponent {
     )
   }
 }
+
+// const mapStateToProps = state => ({
+//   posts: state.posts.selectedPost,
+//   tags: state.tags,
+//   currentUser: state.currentUser
+// })
 
 export default PostItem
