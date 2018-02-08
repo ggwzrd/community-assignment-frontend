@@ -88,6 +88,7 @@ class Navbar extends React.Component {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     const { signedIn, user } = this.props
+    
     return (
       <div className="navbar">
         <AppBar position="static" style={{backgroundColor: "#3b7680"}}>
