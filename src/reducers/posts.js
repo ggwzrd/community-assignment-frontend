@@ -50,7 +50,7 @@ export default (state = INITIAL_STATE, { type, payload } = {}) => {
 
     case CREATED_POST :
     console.log(payload);
-      return Object.assign({}, state, { allPosts: [...payload, ...state ] })
+      return Object.assign({}, state, { allPosts: [payload].concat(state.allPosts) })
 
     // the two actions below were overwriting the full state with
     // either an array of trusts or reports! @NB I fixed this
