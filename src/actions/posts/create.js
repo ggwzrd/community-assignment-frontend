@@ -13,6 +13,7 @@ const api = new API()
 export const createPost = (newPost) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
+    console.log(newPost);
 
     api.post('/posts')
       .send(newPost)
@@ -20,7 +21,7 @@ export const createPost = (newPost) => {
 
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        
+
         dispatch({
           type: CREATED_POST,
           payload: result.body

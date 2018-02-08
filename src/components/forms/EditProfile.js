@@ -9,32 +9,17 @@ import Dropzone from 'react-dropzone'
 
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
-import Card, { CardContent, CardMedia } from 'material-ui/Card'
-import Input, { InputLabel } from 'material-ui/Input'
-import { MenuItem } from 'material-ui/Menu'
-import { FormControl } from 'material-ui/Form'
-import Select from 'material-ui/Select'
-import Chip from 'material-ui/Chip'
-import { withStyles } from 'material-ui/styles'
+import { CardMedia } from 'material-ui/Card'
 import { CircularProgress } from 'material-ui/Progress'
 import Send from 'material-ui-icons/Send'
 
 import '../styles/EditProfile.css'
-
-const styles = theme => ({
-  progress: {
-    margin: `0 ${theme.spacing.unit * 2}px`,
-  }
-});
-
 
 export class EditProfile extends PureComponent {
 
   static propTypes = {
     createPost: PropTypes.func.isRequired,
   }
-
-
 
   state = {
       firstname: '',
