@@ -8,7 +8,6 @@ import { reportPost } from '../actions/posts/report'
 import { trustPost } from '../actions/posts/trust'
 import { createComment } from '../actions/posts/comment'
 import uuid4 from 'uuid4'
-import {Link} from 'react-router-dom'
 import ReportForm from '../components/forms/ReportForm'
 import TrustForm from '../components/forms/TrustForm'
 
@@ -291,10 +290,10 @@ class PostPage extends PureComponent {
     return (
       <Fragment>
         <Card className="expanded-post-item"  elevation={0}>
-          <CardMedia
+          {images &&<CardMedia
             className="expanded-cover"
             image={images}
-          />
+          />}
 
           <div className="expanded-details">
             <div className="formwrapper">

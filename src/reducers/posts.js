@@ -11,7 +11,6 @@ const INITIAL_STATE = {
     content: 'Oops, I think we missed it.',
     trusts: [],
     reports: [],
-    images: 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
     created_at: new Date(),
     updated_at: new Date(),
   },
@@ -57,11 +56,11 @@ export default (state = INITIAL_STATE, { type, payload } = {}) => {
     case CREATED_REPORT :
     const updatedReports = state.allPosts.map(post => {
       if (post.id === payload.post_id) {
-        return {...post, comments: [payload].concat(post.reports)}
+        return {...post, reports: [payload].concat(post.reports)}
       }
       return post
     })
-      return Object.assign({}, state, { allPosts: updatedReports, electedPost: concatPostReport(state.selectedPost, payload), })
+      return Object.assign({}, state, { allPosts: updatedReports, selectedPost: concatPostReport(state.selectedPost, payload), })
 
     case CREATED_TRUST :
     const updatedTrusts = state.allPosts.map(post => {
