@@ -68,6 +68,7 @@ class PostsOverview extends PureComponent {
   render() {
     const { selectedTagId } = this.state
     const { posts, tags } = this.props
+    console.log(this.props.currentUser);
     const todays_posts = posts ? posts.filter(post =>
       new Date(post.created_at).getFullYear() === new Date().getFullYear() &&
       new Date(post.created_at).getMonth() === new Date().getMonth() &&
@@ -75,7 +76,7 @@ class PostsOverview extends PureComponent {
     ).length : null
     return (
       <div className="container">
-        { this.props.currentUser && <CreatePostForm tags={tags}/> }
+        { this.props.currentUser && !this.props.currentUser.silenced ? <CreatePostForm tags={tags}/> : null }
         <div className="tags-container">
           <TagItem
             id={null}
@@ -116,7 +117,6 @@ class PostsOverview extends PureComponent {
               picture={ post.user.profile.picture}
               nickname={post.user.profile.nickname}
               comments={post.comments}
-              tags={post.tags}
               onClick={this.handleDialogOpen(post.id)}
               onProfileClick={this.goToUser(post.user_id)}
               />)}
