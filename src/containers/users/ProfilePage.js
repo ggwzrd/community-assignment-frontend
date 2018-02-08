@@ -135,6 +135,7 @@ class ProfilePage extends PureComponent {
 
   render() {
     const { user, userPosts } = this.props
+    console.log(this.props)
 
     return (
       <Fragment>
@@ -197,9 +198,10 @@ class ProfilePage extends PureComponent {
               images={post.images}
               trusts={post.trusts}
               reports={post.reports}
+              comments={post.comments}
               createdAt={post.created_at}
               trustiness={post.user.trustiness}
-              picture={ post.user.profile.picture}
+              picture={post.user.profile.picture}
               nickname={post.user.profile.nickname}
               onClick={this.handleDialogOpen(post.id)}
               />)}

@@ -73,9 +73,6 @@ class PostsOverview extends PureComponent {
       new Date(post.created_at).getMonth() === new Date().getMonth() &&
       new Date(post.created_at).getDate() === new Date().getDate()
     ).length : null
-    console.log(new Date())
-    console.log(posts.map(post => new Date(post.created_at)))
-    console.log(todays_posts);
     return (
       <div className="container">
         { this.props.currentUser && <CreatePostForm tags={tags}/> }

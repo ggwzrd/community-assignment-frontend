@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import signIn from '../../actions/user/sign-in'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
-import Typography from 'material-ui/Typography';
+
 import {
   DialogActions,
   DialogContent,
